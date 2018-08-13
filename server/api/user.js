@@ -44,10 +44,9 @@ router.get('/callback', function(req, res) {
   var code = req.query.code || null;
   var state = req.query.state || null;
   var storedState = req.cookies ? req.cookies[stateKey] : null;
-  console.log('cookies ---------------- ', req.cookies);
-  console.log(
-    `in /callback, code is ${code}, state is ${state}, storedState is ${storedState}`
-  );
+  // console.log(
+  //   `in /callback, code is ${code}, state is ${state}, storedState is ${storedState}`
+  // );
   if (state === null || state !== storedState) {
     res.redirect(
       '/#' +
@@ -77,10 +76,6 @@ router.get('/callback', function(req, res) {
         var access_token = body.access_token,
           refresh_token = body.refresh_token;
 
-        // console.log('Access Token: ', access_token);
-        // console.log('Refresh Token: ', refresh_token);
-        // console.log('Body: ', body);
-
         var options = {
           url: 'https://api.spotify.com/v1/me',
           headers: { Authorization: 'Bearer ' + access_token },
@@ -95,7 +90,6 @@ router.get('/callback', function(req, res) {
             access_token: access_token,
             refresh_token: refresh_token,
           };
-          // console.log('REQUEST BODY HERE', body);
 
           await User.findOrCreate({
             where: {
@@ -173,7 +167,6 @@ const stateKey = 'spotify_auth_state';
 
 //GET all users
 router.get('/users', async (req, res, next) => {
-  // console.log('getting users');
   const users = await User.findAll();
   if (users.length <= 0) {
     res.send('No data found');
@@ -184,8 +177,6 @@ router.get('/users', async (req, res, next) => {
 
 //GET user by name
 router.get('/user', async (req, res, next) => {
-  // console.log('getting user');
-  // get user by name
   const user = await User.findById(1);
   if (user === undefined) {
     res.send('No data found');
