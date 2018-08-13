@@ -10,6 +10,9 @@ const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
 const redirect_uri = process.env.REDIRECT_URI;
 
+router.use(cors());
+router.use(cookieParser());
+
 router.get('/', async (req, res, next) => {
   console.log(client_id, client_secret, redirect_uri);
 });
@@ -41,10 +44,10 @@ router.get('/callback', function(req, res) {
   var code = req.query.code || null;
   var state = req.query.state || null;
   var storedState = req.cookies ? req.cookies[stateKey] : null;
-  // console.log('cookies ---------------- ', req.cookies);
-  // console.log(
-  //   `in /callback, code is ${code}, state is ${state}, storedState is ${storedState}`
-  // );
+  console.log('cookies ---------------- ', req.cookies);
+  console.log(
+    `in /callback, code is ${code}, state is ${state}, storedState is ${storedState}`
+  );
   if (state === null || state !== storedState) {
     res.redirect(
       '/#' +
@@ -94,10 +97,15 @@ router.get('/callback', function(req, res) {
           };
           // console.log('REQUEST BODY HERE', body);
 
-          await db
-            .collection('users')
-            .doc(data.name)
-            .set(data);
+          await User.findOrCreate({
+            where: {
+              name: body.id,
+              email: body.email,
+              spotifyDisplayName: body.id,
+              accessToken: access_token,
+              refreshToken: refresh_token,
+            },
+          });
         });
 
         // we can also pass the token to the browser to make requests from there
@@ -140,8 +148,6 @@ router.get('/refresh_token', function(req, res) {
   request.post(authOptions, function(error, response, body) {
     if (!error && response.statusCode === 200) {
       var access_token = body.access_token;
-      // console.log('Access Token: ', access_token);
-      // console.log('Refresh Token: ', refresh_token);
       res.send({
         access_token: access_token,
       });
