@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Menu } from 'semantic-ui-react'
-import { firebase } from '../firebase'
 import { Link } from 'react-router-dom'
 
 export default class NavBar extends Component {
@@ -12,13 +11,6 @@ export default class NavBar extends Component {
     }
   }
   handleClick = () => {
-    // firebase
-    //   .auth()
-    //   .signInWithCustomToken('36KJ5G634G6345634586345968')
-    //   .then(function() {
-    //     console.log('signed in!');
-    //   })
-    //   .catch(function(error) {});
     this.setState({ loggedIn: !this.state.loggedIn })
   }
 
