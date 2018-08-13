@@ -1,30 +1,33 @@
-import React, { Component } from "react";
-import { List, Image } from "semantic-ui-react";
-import { Button, Icon, Label } from "semantic-ui-react";
-import { connect } from "react-redux";
-import { fetchUser } from "../store/user";
+import React, {Component} from 'react'
+import {List, Image} from 'semantic-ui-react'
+import {Button, Icon, Label} from 'semantic-ui-react'
+import {connect} from 'react-redux'
+import {fetchUser} from '../store/user'
 //props being passed here should just be a single listener (user) object
 class UnconnectedQueueElement extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       likes: 0,
-      dislikes: 0
-    };
-    this.handleDislike = this.handleDislike.bind(this);
-    this.handleLike = this.handleLike.bind(this);
+      dislikes: 0,
+      disabled: false
+    }
+    this.handleDislike = this.handleDislike.bind(this)
+    this.handleLike = this.handleLike.bind(this)
   }
 
   handleLike() {
     this.setState({
-      likes: this.state.likes + 1
-    });
+      likes: this.state.likes + 1,
+      disabled: true
+    })
   }
 
   handleDislike() {
     this.setState({
-      dislikes: this.state.dislikes + 1
-    });
+      dislikes: this.state.dislikes + 1,
+      disabled: true
+    })
   }
   render() {
     return (
@@ -49,15 +52,12 @@ class UnconnectedQueueElement extends Component {
           </Button>
         </List.Content>
       </div>
-    );
+    )
   }
 }
 
 const mapDispatch = dispatch => {
-  fetchUser: id => dispatch(fetchUser(id));
-};
+  fetchUser: id => dispatch(fetchUser(id))
+}
 
-export const QueueElement = connect(
-  null,
-  mapDispatch
-)(UnconnectedQueueElement);
+export const QueueElement = connect(null, mapDispatch)(UnconnectedQueueElement)
