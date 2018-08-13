@@ -2,7 +2,8 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import ListenersList from './ListenersList'
-import {fetchRoom, addToQueue} from '../store/room'
+import {fetchRoom} from '../store/room'
+import {addToQueue} from '../store/queue'
 import Queue from './Queue'
 class RoomView extends Component {
   constructor() {
@@ -36,6 +37,7 @@ class RoomView extends Component {
 const mapDispatch = (dispatch, ownProps) => ({
   fetchRoom: () => dispatch(fetchRoom(ownProps.match.params.id)),
   addToQueue: song => dispatch(addToQueue(song, ownProps.match.params.id))
+  //will probably have to find the queue using the room id
 })
 
 const mapState = (state, ownProps) => {

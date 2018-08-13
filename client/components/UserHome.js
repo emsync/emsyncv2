@@ -1,21 +1,26 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { RoomsList } from "./RoomsList";
-
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
+import {RoomsList} from './RoomsList'
+import {fetchRooms} from '../store/rooms'
 /**
  * COMPONENT
  */
-export const UserHome = props => {
-  return (
-    props.rooms.length && (
-      <div>
-        <h3>Welcome</h3>
-        <RoomsList rooms={props.rooms} />
-      </div>
+export class UserHome extends Component {
+  componentDidMount() {
+    this.props.fetchRooms()
+  }
+  render() {
+    return (
+      this.props.rooms.length && (
+        <div>
+          <h3>Welcome</h3>
+          <RoomsList rooms={this.props.rooms} />
+        </div>
+      )
     )
-  );
-};
+  }
+}
 
 /**
  * CONTAINER
@@ -24,14 +29,18 @@ const mapState = state => {
   return {
     email: state.user.email,
     rooms: state.rooms
-  };
-};
+  }
+}
 
-export default connect(mapState)(UserHome);
+const mapDispatch = dispatch => ({
+  fetchRooms: () => dispatch(fetchRooms())
+})
+
+export default connect(mapState, mapDispatch)(UserHome)
 
 /**
  * PROP TYPES
  */
 UserHome.propTypes = {
   email: PropTypes.string
-};
+}
