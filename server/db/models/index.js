@@ -8,9 +8,9 @@ const Room  = require('./room');
  *    BlogPost.belongsTo(User)
  */
 
- User.hasMany(Room);
- Room.hasMany(User);
- Room.belongsTo(User);
+User.belongsToMany(Room, { through: 'RoomListeners' });
+Room.belongsToMany(User, { through: 'RoomListeners' });
+//  Room.belongsTo(User);
 
 
 module.exports = {
