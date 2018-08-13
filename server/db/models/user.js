@@ -3,19 +3,35 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const User = db.define('user', {
+  name:{
+    type:Sequelize.STRING,
+    allowNull: false,
+    unique:true,
+    validate:{
+      notEmpty:true
+    }
+  },
   email: {
     type: Sequelize.STRING,
     unique: true,
-    allowNull: false
-  },
-  password: {
-    type: Sequelize.STRING,
-    // Making `.password` act like a func hides it when serializing to JSON.
-    // This is a hack to get around Sequelize's lack of a "private" option.
-    get() {
-      return () => this.getDataValue('password')
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+      isEmail: true
     }
   },
+  imageUrl: {
+    type: Sequelize.STRING,
+    defaultValue: "https://image.flaticon.com/icons/svg/27/27011.svg"
+  },
+  // password: {
+  //   type: Sequelize.STRING,
+  //   // Making `.password` act like a func hides it when serializing to JSON.
+  //   // This is a hack to get around Sequelize's lack of a "private" option.
+  //   get() {
+  //     return () => this.getDataValue('password')
+  //   }
+  // },
   salt: {
     type: Sequelize.STRING,
     // Making `.salt` act like a function hides it when serializing to JSON.
@@ -24,9 +40,18 @@ const User = db.define('user', {
       return () => this.getDataValue('salt')
     }
   },
-  googleId: {
+ spotifyDisplayName: {
     type: Sequelize.STRING
-  }
+  },
+  accessToken: {
+    type: Sequelize.STRING, 
+    allowNull: false,
+  },
+  refreshToken: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+
 })
 
 module.exports = User
