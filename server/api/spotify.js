@@ -10,21 +10,23 @@ module.exports = router;
 -H "Content-Type: application/json"
 -H "Authorization: Bearer TOKEN GOES HERE*/
 
-router.get('/song', (req, res, next) => {
+router.get('/song', async (req, res, next) => {
   // console.log('getting item from Spotify');
-  const user = User.findById(1);
+  const user = await User.findById(1);
+  console.log('user', user);
   const userRefreshToken = user.refreshToken;
   const instance = axios.create({
     baseURL: `https://api.spotify.com/v1`,
     headers: { Authorization: `Bearer ${userRefreshToken}` },
   });
-  const response = instance.get(
+  const response = await instance.get(
     `/search?q=${req.query.q}&type=${req.query.type}&market=${
       req.query.market
     }&limit=${req.query.limit}&offset=${req.query.offset}`
   );
+  console.log('response', response);
 
-  if (!response.error && response.status === 200) {
+  if ((!response.error && response.status === 200) || !response) {
     res.send(JSON.parse(response.body));
   } else {
     res.send('No song found');
