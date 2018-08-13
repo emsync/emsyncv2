@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { Card, Icon, Button } from "semantic-ui-react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {Card, Icon, Button} from 'semantic-ui-react';
+import {Link} from 'react-router-dom';
 const Extra = props => {
   return (
     <div>
@@ -22,9 +22,7 @@ const RoomSingleCard = props => {
       header={props.room.name}
       meta="Room"
       description={props.room.description}
-      extra={
-        <Extra listeners={props.room.listeners.length} id={props.room.id} />
-      }
+      extra={<Extra listeners={props.room.users.length} id={props.room.id} />}
     />
   );
 };

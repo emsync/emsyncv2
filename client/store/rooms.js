@@ -1,18 +1,16 @@
-import store from "./index";
-import axios from "axios";
-const ADD_ROOM = "ADD_ROOM";
-const REMOVE_ROOM = "REMOVE_ROOM";
-const UPDATE_ROOM = "UPDATE_ROOM";
-const GET_ROOMS = "GET_ROOMS";
+import axios from 'axios';
+const ADD_ROOM = 'ADD_ROOM';
+const REMOVE_ROOM = 'REMOVE_ROOM';
+const GET_ROOMS = 'GET_ROOMS';
 
-const getRooms = rooms => ({ type: GET_ROOMS, rooms });
-const removeRoom = room => ({ type: REMOVE_ROOM, room });
+const getRooms = rooms => ({type: GET_ROOMS, rooms});
+const removeRoom = room => ({type: REMOVE_ROOM, room});
 const addRoom = room => {
-  return { type: ADD_ROOM, room };
+  return {type: ADD_ROOM, room};
 };
 
 export const fetchRooms = () => async dispatch => {
-  const response = await axios.get("/api/rooms");
+  const response = await axios.get('/api/rooms');
   const rooms = response.data;
   dispatch(getRooms(rooms));
 };

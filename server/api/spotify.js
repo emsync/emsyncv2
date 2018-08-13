@@ -1,8 +1,6 @@
 const router = require('express').Router();
-const { User } = require('../db/models');
+const {User} = require('../db/models');
 const axios = require('axios');
-
-module.exports = router;
 
 //GET song by Id
 /* "https://api.spotify.com/v1/search?q=Muse&type=track%2Cartist&market=US&limit=10&offset=5"
@@ -17,7 +15,7 @@ router.get('/song', async (req, res, next) => {
   const userRefreshToken = user.refreshToken;
   const instance = axios.create({
     baseURL: `https://api.spotify.com/v1`,
-    headers: { Authorization: `Bearer ${userRefreshToken}` },
+    headers: {Authorization: `Bearer ${userRefreshToken}`}
   });
   const response = await instance.get(
     `/search?q=${req.query.q}&type=${req.query.type}&market=${
@@ -32,3 +30,4 @@ router.get('/song', async (req, res, next) => {
     res.send('No song found');
   }
 });
+module.exports = router;
