@@ -6,9 +6,9 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
 module.exports = router;
-const client_id = process.env.CLIENT_ID;
-const client_secret = process.env.CLIENT_SECRET;
-const redirect_uri = process.env.REDIRECT_URI;
+const client_id = process.env.SPOTIFY_CLIENT_ID;
+const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+const redirect_uri = process.env.SPOTIFY_REDIRECT_URI;
 
 router.use(cors());
 router.use(cookieParser());
@@ -91,15 +91,15 @@ router.get('/callback', function(req, res) {
             refresh_token: refresh_token,
           };
 
-          await User.findOrCreate({
-            where: {
-              name: body.id,
-              email: body.email,
-              spotifyDisplayName: body.id,
-              accessToken: access_token,
-              refreshToken: refresh_token,
-            },
-          });
+          // await User.findOrCreate({
+          //   where: {
+          //     name: body.id,
+          //     email: body.email,
+          //     spotifyDisplayName: body.id,
+          //     accessToken: access_token,
+          //     refreshToken: refresh_token,
+          //   },
+          // });
         });
 
         // we can also pass the token to the browser to make requests from there
