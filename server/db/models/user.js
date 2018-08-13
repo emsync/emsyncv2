@@ -8,8 +8,8 @@ const User = db.define('user', {
     allowNull: false,
     unique: true,
     validate: {
-      notEmpty: true,
-    },
+      notEmpty: true
+    }
   },
   email: {
     type: Sequelize.STRING,
@@ -17,12 +17,12 @@ const User = db.define('user', {
     allowNull: false,
     validate: {
       notEmpty: true,
-      isEmail: true,
-    },
+      isEmail: true
+    }
   },
   imageUrl: {
     type: Sequelize.STRING,
-    defaultValue: 'https://image.flaticon.com/icons/svg/27/27011.svg',
+    defaultValue: 'https://image.flaticon.com/icons/svg/27/27011.svg'
   },
   // password: {
   //   type: Sequelize.STRING,
@@ -38,19 +38,19 @@ const User = db.define('user', {
     // This is a hack to get around Sequelize's lack of a "private" option.
     get() {
       return () => this.getDataValue('salt');
-    },
+    }
   },
   spotifyDisplayName: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING
   },
   accessToken: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: false
   },
   refreshToken: {
     type: Sequelize.STRING,
-    allowNull: false,
-  },
+    allowNull: false
+  }
 });
 
 module.exports = User;
