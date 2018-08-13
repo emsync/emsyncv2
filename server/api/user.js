@@ -14,7 +14,7 @@ router.use(cors());
 router.use(cookieParser());
 
 router.get('/', async (req, res, next) => {
-  console.log(client_id, client_secret, redirect_uri);
+  console.log('User: ', req.user);
 });
 
 /**

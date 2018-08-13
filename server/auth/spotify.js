@@ -30,11 +30,23 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
   const strategy = new SpotifyStrategy(
     spotifyConfig,
     (aToken, rToken, profile, done) => {
-      const userName = profile.name;
-      const email = profile.email;
-      const spotifyDisplayName = userName;
+      console.log('Profile: ', profile);
+      const userName = profile.id;
+      const email = profile.emails[0].value;
+      const spotifyDisplayName = profile.username;
       const accessToken = aToken;
       const refreshToken = rToken;
+
+      var data = {
+        name: userName,
+        email: email,
+        spotifyDisplayName: userName,
+        accessToken: aToken,
+        refreshToken,
+        rToken,
+      };
+
+      console.log('BODY: ', data);
 
       User.findOrCreate({
         where: {
@@ -55,14 +67,16 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
   router.get(
     '/',
     passport.authenticate('spotify', {
-      scope: ['user-read-private', 'user-read-email'],
+      scope: 'user-read-private user-read-email',
+      // scope: ['user-read-private', 'user-read-email'],
     })
   );
 
   router.get(
     '/callback',
     passport.authenticate('spotify', {
-      scope: ['user-read-private', 'user-read-email'],
+      scope: 'user-read-private user-read-email',
+      // scope: ['user-read-private', 'user-read-email'],
       successRedirect: '/',
       failureRedirect: '/login',
     })
