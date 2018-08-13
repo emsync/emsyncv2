@@ -14,14 +14,14 @@ notifications:
 install:
   - npm ci # faster, goes only from package-lock
 before_script:
-  - psql -c 'create database "boilermaker-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
+  - psql -c 'create database "emsync-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
 
-# before_deploy:
-#   - npm run build-client # make the bundle
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
-# deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
-#   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
-#   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE # see README
+before_deploy:
+  - npm run build-client # make the bundle
+  - rm -rf node_modules # omit from the tarball, since we skip cleanup
+deploy:
+  skip_cleanup: true # prevents travis from deleting the build
+  provider: heroku
+  app: emsync # see README
+  api_key:
+    secure: 'irNCbc+vrocHadRMG3qKHqWxLevzHsNthoW2jXXYMcvk4QSO7juI4H1twabfnhy6hixpK/Q/fIXhAN410ln8jxwfWmR0yH9mW/dGdQF+c2KENR8nityUt260W7mEdp+vTMy/ZpG867ZyY7u/4OVNfgwXWkxItO8JlrRFnIS8cFUKjm6VqQqr+8QRSIRdyW91TDVFFHsQXEFl2nDjuUYsvHFglvCZ3tP2ysu6RxJSQIpuLlPKMWLS3S8UvjfDOJCgRY4hZfaqBuGVdjtCOuhyAqm5/NJ+iyG/Holcl5oz+5QZm2hjDAedOt/fSPrzMLw7U4Xs4pV/5tTjdyJXr4aJ0FBC15gvZFTi+MqZ+tXJCWrdbNo9bHxvCocD9t5kuiWZDmNOK+tCpeEwXmVHhyC9lW31o6sBCY5/GoEtwxT5L+Ow+cDUzTgG8u9gRFw8bz9zPxFf7q0UFmcDboGkCg7KLLC1PnyhotbNfWhz599vuDWC1e8iddQi1MhtFWU433Dtp5C0wVosAP1l8Ef+/8hGNC994+pFv4UYq3NXixgFvUfDRGJkKW28kFZuxblps+LvrcdBzSkQ9J3ebaVWIyWAW9YSewM7N/do73bX41cs3jI8tfK/tHjM/PZZa8SgupFA9vFE+K2wGEnbwypXvFRiVEmacJu26DgoqO9Az7hEC5A=' # see README
