@@ -168,10 +168,8 @@ const stateKey = 'spotify_auth_state';
 //GET all users
 router.get('/users', async (req, res, next) => {
   // console.log('getting users');
-  const users = [];
-  const data = await usersCollection.get();
-  data.forEach(doc => users.push(doc.data()));
-  if (data === undefined) {
+  const users = await User.findAll();
+  if (users.length <= 0) {
     res.send('No data found');
   } else {
     res.send(users);
@@ -182,46 +180,10 @@ router.get('/users', async (req, res, next) => {
 router.get('/user', async (req, res, next) => {
   // console.log('getting user');
   // get user by name
-  const user = await usersCollection.doc('user1').get();
+  const user = await User.findById(1);
   if (user === undefined) {
     res.send('No data found');
   } else {
-    res.send(user.data());
+    res.send(user);
   }
-});
-
-//GET song by Id
-/* "https://api.spotify.com/v1/search?q=Muse&type=track%2Cartist&market=US&limit=10&offset=5"
--H "Accept: application/json"
--H "Content-Type: application/json"
--H "Authorization: Bearer TOKEN GOES HERE*/
-
-router.get('/song', (req, res, next) => {
-  // console.log('getting item from Spotify');
-  return usersCollection
-    .doc('funkyRoom')
-    .get()
-    .then(user => {
-      const userRefreshToken = user.data().refresh_token;
-
-      const options = {
-        url: `https://api.spotify.com/v1/search?q=${req.query.q}&type=${
-          req.query.type
-        }&market=${req.query.market}&limit=${req.query.limit}&offset=${
-          req.query.offset
-        }`,
-        headers: { Authorization: `Bearer ${userRefreshToken}` },
-      };
-
-      return options;
-    })
-    .then(options => {
-      return request(options, (error, response, body) => {
-        if (!error && response.statusCode === 200) {
-          res.send(JSON.parse(body));
-        } else {
-          res.send('No song found');
-        }
-      });
-    });
 });
