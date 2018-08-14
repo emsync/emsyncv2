@@ -5,8 +5,9 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import rooms from './rooms'
 import room from './room'
+import searchReducer from './searchReducer'
 
-const reducer = combineReducers({user, rooms, room})
+const reducer = combineReducers({user, rooms, room , searchReducer})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
@@ -16,3 +17,4 @@ export default store
 export * from './user'
 export * from './room'
 export * from './rooms'
+export * from './searchReducer'

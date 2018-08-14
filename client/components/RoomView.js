@@ -5,6 +5,7 @@ import ListenersList from './ListenersList';
 import {fetchRoom} from '../store/room';
 import {addToQueue} from '../store/queue';
 import Queue from './Queue';
+
 class RoomView extends Component {
   constructor() {
     super();

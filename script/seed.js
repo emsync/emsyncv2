@@ -69,7 +69,7 @@ const newRooms = [
     imageUrl: 'https://static.thenounproject.com/png/87940-200.png'
   },
   {
-    name: 'Not So Funky Room',
+    name: 'No So Funky Room',
     description: 'Meh funky room on earth!',
     imageUrl:
       'https://vignette.wikia.nocookie.net/nintendo/images/3/3f/Funky_Kong_portal_icon.png/revision/latest?cb=20120822060521&path-prefix=en'

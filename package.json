@@ -36,6 +36,7 @@
   "author": "Fullstack Academy of Code",
   "license": "MIT",
   "dependencies": {
+    "async-handler": "0.0.3",
     "axios": "^0.15.3",
     "compression": "^1.7.3",
     "connect-session-sequelize": "^4.1.0",
@@ -64,7 +65,8 @@
     "request": "^2.88.0",
     "semantic-ui-react": "^0.82.2",
     "sequelize": "^4.38.0",
-    "socket.io": "^2.1.1"
+    "socket.io": "^2.1.1",
+    "spotify-web-api-node": "^3.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.55",
