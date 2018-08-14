@@ -25,9 +25,6 @@ class RoomView extends Component {
       <div>
         <h1 style={{textAlign: 'center'}}>{this.props.room.name}</h1>
         <div className="room">
-          <div className="rightRoom">
-            <ListenersList listeners={this.props.room.users} />
-          </div>
           <div className="leftRoom">
             {this.props.room.queueItems.length ? (
               <Queue
@@ -36,6 +33,9 @@ class RoomView extends Component {
               />
             ) : null}
             <button onClick={this.handleClick}>Add to queue!</button>
+          </div>
+          <div className="rightRoom">
+            <ListenersList listeners={this.props.room.users} />
           </div>
         </div>
       </div>
