@@ -1,6 +1,6 @@
 const router = require('express').Router();
 var request = require('request'); // "Request" library
-const { User } = require('../db/models');
+const {User} = require('../db/models');
 const querystring = require('querystring');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
@@ -32,7 +32,7 @@ router.get('/login', (req, res, next) => {
         client_id: client_id,
         scope: scope,
         redirect_uri: redirect_uri,
-        state: state,
+        state: state
       })
   );
 });
@@ -51,7 +51,7 @@ router.get('/callback', function(req, res) {
     res.redirect(
       '/#' +
         querystring.stringify({
-          error: 'state_mismatch',
+          error: 'state_mismatch'
         })
     );
   } else {
@@ -61,14 +61,14 @@ router.get('/callback', function(req, res) {
       form: {
         code: code,
         redirect_uri: redirect_uri,
-        grant_type: 'authorization_code',
+        grant_type: 'authorization_code'
       },
       headers: {
         Authorization:
           'Basic ' +
-          new Buffer(client_id + ':' + client_secret).toString('base64'),
+          new Buffer(client_id + ':' + client_secret).toString('base64')
       },
-      json: true,
+      json: true
     };
 
     request.post(authOptions, function(error, response, body) {
@@ -78,43 +78,43 @@ router.get('/callback', function(req, res) {
 
         var options = {
           url: 'https://api.spotify.com/v1/me',
-          headers: { Authorization: 'Bearer ' + access_token },
-          json: true,
+          headers: {Authorization: 'Bearer ' + access_token},
+          json: true
         };
 
         // use the access token to access the Spotify Web API
-        request.get(options, async function(error, response, body) {
-          var data = {
-            name: body.id,
-            email: body.email,
-            access_token: access_token,
-            refresh_token: refresh_token,
-          };
+        // request.get(options, async function (error, response, body) {
+        //   var data = {
+        //     name: body.id,
+        //     email: body.email,
+        //     access_token: access_token,
+        //     refresh_token: refresh_token
+        //   };
 
-          // await User.findOrCreate({
-          //   where: {
-          //     name: body.id,
-          //     email: body.email,
-          //     spotifyDisplayName: body.id,
-          //     accessToken: access_token,
-          //     refreshToken: refresh_token,
-          //   },
-          // });
-        });
+        //   await User.findOrCreate({
+        //     where: {
+        //       name: body.id,
+        //       email: body.email,
+        //       spotifyDisplayName: body.id,
+        //       accessToken: access_token,
+        //       refreshToken: refresh_token
+        //     }
+        //   });
+        // });
 
         // we can also pass the token to the browser to make requests from there
         res.redirect(
           '/#' +
             querystring.stringify({
               access_token: access_token,
-              refresh_token: refresh_token,
+              refresh_token: refresh_token
             })
         );
       } else {
         res.redirect(
           '/#' +
             querystring.stringify({
-              error: 'invalid_token',
+              error: 'invalid_token'
             })
         );
       }
@@ -130,20 +130,20 @@ router.get('/refresh_token', function(req, res) {
     headers: {
       Authorization:
         'Basic ' +
-        new Buffer(client_id + ':' + client_secret).toString('base64'),
+        new Buffer(client_id + ':' + client_secret).toString('base64')
     },
     form: {
       grant_type: 'refresh_token',
-      refresh_token: refresh_token,
+      refresh_token: refresh_token
     },
-    json: true,
+    json: true
   };
 
   request.post(authOptions, function(error, response, body) {
     if (!error && response.statusCode === 200) {
       var access_token = body.access_token;
       res.send({
-        access_token: access_token,
+        access_token: access_token
       });
     }
   });
