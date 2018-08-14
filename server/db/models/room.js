@@ -23,12 +23,6 @@ const Room = db.define('room', {
     defaultValue:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR8tcZONgfXI3h4m9BuCi6hg3K84kk7TU_lI6YqgsaoJFhGztOZg'
   },
-//   listeners: Sequelize.ARRAY({
-//     type: Sequelize.INTEGER
-//   }),
-  queue: Sequelize.ARRAY({
-    type: Sequelize.STRING
-  })
 })
 
 module.exports = Room;
