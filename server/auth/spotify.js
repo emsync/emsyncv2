@@ -1,7 +1,7 @@
 const passport = require('passport');
 const router = require('express').Router();
 const SpotifyStrategy = require('passport-spotify').Strategy;
-const { User } = require('../db/models');
+const {User} = require('../db/models');
 module.exports = router;
 
 /**
@@ -24,12 +24,12 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
   const spotifyConfig = {
     clientID: process.env.SPOTIFY_CLIENT_ID,
     clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-    callbackURL: process.env.SPOTIFY_REDIRECT_URI,
+    callbackURL: process.env.SPOTIFY_REDIRECT_URI
   };
 
   const strategy = new SpotifyStrategy(
     spotifyConfig,
-    (aToken, rToken, profile, done) => {
+    async (aToken, rToken, profile, done) => {
       console.log('Profile: ', profile);
       const userName = profile.id;
       const email = profile.emails[0].value;
@@ -43,22 +43,48 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
         spotifyDisplayName: userName,
         accessToken: aToken,
         refreshToken,
-        rToken,
+        rToken
       };
 
       console.log('BODY: ', data);
 
-      User.findOrCreate({
+      const user = await User.findOne({
         where: {
+          name: userName
+        }
+      });
+
+      console.log('SPOTIFY USER: ', user);
+
+      if (user) {
+        await user.update({
+          accessToken: accessToken,
+          refreshToken: refreshToken
+        });
+        console.log('USER UPDATED');
+        done(null, user);
+      } else {
+        User.create({
           name: userName,
           email: email,
           spotifyDisplayName: userName,
           accessToken: accessToken,
-          refreshToken: refreshToken,
-        },
-      })
-        .then(([user]) => done(null, user))
-        .catch(done);
+          refreshToken: refreshToken
+        });
+        done(null, user);
+      }
+
+      // User.findOrCreate({
+      //   where: {
+      //     name: userName,
+      //     email: email,
+      //     spotifyDisplayName: userName,
+      //     accessToken: accessToken,
+      //     refreshToken: refreshToken
+      //   }
+      // })
+      //   .then(([user]) => done(null, user))
+      //   .catch(done);
     }
   );
 
@@ -67,7 +93,7 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
   router.get(
     '/',
     passport.authenticate('spotify', {
-      scope: 'user-read-private user-read-email',
+      scope: 'user-read-private user-read-email'
       // scope: ['user-read-private', 'user-read-email'],
     })
   );
@@ -78,7 +104,7 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
       scope: 'user-read-private user-read-email',
       // scope: ['user-read-private', 'user-read-email'],
       successRedirect: '/',
-      failureRedirect: '/login',
+      failureRedirect: '/login'
     })
   );
 }

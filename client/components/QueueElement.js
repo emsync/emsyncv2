@@ -6,63 +6,85 @@ import {fetchUser} from '../store/user';
 import {updateVote, addToQueue} from '../store/queue';
 //props being passed here should just be a single listener (user) object
 class UnconnectedQueueElement extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      likes: 122,
-      dislikes: 123,
+      likes: this.props.item.upVotes || 0,
+      dislikes: this.props.item.downVotes || 0,
+      // votes: 0,
       disabled: false,
-      addedBy: '',
-      imageUrl: '',
-      spotifyLink: ''
+      addedBy: this.props.item.userId || 'haha',
+      imageUrl: this.props.item.imageUrl || this.props.imageUrl,
+      spotifyLink: this.props.item.spotifyLink || this.props.spotifyLink,
+      trackName:
+        this.props.item.trackName || this.props.trackName || 'Hallelujah',
+      artistName: this.props.item.artistName || this.props.artistName
     };
     this.handleDislike = this.handleDislike.bind(this);
     this.handleLike = this.handleLike.bind(this);
   }
 
-  componentDidMount() {
-    this.setState({
-      imageUrl: this.props.imageUrl,
-      spotifyLink: this.props.spotifyLink
-    });
-  }
+  // componentDidMount() {
+  //   this.setState({
+  //     imageUrl: this.props.item.imageUrl || this.props.imageUrl,
+  //     spotifyLink: this.props.item.spotifyLink || this.props.spotifyLink
+  //     trackName: this.props.item.sp
+  //   });
+  // }
 
   handleClick = () => {
-    this.props.addToQueue({
+    this.props.addQueue({
       votes: this.state.likes - this.state.disklikes,
       addedBy: this.props.user.id,
       spotifyLink: this.state.spotifyLink,
       currentPlayingTime: '00:00:00',
       isPlaying: false,
-      imageUrl: this.state.imageUrl
+      imageUrl: this.state.imageUrl,
+      roomId: this.props.roomId
     });
   };
 
-  handleLike() {
+  async handleLike() {
+    const newLikes = this.state.likes + 1;
+    const newVotes = this.state.likes + 1 - this.state.dislikes;
     this.setState({
-      likes: this.state.likes + 1,
+      likes: newLikes,
+      votes: newVotes,
       disabled: true
     });
-    this.props.vote(this.props.id, {
-      votes: this.state.likes - this.state.dislikes
+    await this.props.vote(this.props.item.id, {
+      upVotes: newLikes,
+      votes: newVotes
     });
-    this.props.sort();
+    this.props.sortFunc();
   }
 
-  handleDislike() {
+  async handleDislike() {
+    const newDislikes = this.state.dislikes + 1;
+    const newVotes = this.state.likes - 1 - this.state.dislikes;
     this.setState({
-      dislikes: this.state.dislikes + 1,
+      dislikes: newDislikes,
+      votes: newVotes,
       disabled: true
     });
+    await this.props.vote(this.props.item.id, {
+      downVotes: newDislikes,
+      votes: newVotes
+    });
+    this.props.sortFunc();
   }
   render() {
     return (
       <div>
         <List.Content>
-          <List.Header as="a">{this.state.song.name}</List.Header>
-          {this.state.addedBy ? (
+          <List.Header as="a">{this.state.trackName}</List.Header>
+          {!this.state.addedBy !== 'haha' ? (
             <div>
-              <Button as="div" labelPosition="right">
+              <Button
+                as="div"
+                disabled={this.state.disabled ? true : false}
+                labelPosition="right"
+              >
                 <Button icon onClick={this.handleLike}>
                   <Icon name="thumbs up outline" />
                 </Button>
@@ -70,7 +92,11 @@ class UnconnectedQueueElement extends Component {
                   {this.state.likes}
                 </Label>
               </Button>
-              <Button as="div" labelPosition="right">
+              <Button
+                as="div"
+                disabled={this.state.disabled ? true : false}
+                labelPosition="right"
+              >
                 <Button icon onClick={this.handleDislike}>
                   <Icon name="thumbs down outline" />
                 </Button>
@@ -96,15 +122,15 @@ const mapState = state => {
   };
 };
 
-const mapDispatch = (dispatch, ownProps) => {
-  fetchUser: id => dispatch(fetchUser(id));
+const mapDispatch = (dispatch, ownProps) => ({
+  fetchUser: id => dispatch(fetchUser(id)),
   vote: (itemId, votes) => {
     dispatch(updateVote(itemId, votes));
-  };
+  },
   addQueue: item => {
-    dispatch(addToQueue({...item, roomId: ownProps.match.params.id}));
-  };
-};
+    dispatch(addToQueue({item}));
+  }
+});
 
 export const QueueElement = connect(mapState, mapDispatch)(
   UnconnectedQueueElement

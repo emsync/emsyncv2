@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import {Login, Signup, UserHome} from './components';
 import RoomView from './components/RoomView';
 import {QueueElement} from './components/QueueElement';
+import {Queue} from './components/Queue';
 import {me} from './store';
 
 /**
@@ -21,7 +22,7 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
-        <Route path="/" component={QueueElement} />
+        {/* <Route path="/" component={Queue} /> */}
         <Route path="/login" component={Login} />
         <Route path="/rooms/:id" component={RoomView} />
         <Route path="/signup" component={Signup} />
