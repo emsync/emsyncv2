@@ -21,18 +21,23 @@ class RoomView extends Component {
   }
 
   render() {
-    console.log(this.props);
     return this.props.room.name ? (
       <div>
-        <h1>{this.props.room.name}</h1>
-        <ListenersList listeners={this.props.room.users} />
-        {this.props.room.queueItems.length ? (
-          <Queue
-            queue={this.props.room.queueItems}
-            roomId={this.props.match.params.id}
-          />
-        ) : null}
-        <button onClick={this.handleClick}>Add to queue!</button>
+        <h1 style={{textAlign: 'center'}}>{this.props.room.name}</h1>
+        <div className="room">
+          <div className="rightRoom">
+            <ListenersList listeners={this.props.room.users} />
+          </div>
+          <div className="leftRoom">
+            {this.props.room.queueItems.length ? (
+              <Queue
+                queue={this.props.room.queueItems}
+                roomId={this.props.match.params.id}
+              />
+            ) : null}
+            <button onClick={this.handleClick}>Add to queue!</button>
+          </div>
+        </div>
       </div>
     ) : (
       <p>Loading...</p>

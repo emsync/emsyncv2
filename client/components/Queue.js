@@ -20,7 +20,6 @@ class UnconnectedQueue extends Component {
     this.props.queue.sort((a, b) => {
       return b.votes - a.votes;
     });
-    console.log('QUEUE PROPS: ', this.props);
     return (
       <div>
         <h2>Queue:</h2>
