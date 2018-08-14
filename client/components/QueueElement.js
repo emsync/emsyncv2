@@ -1,63 +1,137 @@
-// import React, {Component} from 'react'
-// import {List, Image} from 'semantic-ui-react'
-// import {Button, Icon, Label} from 'semantic-ui-react'
-// import {connect} from 'react-redux'
-// import {fetchUser} from '../store/user'
-// //props being passed here should just be a single listener (user) object
-// class UnconnectedQueueElement extends Component {
-//   constructor() {
-//     super()
-//     this.state = {
-//       likes: 0,
-//       dislikes: 0,
-//       disabled: false
-//     }
-//     this.handleDislike = this.handleDislike.bind(this)
-//     this.handleLike = this.handleLike.bind(this)
-//   }
+import React, {Component} from 'react';
+import {List, Image} from 'semantic-ui-react';
+import {Button, Icon, Label} from 'semantic-ui-react';
+import {connect} from 'react-redux';
+import {fetchUser} from '../store/user';
+import {updateVote, addToQueue} from '../store/queue';
+//props being passed here should just be a single listener (user) object
+class UnconnectedQueueElement extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      likes: this.props.item.upVotes || 0,
+      dislikes: this.props.item.downVotes || 0,
+      // votes: 0,
+      disabled: false,
+      addedBy: this.props.item.userId || 'haha',
+      imageUrl: this.props.item.imageUrl || this.props.imageUrl,
+      spotifyLink: this.props.item.spotifyLink || this.props.spotifyLink,
+      trackName:
+        this.props.item.trackName || this.props.trackName || 'Hallelujah',
+      artistName: this.props.item.artistName || this.props.artistName
+    };
+    this.handleDislike = this.handleDislike.bind(this);
+    this.handleLike = this.handleLike.bind(this);
+  }
 
-//   handleLike() {
-//     this.setState({
-//       likes: this.state.likes + 1,
-//       disabled: true
-//     })
-//   }
+  // componentDidMount() {
+  //   this.setState({
+  //     imageUrl: this.props.item.imageUrl || this.props.imageUrl,
+  //     spotifyLink: this.props.item.spotifyLink || this.props.spotifyLink
+  //     trackName: this.props.item.sp
+  //   });
+  // }
 
-//   handleDislike() {
-//     this.setState({
-//       dislikes: this.state.dislikes + 1,
-//       disabled: true
-//     })
-//   }
-//   render() {
-//     return (
-//       <div>
-//         <List.Content>
-//           <List.Header as="a">{this.props.song.name}</List.Header>
-//           <Button as="div" labelPosition="right">
-//             <Button icon onClick={this.handleLike}>
-//               <Icon name="thumbs up outline" />
-//             </Button>
-//             <Label as="a" basic pointing="left">
-//               {this.state.likes}
-//             </Label>
-//           </Button>
-//           <Button as="div" labelPosition="right">
-//             <Button icon onClick={this.handleDislike}>
-//               <Icon name="thumbs down outline" />
-//             </Button>
-//             <Label as="a" basic pointing="left">
-//               {this.state.dislikes}
-//             </Label>
-//           </Button>
-//         </List.Content>
-//       </div>
-//     )
-//   }
-// }
+  handleClick = () => {
+    this.props.addQueue({
+      votes: this.state.likes - this.state.disklikes,
+      addedBy: this.props.user.id,
+      spotifyLink: this.state.spotifyLink,
+      currentPlayingTime: '00:00:00',
+      isPlaying: false,
+      imageUrl: this.state.imageUrl,
+      roomId: this.props.roomId
+    });
+  };
 
-// const mapDispatch = dispatch => {
-//   fetchUser: id => dispatch(fetchUser(id))
-// }
+  async handleLike() {
+    const newLikes = this.state.likes + 1;
+    const newVotes = this.state.likes + 1 - this.state.dislikes;
+    this.setState({
+      likes: newLikes,
+      votes: newVotes,
+      disabled: true
+    });
+    await this.props.vote(this.props.item.id, {
+      upVotes: newLikes,
+      votes: newVotes
+    });
+    this.props.sortFunc();
+  }
 
-// export const QueueElement = connect(null, mapDispatch)(UnconnectedQueueElement)
+  async handleDislike() {
+    const newDislikes = this.state.dislikes + 1;
+    const newVotes = this.state.likes - 1 - this.state.dislikes;
+    this.setState({
+      dislikes: newDislikes,
+      votes: newVotes,
+      disabled: true
+    });
+    await this.props.vote(this.props.item.id, {
+      downVotes: newDislikes,
+      votes: newVotes
+    });
+    this.props.sortFunc();
+  }
+  render() {
+    return (
+      <div>
+        <List.Content>
+          <List.Header as="a">{this.state.trackName}</List.Header>
+          {!this.state.addedBy !== 'haha' ? (
+            <div>
+              <Button
+                as="div"
+                disabled={this.state.disabled ? true : false}
+                labelPosition="right"
+              >
+                <Button icon onClick={this.handleLike}>
+                  <Icon name="thumbs up outline" />
+                </Button>
+                <Label as="a" basic pointing="left">
+                  {this.state.likes}
+                </Label>
+              </Button>
+              <Button
+                as="div"
+                disabled={this.state.disabled ? true : false}
+                labelPosition="right"
+              >
+                <Button icon onClick={this.handleDislike}>
+                  <Icon name="thumbs down outline" />
+                </Button>
+                <Label as="a" basic pointing="left">
+                  {this.state.dislikes}
+                </Label>
+              </Button>
+            </div>
+          ) : (
+            <Button onClick={this.handleClick}>
+              <Icon name="add circle" />
+            </Button>
+          )}
+        </List.Content>
+      </div>
+    );
+  }
+}
+
+const mapState = state => {
+  return {
+    user: state.user
+  };
+};
+
+const mapDispatch = (dispatch, ownProps) => ({
+  fetchUser: id => dispatch(fetchUser(id)),
+  vote: (itemId, votes) => {
+    dispatch(updateVote(itemId, votes));
+  },
+  addQueue: item => {
+    dispatch(addToQueue({item}));
+  }
+});
+
+export const QueueElement = connect(mapState, mapDispatch)(
+  UnconnectedQueueElement
+);

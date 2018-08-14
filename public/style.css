@@ -1,3 +1,16 @@
+.room {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+/* .leftRoom {
+  display: flex;
+}
+
+.rightRoom {
+  display: flex;
+} */
+
 body {
   font-family: sans-serif;
 }

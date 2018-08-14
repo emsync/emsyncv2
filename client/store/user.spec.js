@@ -39,7 +39,7 @@ describe('thunk creators', () => {
   });
 
   describe('logout', () => {
-    xit('logout: eventually dispatches the REMOVE_USER action', async () => {
+    it('logout: eventually dispatches the REMOVE_USER action', async () => {
       mockAxios.onPost('/auth/logout').replyOnce(204);
       await store.dispatch(logout());
       const actions = store.getActions();

@@ -1,35 +1,74 @@
-import axios from 'axios'
+import axios from 'axios';
 
-const ADD_QUEUE = 'ADD_QUEUE'
-const REMOVE_QUEUE = 'REMOVE_QUEUE'
+const ADD_QUEUE = 'ADD_QUEUE';
+const REMOVE_QUEUE = 'REMOVE_QUEUE';
+const UPDATE_VOTES = 'UPDATE_VOTES';
+const FETCH_QUEUE = 'FETCH_QUEUE';
 
 //ACTION CREATORS
-const addQueue = queue => {
-  return {type: ADD_QUEUE, queue}
-}
-const removeQueue = queue => ({type: REMOVE_QUEUE, queue})
+const addQueue = item => {
+  return {type: ADD_QUEUE, item};
+};
+
+const fetchQueue = queue => {
+  return {type: FETCH_QUEUE, queue};
+};
+
+const removeQueue = id => ({type: REMOVE_QUEUE, id});
+
+const updateVotes = queueItem => ({type: UPDATE_VOTES, queueItem});
 
 //THUNK CREATORS
-export const removeFromQueue = (item, id) => async dispatch => {
-  const res = await axios.put(`api/queues/${id}`, {item, remove: true})
-  dispatch(removeQueue(res.data))
-}
+export const removeFromQueue = (item, itemId) => async dispatch => {
+  const res = await axios.delete(`/api/queues/${itemId}`, {item});
+  dispatch(removeQueue(itemId));
+};
 
 //i like the idea of a queue item being a class
 
-export const addToQueue = (item, id) => async dispatch => {
-  const res = await axios.put(`api/queues/${id}`, {item, remove: false})
-  dispatch(addQueue(res.data))
-}
+export const addToQueue = item => async dispatch => {
+  console.log('DISPATCH ITEM: ', item);
+  const res = await axios.put(`/api/queues`, item);
+  dispatch(addQueue(res.data));
+};
+
+export const updateVote = (itemId, votes) => async dispatch => {
+  console.log('item: ', votes);
+  const res = await axios.put(`/api/queues/${itemId}`, votes);
+  console.log('RESPONSE: ', res);
+  dispatch(updateVotes(res.data));
+};
+
+export const fetchQueues = roomId => async dispatch => {
+  const res = await axios.get(`/api/queues/${roomId}`);
+  const queue = res.data;
+  dispatch(fetchQueue(queue));
+};
 
 export default function(state = [], action) {
   switch (action.type) {
     case ADD_QUEUE:
-      return action.queue
+      return [...state, action.item];
     case REMOVE_QUEUE:
-      return action.queue
+      let copyQueue = state.slice();
+      let finalQueue = copyQueue.filter(item => {
+        return item.id !== action.id;
+      });
+      return finalQueue;
+    case UPDATE_VOTES:
+      let copiedQueue = [...state];
+      // console.log('final queue before filter', copiedQueue);
+      let finaleQueue = copiedQueue.filter(item => {
+        return item.id !== action.queueItem.id;
+      });
+      // console.log('final queue before push', finaleQueue);
+      finaleQueue.push(action.queueItem);
+      // console.log('final queue after push', finaleQueue);
+      return finaleQueue;
+    case FETCH_QUEUE:
+      return action.queue;
     default:
-      return state
+      return state;
   }
 }
 
