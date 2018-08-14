@@ -1,35 +1,54 @@
-import axios from 'axios'
+import axios from 'axios';
 
-const ADD_QUEUE = 'ADD_QUEUE'
-const REMOVE_QUEUE = 'REMOVE_QUEUE'
+const ADD_QUEUE = 'ADD_QUEUE';
+const REMOVE_QUEUE = 'REMOVE_QUEUE';
+const UPDATE_VOTES = 'UPDATE_VOTES';
 
 //ACTION CREATORS
-const addQueue = queue => {
-  return {type: ADD_QUEUE, queue}
-}
-const removeQueue = queue => ({type: REMOVE_QUEUE, queue})
+const addQueue = item => {
+  return {type: ADD_QUEUE, item};
+};
+const removeQueue = id => ({type: REMOVE_QUEUE, id});
+
+const updateVotes = queueItem => ({type: UPDATE_VOTES, queueItem});
 
 //THUNK CREATORS
-export const removeFromQueue = (item, id) => async dispatch => {
-  const res = await axios.put(`api/queues/${id}`, {item, remove: true})
-  dispatch(removeQueue(res.data))
-}
+export const removeFromQueue = (item, itemId) => async dispatch => {
+  const res = await axios.delete(`api/queues/${itemId}`, {item});
+  dispatch(removeQueue(itemId));
+};
 
 //i like the idea of a queue item being a class
 
-export const addToQueue = (item, id) => async dispatch => {
-  const res = await axios.put(`api/queues/${id}`, {item, remove: false})
-  dispatch(addQueue(res.data))
-}
+export const addToQueue = item => async dispatch => {
+  const res = await axios.put(`api/queues/`, {item});
+  dispatch(addQueue(res.data));
+};
+
+export const updateVote = (itemId, votes) => async dispatch => {
+  const res = await axios.put(`/${itemId}`, votes);
+  dispatch(updateVotes(res.data));
+};
 
 export default function(state = [], action) {
   switch (action.type) {
     case ADD_QUEUE:
-      return action.queue
+      return [...state, action.item];
     case REMOVE_QUEUE:
-      return action.queue
+      let copyQueue = state.slice();
+      let finalQueue = copyQueue.filter(item => {
+        return item.id !== action.id;
+      });
+      return finalQueue;
+    case UPDATE_VOTES:
+      copyQueue = [...state];
+      finalQueue = copyQueue.filter(item => {
+        return item.id !== action.id;
+      });
+      finalQueue.push(action.queueItem);
+      return finalQueue;
     default:
-      return state
+      return state;
   }
 }
 
