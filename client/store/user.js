@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 
-const GET_USER = "GET_USER";
-const REMOVE_USER = "REMOVE_USER";
+const GET_USER = 'GET_USER';
+const REMOVE_USER = 'REMOVE_USER';
 
 /**
  * INITIAL STATE
@@ -11,15 +11,15 @@ const defaultUser = {};
 /**
  * ACTION CREATORS
  */
-const getUser = user => ({ type: GET_USER, user });
-const removeUser = () => ({ type: REMOVE_USER });
+const getUser = user => ({type: GET_USER, user});
+const removeUser = () => ({type: REMOVE_USER});
 
 /**
  * THUNK CREATORS
  */
 export const me = () => async dispatch => {
   try {
-    const res = await axios.get("/auth/me");
+    const res = await axios.get('/auth/me');
     dispatch(getUser(res.data || defaultUser));
   } catch (err) {
     console.error(err);
@@ -38,9 +38,9 @@ export const fetchUser = id => async dispatch => {
 export const auth = (email, password, method) => async dispatch => {
   let res;
   try {
-    res = await axios.post(`/auth/${method}`, { email, password });
+    res = await axios.post(`/auth/${method}`, {email, password});
   } catch (authError) {
-    return dispatch(getUser({ error: authError }));
+    return dispatch(getUser({error: authError}));
   }
 
   try {
@@ -52,7 +52,7 @@ export const auth = (email, password, method) => async dispatch => {
 
 export const logout = () => async dispatch => {
   try {
-    // await axios.post("/auth/logout");
+    await axios.post('/auth/logout');
     dispatch(removeUser());
   } catch (err) {
     console.error(err);
