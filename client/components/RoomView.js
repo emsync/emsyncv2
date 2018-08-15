@@ -6,11 +6,23 @@ import {fetchRoom} from '../store/room';
 import {addToQueue} from '../store/queue';
 import {Queue} from './Queue';
 import socket from '../socket';
+import {List, Image} from 'semantic-ui-react';
+import {ListenerElement} from './ListenerElement';
 
 class RoomView extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.handleClick = this.handleClick.bind(this);
+    this.state = {
+      listeners: []
+    };
+
+    socket.on('joined', (user, room, listenerList) => {
+      if (room === this.props.room.id) {
+        console.log('we have a match!', listenerList);
+        this.setState({listeners: listenerList});
+      }
+    });
   }
 
   async componentDidMount() {
@@ -37,7 +49,25 @@ class RoomView extends Component {
             <button onClick={this.handleClick}>Add to queue!</button>
           </div>
           <div className="rightRoom">
-            <ListenersList listeners={this.props.room.users} />
+            <div>
+              <h2>Listeners:</h2>
+              {this.state.listeners.length ? (
+                <List>
+                  <List.Item>
+                    {this.state.listeners.map(listener => {
+                      return (
+                        <ListenerElement
+                          key={listener.id}
+                          listener={listener}
+                        />
+                      );
+                    })}
+                  </List.Item>
+                </List>
+              ) : (
+                <p>You're the only listener!</p>
+              )}
+            </div>
           </div>
         </div>
       </div>

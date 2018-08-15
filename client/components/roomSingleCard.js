@@ -15,7 +15,7 @@ const Extra = props => {
           content="Join"
           icon="right arrow"
           labelPosition="right"
-          onClick={() => socket.emit(`joined room ${props.room.name}`)}
+          onClick={() => socket.emit(`joined`, props.user, props.id)}
         />
       </Link>
     </div>
@@ -23,11 +23,12 @@ const Extra = props => {
 };
 
 const RoomSingleCard = props => {
+  console.log('PROPS', props);
   return (
     <Card
     //   image={props.room.imageUrl}
     //   header={props.room.name}
-    //   meta="Room"
+    //   meta="Room"e
     //   description={props.room.description}
     //   extra={<Extra listeners={props.room.users.length} id={props.room.id} />}
     >
@@ -42,7 +43,13 @@ const RoomSingleCard = props => {
         <Card.Meta>"Room"</Card.Meta>
         <Card.Description>{props.room.description}</Card.Description>
         <Card.Content extra>
-          {<Extra listeners={props.room.users.length} id={props.room.id} />}
+          {
+            <Extra
+              listeners={props.room.users.length}
+              id={props.room.id}
+              user={props.user}
+            />
+          }
         </Card.Content>
       </Card.Content>
     </Card>
