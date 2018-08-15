@@ -10,8 +10,8 @@ export const RoomsList = props => {
       <Grid.Row>
         {props.rooms.map(room => {
           return (
-            <Grid.Column>
-              <RoomSingleCard room={room} />
+            <Grid.Column key={room.id}>
+              <RoomSingleCard room={room} key={room.id} />
             </Grid.Column>
           );
         })}
