@@ -22,7 +22,6 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
-        {/* <Route path="/" component={Queue} /> */}
         <Route path="/login" component={Login} />
         <Route path="/rooms/:id" component={RoomView} />
         <Route path="/signup" component={Signup} />
@@ -33,6 +32,7 @@ class Routes extends Component {
             <Route path="/rooms/:id" component={RoomView} />
           </Switch>
         )}
+        <Route exact path="/" component={UserHome} />
         {/* Displays our Login component as a fallback */}
       </Switch>
     );
