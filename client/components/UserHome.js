@@ -14,7 +14,7 @@ export class UserHome extends Component {
     return (
       this.props.rooms.length && (
         <div>
-          <h3>Welcome</h3>
+          <h3 style-={{'text-align': 'center'}}>Welcome</h3>
           <RoomsList rooms={this.props.rooms} />
         </div>
       )
