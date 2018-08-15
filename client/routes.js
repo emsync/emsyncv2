@@ -7,8 +7,8 @@ import RoomView from './components/RoomView';
 import {QueueElement} from './components/QueueElement';
 import {Queue} from './components/Queue';
 import {me} from './store';
-import SearchForm from './components/SearchForm'
-
+import SearchForm from './components/SearchForm';
+import {RoomForm} from './components/RoomForm';
 /**
  * COMPONENT
  */
@@ -26,12 +26,13 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/rooms/:id" component={RoomView} />
         <Route path="/signup" component={Signup} />
-        <Route path='/search' component={SearchForm}/>
+        <Route path="/search" component={SearchForm} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
             <Route path="/rooms/:id" component={RoomView} />
+            <Route path="/add-room" component={RoomForm} />
           </Switch>
         )}
         <Route exact path="/" component={UserHome} />
