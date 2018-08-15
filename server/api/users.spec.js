@@ -12,21 +12,26 @@ describe('User routes', () => {
   });
 
   describe('/api/users/', () => {
-    const codysEmail = 'cody@puppybook.com';
+    const rickEmail = 'rick@rick.com';
 
     beforeEach(() => {
       return User.create({
-        email: codysEmail
+        name: 'Rick',
+        email: rickEmail,
+        imageUrl: 'http://google.com',
+        spotifyDisplayName: 'wormat23',
+        accessToken: 'accessTokenHere',
+        refreshToken: 'refreshTokenHere'
       });
     });
 
-    xit('GET /api/users', async () => {
+    it('GET /api/users', async () => {
       const res = await request(app)
-        .get('/api/users')
+        .get('/api/user/users')
         .expect(200);
 
       expect(res.body).to.be.an('array');
-      expect(res.body[0].email).to.be.equal(codysEmail);
+      expect(res.body[0].email).to.be.equal(rickEmail);
     });
   }); // end describe('/api/users')
 }); // end describe('User routes')
