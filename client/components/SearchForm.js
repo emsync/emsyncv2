@@ -15,21 +15,21 @@ class SearchForm extends Component {
         }
     }
     handleClick = async (e) => {
-        e.preventDefault();
-        console.log('Searched was clicked!!');
-        console.log('new state', this.state)
-        const searchParams = { q: this.state.searchParams, accessToken: this.props.accessToken};
-        const music = await this.props.spotifyResults(searchParams)
-        this.setState({ searchParams: '', showResults: true , music: music })
+            e.preventDefault();
+            const searchParams = { q: this.state.searchParams, accessToken: this.props.accessToken};
+            const music = await this.props.spotifyResults(searchParams)
+            this.setState({ searchParams: '', showResults: true , music: music })
     }
+
+
     handleChange = (e) => {
         this.setState({ searchParams: e.target.value })
     }
     render() {
         return <div>
-        <div className="ui icon input">
-            <input type="text" placeholder="track/artist..." value={this.state.searchParams} onChange={this.handleChange} />
-            <i class="inverted circular search link icon" onClick={this.handleClick}></i>
+        <div className="ui icon input" >
+                <input type="text" placeholder="track/artist..." value={this.state.searchParams} onChange={this.handleChange}/>
+                <i class="inverted circular search link icon" onClick={this.handleClick} ></i>
         </div>
         {(this.state.showResults) ?
             (<SearchResultList spotifyResult = {this.state.music} />) : (<p>Search track/artist</p>)}
