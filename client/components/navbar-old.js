@@ -13,6 +13,10 @@ class NavBar extends Component {
     this.setState({loggedIn: !this.state.loggedIn});
   };
 
+  async componentDidMount() {
+    await this.props.loadInitialData();
+  }
+
   render() {
     console.log('USER: ', this.props.user.name);
     return (

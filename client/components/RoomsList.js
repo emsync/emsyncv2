@@ -1,9 +1,10 @@
-import React from "react";
-import { Grid, Image } from "semantic-ui-react";
-import { connect } from "react-redux";
-import RoomSingleCard from "./roomSingleCard";
+import React from 'react';
+import {Grid, Image} from 'semantic-ui-react';
+import {connect} from 'react-redux';
+import RoomSingleCard from './roomSingleCard';
 
 export const RoomsList = props => {
+  console.log('ROOMSLIST ROOMS: ', props.rooms);
   return (
     <Grid columns="three" divided>
       <Grid.Row>
