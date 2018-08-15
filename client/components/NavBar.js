@@ -24,10 +24,7 @@ class NavBar extends Component {
       <div>
         <Menu stackable inverted>
           <Menu.Item as={Link} to="/">
-            <img
-              src="https://avatars2.githubusercontent.com/u/42189420?s=200&v=4"
-              alt="emSync Logo"
-            />
+            <img src="/img/emsync-logo.jpeg" alt="emSync Logo" />
           </Menu.Item>
           {!this.props.user.name ? (
             <Menu.Item href="/auth/spotify" key={1}>
