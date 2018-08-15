@@ -14,36 +14,32 @@ class SearchForm extends Component {
             showResults: false
         }
     }
-    handleClick = (e) => {
+    handleClick = async (e) => {
         e.preventDefault();
         console.log('Searched was clicked!!');
         console.log('new state', this.state)
-        const searchParams = { q: this.state, userRefreshToken: this.props.fakeUserToken };
-        const music = this.props.spotifyResults(searchParams)
+        const searchParams = { q: this.state.searchParams, accessToken: this.props.accessToken};
+        const music = await this.props.spotifyResults(searchParams)
         this.setState({ searchParams: '', showResults: true , music: music })
     }
     handleChange = (e) => {
         this.setState({ searchParams: e.target.value })
     }
     render() {
-        if (this.state.showResults) {
-            return <SearchResultList spotifyResults={this.state.music} />
-        } else {
-            return <div className="ui icon input">
-                <input type="text" placeholder="track/artist..." value={this.state.searchParams} onChange={this.handleChange} />
-                <i class="inverted circular search link icon" onClick={this.handleClick}></i>
+        return <div>
+        <div className="ui icon input">
+            <input type="text" placeholder="track/artist..." value={this.state.searchParams} onChange={this.handleChange} />
+            <i class="inverted circular search link icon" onClick={this.handleClick}></i>
+        </div>
+        {(this.state.showResults) ?
+            (<SearchResultList spotifyResult = {this.state.music} />) : (<p>Search track/artist</p>)}
             </div>
-
-        }
-
     }
 }
 
 
 const mapStateToProps = state => ({
-  userRefreshToken: state.user.refreshToken,
-  fakeUserToken:
-    'BQA9hBhPPRk-kuM3ywsCXsMO2c5MwGsZOgYPagpZzTuFAVMAaV0ziL7n0yNXjLkTveunajRCbFMjieiffQtj2UHT8-8RQMLgd7QZv1PUMyqnw7s38nCQqNky9nRUdXuJBPkqHgwWfWpap0eM'
+  accessToken: state.user.accessToken,
 });
 
 const mapDispatchToProps = dispatch => ({

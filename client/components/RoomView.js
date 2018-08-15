@@ -5,6 +5,8 @@ import ListenersList from './ListenersList';
 import {fetchRoom} from '../store/room';
 import {addToQueue} from '../store/queue';
 import {Queue} from './Queue';
+import SearchForm from './SearchForm'
+
 class RoomView extends Component {
   constructor() {
     super();
@@ -36,6 +38,10 @@ class RoomView extends Component {
           </div>
           <div className="rightRoom">
             <ListenersList listeners={this.props.room.users} />
+
+          </div>
+          <div>
+            <SearchForm />
           </div>
         </div>
       </div>
