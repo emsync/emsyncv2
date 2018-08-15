@@ -16,8 +16,8 @@ const QueueItem = db.define('queueItem', {
     allowNull: false
   },
   currentPlayingTime: {
-    type: Sequelize.STRING,
-    defaultValue: '00:00:00'
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   },
   isPlaying: {
     type: Sequelize.BOOLEAN,
