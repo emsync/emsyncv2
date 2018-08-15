@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import ListenersList from './ListenersList';
 import {fetchRoom} from '../store/room';
 import {addToQueue} from '../store/queue';
-import Queue from './Queue';
+import {Queue} from './Queue';
 class RoomView extends Component {
   constructor() {
     super();
@@ -21,13 +21,23 @@ class RoomView extends Component {
   }
 
   render() {
-    console.log(this.props);
     return this.props.room.name ? (
       <div>
-        <h1>{this.props.room.name}</h1>
-        <ListenersList listeners={this.props.room.users} />
-        {/* <Queue queue={this.props.room.queue} /> */}
-        <button onClick={this.handleClick}>Add to queue!</button>
+        <h1 style={{textAlign: 'center'}}>{this.props.room.name}</h1>
+        <div className="room">
+          <div className="leftRoom">
+            {this.props.room.queueItems.length ? (
+              <Queue
+                queue={this.props.room.queueItems}
+                roomId={this.props.match.params.id}
+              />
+            ) : null}
+            <button onClick={this.handleClick}>Add to queue!</button>
+          </div>
+          <div className="rightRoom">
+            <ListenersList listeners={this.props.room.users} />
+          </div>
+        </div>
       </div>
     ) : (
       <p>Loading...</p>
@@ -42,7 +52,6 @@ const mapDispatch = (dispatch, ownProps) => ({
 });
 
 const mapState = (state, ownProps) => {
-  console.log('State is', state);
   return {
     room: state.room
   };

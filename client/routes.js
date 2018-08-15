@@ -4,7 +4,10 @@ import {withRouter, Route, Switch} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {Login, Signup, UserHome} from './components';
 import RoomView from './components/RoomView';
+import {QueueElement} from './components/QueueElement';
+import {Queue} from './components/Queue';
 import {me} from './store';
+import SearchForm from './components/SearchForm'
 
 /**
  * COMPONENT
@@ -23,6 +26,7 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/rooms/:id" component={RoomView} />
         <Route path="/signup" component={Signup} />
+        <Route path='/search' component={SearchForm}/>
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
@@ -30,8 +34,8 @@ class Routes extends Component {
             <Route path="/rooms/:id" component={RoomView} />
           </Switch>
         )}
+        <Route exact path="/" component={UserHome} />
         {/* Displays our Login component as a fallback */}
-        <Route component={UserHome} />
       </Switch>
     );
   }

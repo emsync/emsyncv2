@@ -16,8 +16,8 @@ const QueueItem = db.define('queueItem', {
     allowNull: false
   },
   currentPlayingTime: {
-    type: Sequelize.STRING,
-    defaultValue: '00:00:00'
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   },
   isPlaying: {
     type: Sequelize.BOOLEAN,
@@ -25,13 +25,27 @@ const QueueItem = db.define('queueItem', {
   },
   imageUrl: {
     type: Sequelize.STRING,
-      defaultValue:"http://icons-for-free.com/free-icons/png/512/1871847.png"
+    defaultValue: 'http://icons-for-free.com/free-icons/png/512/1871847.png'
+  },
+  trackName: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  artistName: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  upVotes: {
+    type: Sequelize.INTEGER
+  },
+  downVotes: {
+    type: Sequelize.INTEGER
   }
 });
 
 QueueItem.prototype.addVote = () => {
-    let votes = this.votes += 1;
-    return votes
-}
+  let votes = (this.votes += 1);
+  return votes;
+};
 
 module.exports = QueueItem;
