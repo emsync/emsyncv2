@@ -6,16 +6,14 @@ import RoomSingleCard from './roomSingleCard';
 export const RoomsList = props => {
   console.log('ROOMSLIST ROOMS: ', props.rooms);
   return (
-    <Grid columns="three" divided>
-      <Grid.Row>
-        {props.rooms.map(room => {
-          return (
-            <Grid.Column>
-              <RoomSingleCard room={room} />
-            </Grid.Column>
-          );
-        })}
-      </Grid.Row>
+    <Grid container columns="three">
+      {props.rooms.map(room => {
+        return (
+          <Grid.Column>
+            <RoomSingleCard room={room} />
+          </Grid.Column>
+        );
+      })}
     </Grid>
   );
 };
