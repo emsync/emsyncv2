@@ -3,13 +3,20 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Card, Icon, Button} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
+import socket from '../socket';
+
 const Extra = props => {
   return (
     <div>
       <Icon name="user" />
       {props.listeners} Listeners
       <Link to={`/rooms/${props.id}`}>
-        <Button content="Join" icon="right arrow" labelPosition="right" />
+        <Button
+          content="Join"
+          icon="right arrow"
+          labelPosition="right"
+          onClick={() => socket.emit(`joined room ${props.room.name}`)}
+        />
       </Link>
     </div>
   );
