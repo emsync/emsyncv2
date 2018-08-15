@@ -1,20 +1,24 @@
-import React, { Component } from 'react'
-import { Menu } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
+import React, {Component} from 'react';
+import {Menu} from 'semantic-ui-react';
+import {Link} from 'react-router-dom';
+import {me} from '../store';
+import {connect} from 'react-redux';
 
-export default class NavBar extends Component {
+class NavBar extends Component {
   constructor() {
-    super()
-    this.state = {
-      loggedIn: false,
-      userName: 'wormat23',
-    }
+    super();
+    this.state = {};
   }
   handleClick = () => {
-    this.setState({ loggedIn: !this.state.loggedIn })
+    this.setState({loggedIn: !this.state.loggedIn});
+  };
+
+  async componentDidMount() {
+    await this.props.loadInitialData();
   }
 
   render() {
+    console.log('USER: ', this.props.user.name);
     return (
       //if logged in show username
       <div>
@@ -25,9 +29,8 @@ export default class NavBar extends Component {
               alt="emSync Logo"
             />
           </Menu.Item>
-
-          {!this.state.loggedIn ? (
-            <Menu.Item name="login" as={Link} to="/login" key={1}>
+          {!this.props.user.name ? (
+            <Menu.Item href="/auth/spotify" key={1}>
               Login
             </Menu.Item>
           ) : null}
@@ -35,14 +38,14 @@ export default class NavBar extends Component {
           <Menu.Item key={2}>Test</Menu.Item>
 
           {/* If user is logged in */}
-          {this.state.loggedIn
+          {this.props.user.name
             ? [
                 <Menu.Item
                   className="navRight"
                   position="right"
                   name="welcomeUser"
                 >
-                  Welcome {this.state.userName}
+                  Welcome {this.props.user.name}
                 </Menu.Item>,
                 <Menu.Item
                   className="navRight"
@@ -50,11 +53,27 @@ export default class NavBar extends Component {
                   onClick={this.handleClick}
                 >
                   Logout
-                </Menu.Item>,
+                </Menu.Item>
               ]
             : null}
         </Menu>
       </div>
-    )
+    );
   }
 }
+
+const mapState = state => {
+  return {
+    user: state.user
+  };
+};
+
+const mapDispatch = dispatch => {
+  return {
+    loadInitialData: () => {
+      dispatch(me());
+    }
+  };
+};
+
+export default connect(mapState, mapDispatch)(NavBar);
