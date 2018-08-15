@@ -4,6 +4,7 @@ const {Room} = require('../db/models');
 router.get('/', async (req, res, next) => {
   try {
     const rooms = await Room.findAll({include: {all: true}});
+    console.log('ROOMS ROUTE: ', rooms);
     res.json(rooms);
   } catch (err) {
     console.log('get rooms');
