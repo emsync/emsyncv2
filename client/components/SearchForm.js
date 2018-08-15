@@ -21,6 +21,13 @@ class SearchForm extends Component {
             this.setState({ searchParams: '', showResults: true , music: music })
     }
 
+    keyPress = async (e) => {
+        if (e.keyCode == 13) {
+            const searchParams = { q: this.state.searchParams, accessToken: this.props.accessToken };
+            const music = await this.props.spotifyResults(searchParams)
+            this.setState({ searchParams: '', showResults: true, music: music })
+        }
+    }
 
     handleChange = (e) => {
         this.setState({ searchParams: e.target.value })
@@ -28,8 +35,8 @@ class SearchForm extends Component {
     render() {
         return <div>
         <div className="ui icon input" >
-                <input type="text" placeholder="track/artist..." value={this.state.searchParams} onChange={this.handleChange}/>
-                <i class="inverted circular search link icon" onClick={this.handleClick} ></i>
+                <input type="text" placeholder="track/artist..." value={this.state.searchParams} onChange={this.handleChange} onKeyDown={this.keyPress}/>
+                <i class="inverted circular search link icon" onClick={this.handleClick}></i>
         </div>
         {(this.state.showResults) ?
             (<SearchResultList spotifyResult = {this.state.music} />) : (<p>Search track/artist</p>)}

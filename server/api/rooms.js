@@ -23,7 +23,8 @@ router.get('/:id', async (req, res, next) => {
 });
 
 router.put('/', async (req, res, next) => {
-  const newRoom = await Room.create(req.body.room);
+  console.log('REQ>BODY', req.body);
+  const newRoom = await Room.create(req.body);
   res.status(201).json(newRoom);
 });
 
