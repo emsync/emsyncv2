@@ -50,7 +50,7 @@ class NavBar extends Component {
                 <Menu.Item
                   className="navRight"
                   name="logout"
-                  onClick={this.handleClick}
+                  href="/auth/spotify/logout"
                 >
                   Logout
                 </Menu.Item>
