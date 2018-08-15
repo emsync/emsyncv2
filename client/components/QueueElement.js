@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {List, Image} from 'semantic-ui-react';
-import {Button, Icon, Label} from 'semantic-ui-react';
+import {List, Image } from 'semantic-ui-react';
+import {Button, Icon, Label } from 'semantic-ui-react';
 import {connect} from 'react-redux';
 import {fetchUser} from '../store/user';
 import {updateVote, addToQueue} from '../store/queue';
+
 //props being passed here should just be a single listener (user) object
 class UnconnectedQueueElement extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class UnconnectedQueueElement extends Component {
       dislikes: (this.props.comingFrom ? 0 : this.props.item.upVotes || 0),
       // votes: 0,
       disabled: false,
-      addedBy: 'haha' || this.props.item.userId ,
+      addedBy: (this.props.comingFrom ? 'search' : this.props.item.userId),
       imageUrl: this.props.imageUrl || this.props.item.imageUrl,
       spotifyLink: this.props.spotifyLink || this.props.item.spotifyLink,
       trackName:
@@ -80,8 +81,11 @@ class UnconnectedQueueElement extends Component {
     return (
       <div>
         <List.Content>
+          <Image avatar src={this.state.imageUrl}/>
+          <List.Header>{this.state.artistName}</List.Header>
           <List.Header as="a">{this.state.trackName}</List.Header>
-          {this.state.addedBy !== 'haha' ? (
+
+          {this.state.addedBy !== 'search' ? (
             <div>
               <Button
                 as="div"

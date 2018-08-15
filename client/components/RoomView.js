@@ -34,7 +34,6 @@ class RoomView extends Component {
                 roomId={this.props.match.params.id}
               />
             ) : null}
-            <button onClick={this.handleClick}>Add to queue!</button>
           </div>
           <div className="rightRoom">
             <ListenersList listeners={this.props.room.users} />
