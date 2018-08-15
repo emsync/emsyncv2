@@ -6,4 +6,3 @@
 export {default as Navbar} from './navbar-old';
 export {default as UserHome} from './UserHome';
 export {RoomsList} from './RoomsList';
-export {Login} from './auth-form';
