@@ -3,7 +3,7 @@
 const db = require('../server/db');
 const {User} = require('../server/db/models');
 const {Room} = require('../server/db/models');
-const {QueueItem} = require('../server/db/models')
+const {QueueItem} = require('../server/db/models');
 
 const newUsers = [
   {
@@ -95,53 +95,85 @@ const newQueueItems = [
     votes: 3,
     addedBy: 1,
     spotifyLink: 'http:spotify.someSong.com',
-    roomId: 4
+    roomId: 4,
+    trackName: '1',
+    artistName: '1',
+    upVotes: 50,
+    downVotes: 60
   },
   {
     votes: 1,
     addedBy: 3,
     spotifyLink: 'http:spotify.someOtherSong.com',
-    roomId: 4
+    roomId: 4,
+    trackName: '2',
+    artistName: '2',
+    upVotes: 150,
+    downVotes: 160
   },
   {
     votes: 1,
     addedBy: 4,
     spotifyLink: 'http:spotify.someOtherSong.com',
-    roomId: 4
+    roomId: 4,
+    trackName: '3',
+    artistName: '3',
+    upVotes: 250,
+    downVotes: 260
   },
   {
     votes: 1,
     addedBy: 3,
     spotifyLink: 'http:spotify.someOtherSong.com',
-    roomId: 2
+    roomId: 2,
+    trackName: '3',
+    artistName: '3',
+    upVotes: 350,
+    downVotes: 360
   },
   {
     votes: 6,
     addedBy: 5,
     spotifyLink: 'http:spotify.someOtherSong.com',
-    roomId: 2
+    roomId: 2,
+    trackName: '4',
+    artistName: '4',
+    upVotes: 450,
+    downVotes: 460
   },
   {
     votes: 6,
     addedBy: 5,
     spotifyLink: 'http:spotify.someOtherSong.com',
-    roomId: 1
+    roomId: 1,
+    trackName: '5',
+    artistName: '5',
+    upVotes: 550,
+    downVotes: 560
   },
   {
     votes: 6,
     addedBy: 5,
     spotifyLink: 'http:spotify.someOtherSong.com',
-    roomId: 1
+    roomId: 1,
+    trackName: '6',
+    artistName: '6',
+    upVotes: 650,
+    downVotes: 660
   },
   {
     votes: 6,
     addedBy: 5,
     spotifyLink: 'http:spotify.someOtherSong.com',
-    roomId: 2
+    roomId: 2,
+    trackName: '7',
+    artistName: '7',
+    upVotes: 750,
+    downVotes: 760
   }
 ];
 
-const randomId = (list) => {
+const randomId = list => {
   return Math.floor(Math.random(0) * Math.floor(list.length));
 };
 
@@ -156,8 +188,9 @@ const seed = async () => {
     newRooms.map(room => Room.create(room))
   );
 
-  const createdQueues =  await Promise.all(
-    newQueueItems.map(queueItem => QueueItem.create(queueItem)));
+  const createdQueues = await Promise.all(
+    newQueueItems.map(queueItem => QueueItem.create(queueItem))
+  );
 
   await Promise.all(
     createdUsers.map(user =>
