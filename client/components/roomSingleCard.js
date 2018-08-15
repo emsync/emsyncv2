@@ -18,12 +18,27 @@ const Extra = props => {
 const RoomSingleCard = props => {
   return (
     <Card
-      image={props.room.imageUrl}
-      header={props.room.name}
-      meta="Room"
-      description={props.room.description}
-      extra={<Extra listeners={props.room.users.length} id={props.room.id} />}
-    />
+    //   image={props.room.imageUrl}
+    //   header={props.room.name}
+    //   meta="Room"
+    //   description={props.room.description}
+    //   extra={<Extra listeners={props.room.users.length} id={props.room.id} />}
+    >
+      <img
+        src={props.room.imageUrl}
+        alt="room image"
+        height={225}
+        width={225}
+      />
+      <Card.Content>
+        <Card.Header>{props.room.name}</Card.Header>
+        <Card.Meta>"Room"</Card.Meta>
+        <Card.Description>{props.room.description}</Card.Description>
+        <Card.Content extra>
+          {<Extra listeners={props.room.users.length} id={props.room.id} />}
+        </Card.Content>
+      </Card.Content>
+    </Card>
   );
 };
 
