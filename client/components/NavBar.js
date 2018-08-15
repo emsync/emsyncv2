@@ -45,6 +45,15 @@ class NavBar extends Component {
                   Welcome {this.props.user.name}
                 </Menu.Item>,
                 <Menu.Item
+                  as={Link}
+                  to="/add-room"
+                  className="navRight"
+                  position="right"
+                  name="addRoom"
+                >
+                  Add Room
+                </Menu.Item>,
+                <Menu.Item
                   className="navRight"
                   name="logout"
                   href="/auth/spotify/logout"
