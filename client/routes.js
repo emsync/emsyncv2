@@ -7,7 +7,7 @@ import RoomView from './components/RoomView';
 import {QueueElement} from './components/QueueElement';
 import {Queue} from './components/Queue';
 import {me} from './store';
-import SearchForm from './components/SearchForm'
+import SearchForm from './components/SearchForm';
 
 /**
  * COMPONENT
@@ -23,7 +23,6 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
-        {/* <Route path="/" component={Queue} /> */}
         <Route path="/login" component={Login} />
         <Route path="/rooms/:id" component={RoomView} />
         <Route path="/signup" component={Signup} />
@@ -34,6 +33,7 @@ class Routes extends Component {
             <Route path="/rooms/:id" component={RoomView} />
           </Switch>
         )}
+
         {/* Displays our Login component as a fallback */}
       </Switch>
     );

@@ -10,8 +10,10 @@ const addRoom = room => {
 };
 
 export const fetchRooms = () => async dispatch => {
+  console.log('ROOMS: ', rooms);
   const response = await axios.get('/api/rooms');
   const rooms = response.data;
+  console.log('ROOMS: ', rooms);
   dispatch(getRooms(rooms));
 };
 

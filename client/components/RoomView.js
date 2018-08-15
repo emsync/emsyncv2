@@ -18,11 +18,12 @@ class RoomView extends Component {
   }
 
   handleClick() {
-    console.log('clicked!');
+    // console.log('clicked!');
     this.props.addToQueue({name: 'Baby', artist: 'Justin Biebser'});
   }
 
   render() {
+    // console.log('------------ in RoomView, this.props is: ', this.props);
     return this.props.room.name ? (
       <div>
         <h1 style={{textAlign: 'center'}}>{this.props.room.name}</h1>
