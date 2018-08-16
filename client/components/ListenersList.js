@@ -10,7 +10,7 @@ const ListenersList = props => (
       <List>
         <List.Item>
           {props.listeners.map(listener => {
-            return <ListenerElement key={listener.id} listener={listener} />;
+            return <ListenerElement key={listener} listener={listener} />;
           })}
         </List.Item>
       </List>

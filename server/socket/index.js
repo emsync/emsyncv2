@@ -25,6 +25,12 @@ module.exports = io => {
       }
     });
 
+    socket.on('left', (user, room) => {
+      console.log('A user has left a room', user, room);
+      rooms[room][user.id] = undefined;
+      updateListeners(room);
+    });
+
     socket.on('error', function(err) {
       console.log(err);
     });
