@@ -27,10 +27,7 @@ export const removeFromQueue = (item, itemId) => async dispatch => {
 //i like the idea of a queue item being a class
 
 export const addToQueue = item => async dispatch => {
-<<<<<<< HEAD
-=======
   // console.log('addToQueue DISPATCH ITEM: ', item);
->>>>>>> master
   const res = await axios.put(`/api/queues`, item);
   dispatch(addQueue(res.data));
 };
