@@ -6,10 +6,12 @@ module.exports = io => {
       `A socket connection to the server has been made: ${socket.id}`
     );
 
+    // user disconnected from server
     socket.on('disconnect', () => {
       console.log(`Connection ${socket.id} has left the building`);
     });
 
+    //user joined room
     socket.on('joined', (user, room) => {
       console.log('A user has joined a room', user, room);
       // console.log('his props were: ', user, room);
@@ -25,6 +27,14 @@ module.exports = io => {
       }
     });
 
+    // user left room
+    socket.on('left', (user, room) => {
+      console.log('A user has left a room', user, room);
+      rooms[room][user.id] = undefined;
+      updateListeners(room);
+    });
+
+    // error handling
     socket.on('error', function(err) {
       console.log(err);
     });

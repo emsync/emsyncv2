@@ -30,11 +30,13 @@ class RoomView extends Component {
     });
   }
 
-  async componentWillMount() {}
-
   async componentDidMount() {
     await this.props.fetchRoom();
     await this.props.fetchQueues(this.props.room.id);
+  }
+
+  componentWillUnmount() {
+    socket.emit('left', this.props.user, this.props.match.params.id);
   }
 
   handleClick() {
@@ -48,11 +50,6 @@ class RoomView extends Component {
     if (this.props.user) {
       for (let i = 0; i < this.state.listeners.length; i++) {
         if (this.state.listeners[i] === this.props.user.name) {
-          console.log(
-            'comparison',
-            this.state.listeners[i],
-            this.props.user.name
-          );
           present = true;
         }
       }
@@ -75,9 +72,10 @@ class RoomView extends Component {
             ) : null}
           </div>
           <div className="rightRoom">
-            <div>
-              <h2>Listeners:</h2>
-              {this.state.listeners.length > 0 ? (
+            <ListenersList listeners={this.state.listeners} />
+
+            {/* <h2>Listeners:</h2> */}
+            {/* {this.state.listeners.length > 0 ? (
                 <List>
                   <List.Item>
                     {this.state.listeners.map(userListening => {
@@ -93,7 +91,7 @@ class RoomView extends Component {
               ) : (
                 <p>You're the only listener!</p>
               )}
-            </div>
+            </div> */}
           </div>
           <div>
             <SearchForm />
