@@ -16,27 +16,49 @@ class RoomView extends Component {
     this.state = {
       listeners: []
     };
-
-    socket.on('joined', (room, listenerList) => {
-      if (room === this.props.room.id) {
-        console.log('we have a match!', listenerList);
-        this.setState({listeners: listenerList});
+    socket.on('update-listeners', (room, listenerList) => {
+      // console.log('we have an update', room, this.props.room.id);
+      if (room == this.props.room.id) {
+        const userNames = [];
+        for (let i = 0; i < listenerList.length; i++) {
+          userNames.push(listenerList[i].name);
+        }
+        // console.log('we have a match!', listenerList);
+        this.setState({listeners: userNames});
       }
     });
   }
 
+  async componentWillMount() {}
+
   async componentDidMount() {
     await this.props.fetchRoom();
-    console.log('props', this.props);
-    socket.emit('joined', this.props.user, this.props.room.id);
   }
 
   handleClick() {
-    console.log('clicked!');
     this.props.addToQueue({name: 'Baby', artist: 'Justin Biebser'});
   }
 
   render() {
+    let present = false;
+
+    if (this.props.user) {
+      for (let i = 0; i < this.state.listeners.length; i++) {
+        if (this.state.listeners[i] === this.props.user.name) {
+          console.log(
+            'comparison',
+            this.state.listeners[i],
+            this.props.user.name
+          );
+          present = true;
+        }
+      }
+    }
+
+    if (this.props.user.name && !present) {
+      // console.log('emitting joined command');
+      socket.emit('joined', this.props.user, this.props.match.params.id);
+    }
     return this.props.room.name ? (
       <div>
         <h1 style={{textAlign: 'center'}}>{this.props.room.name}</h1>
@@ -53,14 +75,14 @@ class RoomView extends Component {
           <div className="rightRoom">
             <div>
               <h2>Listeners:</h2>
-              {this.state.listeners.length ? (
+              {this.state.listeners.length > 0 ? (
                 <List>
                   <List.Item>
-                    {this.state.listeners.map(listener => {
+                    {this.state.listeners.map(userListening => {
                       return (
                         <ListenerElement
-                          key={listener.id}
-                          listener={listener}
+                          key={userListening.id}
+                          listener={userListening}
                         />
                       );
                     })}
@@ -80,7 +102,9 @@ class RoomView extends Component {
 }
 
 const mapDispatch = (dispatch, ownProps) => ({
-  fetchRoom: () => dispatch(fetchRoom(ownProps.match.params.id)),
+  fetchRoom: () => {
+    dispatch(fetchRoom(ownProps.match.params.id));
+  },
   addToQueue: song => dispatch(addToQueue(song, ownProps.match.params.id))
   //will probably have to find the queue using the room id
 });

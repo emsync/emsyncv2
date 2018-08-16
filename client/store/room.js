@@ -1,11 +1,11 @@
 import axios from 'axios';
-const GET_ROOM = 'GET_ROOM';
+import socket from '../socket';
 
+const GET_ROOM = 'GET_ROOM';
 const ADD_LISTENER = 'ADD_LISTENER';
 const REMOVE_LISTENER = 'REMOVE_LISTENER';
 
 const getRoom = room => ({type: GET_ROOM, room});
-
 const addListener = listener => ({type: ADD_LISTENER, listener});
 const removeListener = listener => ({type: REMOVE_LISTENER, listener});
 
@@ -19,17 +19,16 @@ export const fetchRoom = id => async dispatch => {
   dispatch(getRoom(room));
 };
 
-export const newListener = (userId, roomId) => async dispatch => {
+export const newListener = (user, roomId) => async dispatch => {
   // const response = await axios.get(`/api/rooms/${roomId}`);
   // const room = response.data;
   // const listeners = room.listeners;
   // const updatedListeners = listeners.push(userId);
-
   // const res = await axios.put(
   //   `api/rooms/${roomId}/listeners`,
   //   updatedListeners
   // );
-  dispatch(addListener(res.data));
+  // dispatch(addListener(res.data));
 };
 
 export const departingListener = (userId, roomId) => async dispatch => {

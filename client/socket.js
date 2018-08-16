@@ -8,6 +8,10 @@ socket.on('connect', () => {
   console.log('Connected!');
 });
 
+// socket.on('update-listeners', () => {
+//   console.log('react socket joined');
+// });
+
 // socket.on('joined', (user, room) => {
 //   console.log(user.name, ' has joined room #', room);
 //   socket.join(room);

@@ -11,19 +11,13 @@ const Extra = props => {
       <Icon name="user" />
       {props.listeners} Listeners
       <Link to={`/rooms/${props.id}`}>
-        <Button
-          content="Join"
-          icon="right arrow"
-          labelPosition="right"
-          // onClick={() => socket.emit(`joined`, props.user, props.id)}
-        />
+        <Button content="Join" icon="right arrow" labelPosition="right" />
       </Link>
     </div>
   );
 };
 
 const RoomSingleCard = props => {
-  console.log('PROPS', props);
   return (
     <Card
     //   image={props.room.imageUrl}
