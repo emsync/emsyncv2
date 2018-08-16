@@ -50,7 +50,8 @@ class UnconnectedQueue extends Component {
 
 function mapState(state) {
   return {
-    queue: state.queue
+    queue: state.queue,
+    room: state.room
   };
 }
 

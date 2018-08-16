@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import ListenersList from './ListenersList';
 import {fetchRoom} from '../store/room';
-import {addToQueue} from '../store/queue';
+import {addToQueue, fetchQueues} from '../store/queue';
 import {Queue} from './Queue';
-import SearchForm from './SearchForm'
+import SearchForm from './SearchForm';
 
 class RoomView extends Component {
   constructor() {
@@ -15,6 +15,7 @@ class RoomView extends Component {
 
   async componentDidMount() {
     await this.props.fetchRoom();
+    await this.props.fetchQueues(this.props.room.id);
   }
 
   handleClick() {
@@ -23,7 +24,6 @@ class RoomView extends Component {
   }
 
   render() {
-    // console.log('------------ in RoomView, this.props is: ', this.props);
     return this.props.room.name ? (
       <div>
         <h1 style={{textAlign: 'center'}}>{this.props.room.name}</h1>
@@ -38,7 +38,6 @@ class RoomView extends Component {
           </div>
           <div className="rightRoom">
             <ListenersList listeners={this.props.room.users} />
-
           </div>
           <div>
             <SearchForm />
@@ -53,8 +52,8 @@ class RoomView extends Component {
 
 const mapDispatch = (dispatch, ownProps) => ({
   fetchRoom: () => dispatch(fetchRoom(ownProps.match.params.id)),
-  addToQueue: song => dispatch(addToQueue(song, ownProps.match.params.id))
-  //will probably have to find the queue using the room id
+  addToQueue: song => dispatch(addToQueue(song, ownProps.match.params.id)),
+  fetchQueues: roomId => dispatch(fetchQueues(roomId))
 });
 
 const mapState = (state, ownProps) => {

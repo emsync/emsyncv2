@@ -41,7 +41,7 @@ export class UnconnectedRoomForm extends Component {
   }
 
   render() {
-    console.log(this.state);
+    // console.log(this.state);
     const {value} = this.state;
     return (
       <Form>

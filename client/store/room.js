@@ -16,7 +16,7 @@ const removeListener = listener => ({type: REMOVE_LISTENER, listener});
 export const fetchRoom = id => async dispatch => {
   const response = await axios.get(`/api/rooms/${id}`);
   const room = response.data;
-  console.log('DISPATCH ROOM: ', room);
+  // console.log('DISPATCH ROOM: ', room);
   dispatch(getRoom(room));
 };
 

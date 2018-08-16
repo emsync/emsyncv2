@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {List, Image } from 'semantic-ui-react';
-import {Button, Icon, Label } from 'semantic-ui-react';
+import {List, Image} from 'semantic-ui-react';
+import {Button, Icon, Label} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 import {fetchUser} from '../store/user';
 import {updateVote, addToQueue} from '../store/queue';
@@ -10,16 +10,16 @@ class UnconnectedQueueElement extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      likes: (this.props.comingFrom ?  0 : this.props.item.upVotes || 0),
-      dislikes: (this.props.comingFrom ? 0 : this.props.item.upVotes || 0),
+      likes: this.props.comingFrom ? 0 : this.props.item.upVotes || 0,
+      dislikes: this.props.comingFrom ? 0 : this.props.item.upVotes || 0,
       // votes: 0,
       disabled: false,
-      addedBy: (this.props.comingFrom ? 'search' : this.props.item.userId),
+      addedBy: this.props.comingFrom ? 'search' : this.props.item.userId,
       imageUrl: this.props.imageUrl || this.props.item.imageUrl,
       spotifyLink: this.props.spotifyLink || this.props.item.spotifyLink,
       trackName:
         this.props.trackName || this.props.item.trackName || 'Hallelujah',
-      artistName: this.props.artistName || this.props.item.artistName 
+      artistName: this.props.artistName || this.props.item.artistName
     };
     this.handleDislike = this.handleDislike.bind(this);
     this.handleLike = this.handleLike.bind(this);
@@ -34,18 +34,18 @@ class UnconnectedQueueElement extends Component {
   // }
 
   handleClick = () => {
+    console.log('In QueueElement handleClick: ', this.props.room.id);
     this.props.addQueue({
-      votes: this.state.likes - this.state.disklikes,
+      // votes: this.state.likes - this.state.disklikes,
       addedBy: this.props.user.id,
       spotifyLink: this.state.spotifyLink,
       currentPlayingTime: 0,
       isPlaying: false,
       imageUrl: this.state.imageUrl,
-      roomId: this.props.roomId,
-      trackName:this.state.trackName,
-      artistName:this.state.artistName
+      roomId: this.props.room.id,
+      trackName: this.state.trackName,
+      artistName: this.state.artistName
     });
-    
   };
 
   async handleLike() {
@@ -78,10 +78,11 @@ class UnconnectedQueueElement extends Component {
     this.props.sortFunc();
   }
   render() {
+    // console.log('In QueueElement: ', this.props.room.id);
     return (
       <div>
         <List.Content>
-          <Image avatar src={this.state.imageUrl}/>
+          <Image avatar src={this.state.imageUrl} />
           <List.Header>{this.state.artistName}</List.Header>
           <List.Header as="a">{this.state.trackName}</List.Header>
 
@@ -125,7 +126,8 @@ class UnconnectedQueueElement extends Component {
 
 const mapState = state => {
   return {
-    user: state.user
+    user: state.user,
+    room: state.room
   };
 };
 
