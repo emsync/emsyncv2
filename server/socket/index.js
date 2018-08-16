@@ -12,14 +12,18 @@ module.exports = io => {
 
     socket.on('joined', (user, room) => {
       console.log('A user has joined a room');
-      console.log('his props were: ', user, room);
+      // console.log('his props were: ', user, room);
       // rooms[room][user] = user;
       if (!rooms[room]) {
         rooms[room] = {};
-        rooms[room][user] = user;
-      } else {
+      }
+      if (!rooms[room][user.id]) {
         rooms[room][user.id] = user;
       }
+      updateListeners(user, room);
+    });
+
+    updateListeners = (user, room) => {
       let tempListeners = [];
       for (var key in rooms[room]) {
         if (rooms[room].hasOwnProperty(key)) {
@@ -27,7 +31,7 @@ module.exports = io => {
         }
       }
       console.log(tempListeners);
-      socket.broadcast.emit('joined', user, room, tempListeners);
-    });
+      socket.emit('joined', room, tempListeners);
+    };
   });
 };

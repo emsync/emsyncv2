@@ -15,7 +15,7 @@ const Extra = props => {
           content="Join"
           icon="right arrow"
           labelPosition="right"
-          onClick={() => socket.emit(`joined`, props.user, props.id)}
+          // onClick={() => socket.emit(`joined`, props.user, props.id)}
         />
       </Link>
     </div>

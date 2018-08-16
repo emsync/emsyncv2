@@ -17,7 +17,7 @@ class RoomView extends Component {
       listeners: []
     };
 
-    socket.on('joined', (user, room, listenerList) => {
+    socket.on('joined', (room, listenerList) => {
       if (room === this.props.room.id) {
         console.log('we have a match!', listenerList);
         this.setState({listeners: listenerList});
@@ -27,6 +27,8 @@ class RoomView extends Component {
 
   async componentDidMount() {
     await this.props.fetchRoom();
+    console.log('props', this.props);
+    socket.emit('joined', this.props.user, this.props.room.id);
   }
 
   handleClick() {
@@ -85,7 +87,8 @@ const mapDispatch = (dispatch, ownProps) => ({
 
 const mapState = (state, ownProps) => {
   return {
-    room: state.room
+    room: state.room,
+    user: state.user
   };
 };
 
