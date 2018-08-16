@@ -19,6 +19,7 @@ class NavBar extends Component {
 
   render() {
     // console.log('USER: ', this.props.user.name);
+    let key = 0;
     return (
       //if logged in show username
       <div>
@@ -27,12 +28,12 @@ class NavBar extends Component {
             <img src="/img/emsync-logo.jpeg" alt="emSync Logo" />
           </Menu.Item>
           {!this.props.user.name ? (
-            <Menu.Item href="/auth/spotify" key={1}>
+            <Menu.Item href="/auth/spotify" key={key++}>
               Login
             </Menu.Item>
           ) : null}
 
-          <Menu.Item key={2}>Test</Menu.Item>
+          <Menu.Item key={key++}>Test</Menu.Item>
 
           {/* If user is logged in */}
           {this.props.user.name
@@ -41,7 +42,7 @@ class NavBar extends Component {
                   className="navRight"
                   position="right"
                   name="welcomeUser"
-                  key={2}
+                  key={key++}
                 >
                   Welcome {this.props.user.name}
                 </Menu.Item>,
@@ -51,7 +52,7 @@ class NavBar extends Component {
                   className="navRight"
                   position="right"
                   name="addRoom"
-                  key={2}
+                  key={key++}
                 >
                   Add Room
                 </Menu.Item>,
@@ -59,7 +60,7 @@ class NavBar extends Component {
                   className="navRight"
                   name="logout"
                   href="/auth/spotify/logout"
-                  key={2}
+                  key={key++}
                 >
                   Logout
                 </Menu.Item>
