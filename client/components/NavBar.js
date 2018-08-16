@@ -18,7 +18,7 @@ class NavBar extends Component {
   }
 
   render() {
-    console.log('USER: ', this.props.user.name);
+    // console.log('USER: ', this.props.user.name);
     return (
       //if logged in show username
       <div>
@@ -41,6 +41,7 @@ class NavBar extends Component {
                   className="navRight"
                   position="right"
                   name="welcomeUser"
+                  key={2}
                 >
                   Welcome {this.props.user.name}
                 </Menu.Item>,
@@ -50,6 +51,7 @@ class NavBar extends Component {
                   className="navRight"
                   position="right"
                   name="addRoom"
+                  key={2}
                 >
                   Add Room
                 </Menu.Item>,
@@ -57,6 +59,7 @@ class NavBar extends Component {
                   className="navRight"
                   name="logout"
                   href="/auth/spotify/logout"
+                  key={2}
                 >
                   Logout
                 </Menu.Item>
