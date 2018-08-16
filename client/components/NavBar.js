@@ -33,8 +33,6 @@ class NavBar extends Component {
             </Menu.Item>
           ) : null}
 
-          <Menu.Item key={key++}>Test</Menu.Item>
-
           {/* If user is logged in */}
           {this.props.user.name
             ? [
