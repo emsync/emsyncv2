@@ -57,13 +57,10 @@ export default function(state = [], action) {
       return finalQueue;
     case UPDATE_VOTES:
       let copiedQueue = [...state];
-      // console.log('final queue before filter', copiedQueue);
       let finaleQueue = copiedQueue.filter(item => {
         return item.id !== action.queueItem.id;
       });
-      // console.log('final queue before push', finaleQueue);
       finaleQueue.push(action.queueItem);
-      // console.log('final queue after push', finaleQueue);
       return finaleQueue;
     case FETCH_QUEUE:
       return action.queue;

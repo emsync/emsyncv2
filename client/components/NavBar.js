@@ -3,12 +3,14 @@ import {Menu} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
 import {me} from '../store';
 import {connect} from 'react-redux';
+import socket from '../socket';
 
 class NavBar extends Component {
   constructor() {
     super();
     this.state = {};
   }
+
   handleClick = () => {
     this.setState({loggedIn: !this.state.loggedIn});
   };
