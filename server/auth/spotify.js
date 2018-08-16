@@ -19,7 +19,7 @@ module.exports = router;
  */
 
 if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
-  console.log('Spotify client ID / secret not found. Skipping Spotify OAuth.');
+  // console.log('Spotify client ID / secret not found. Skipping Spotify OAuth.');
 } else {
   const spotifyConfig = {
     clientID: process.env.SPOTIFY_CLIENT_ID,
@@ -54,14 +54,14 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
         }
       });
 
-      console.log('SPOTIFY USER: ', user);
+      // console.log('SPOTIFY USER: ', user);
 
       if (user) {
         await user.update({
           accessToken: accessToken,
           refreshToken: refreshToken
         });
-        console.log('USER UPDATED');
+        // console.log('USER UPDATED');
         done(null, user);
       } else {
         User.create({

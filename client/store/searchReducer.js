@@ -18,8 +18,9 @@ export const goSearch = searchParams => async dispatch => {
   // console.log('hit goSearch. searchParams => ', searchParams);
   try {
     const {data} = await axios.post('/api/spotify', searchParams);
-    // console.log('response => ',data)
+    // console.log('response => ',data.tracks.items)
     dispatch(gotSearchResults(data));
+    return data.tracks.items;
   } catch (err) {
     console.log(err);
   }
@@ -28,7 +29,7 @@ export const goSearch = searchParams => async dispatch => {
 export default function searchReducer(state = initialState, action) {
   switch (action.type) {
     case GOT_SEARCH_RESULTS:
-      return {searchResults: action.searchResults};
+      return {searchResults: action.searchResults.tracks.items};
     default:
       return state;
   }

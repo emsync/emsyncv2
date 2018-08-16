@@ -25,10 +25,7 @@ class NavBar extends Component {
       <div>
         <Menu stackable inverted>
           <Menu.Item as={Link} to="/">
-            <img
-              src="https://avatars2.githubusercontent.com/u/42189420?s=200&v=4"
-              alt="emSync Logo"
-            />
+            <img src="/img/emsync-logo.jpeg" alt="emSync Logo" />
           </Menu.Item>
           {!this.props.user.name ? (
             <Menu.Item href="/auth/spotify" key={1}>
@@ -45,13 +42,25 @@ class NavBar extends Component {
                   className="navRight"
                   position="right"
                   name="welcomeUser"
+                  key={2}
                 >
                   Welcome {this.props.user.name}
+                </Menu.Item>,
+                <Menu.Item
+                  as={Link}
+                  to="/add-room"
+                  className="navRight"
+                  position="right"
+                  name="addRoom"
+                  key={2}
+                >
+                  Add Room
                 </Menu.Item>,
                 <Menu.Item
                   className="navRight"
                   name="logout"
                   href="/auth/spotify/logout"
+                  key={2}
                 >
                   Logout
                 </Menu.Item>

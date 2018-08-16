@@ -13,16 +13,18 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    // console.log('attempt was made');
+    //console.log('attempt was made');
     const room = await Room.findById(req.params.id, {include: {all: true}});
+    //console.log('ROOM: ', room);
     res.json(room);
   } catch (err) {
-    console.log('get rooms id');
+    console.log('err');
   }
 });
 
 router.put('/', async (req, res, next) => {
-  const newRoom = await Room.create(req.body.room);
+  // console.log('REQ>BODY', req.body);
+  const newRoom = await Room.create(req.body);
   res.status(201).json(newRoom);
 });
 

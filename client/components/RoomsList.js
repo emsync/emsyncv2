@@ -8,7 +8,7 @@ export const RoomsList = props => {
     <Grid container columns="three">
       {props.rooms.map(room => {
         return (
-          <Grid.Column>
+          <Grid.Column key={room.id}>
             <RoomSingleCard room={room} user={props.user} key={room.id} />
           </Grid.Column>
         );

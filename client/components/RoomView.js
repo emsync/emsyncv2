@@ -3,11 +3,15 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import ListenersList from './ListenersList';
 import {fetchRoom} from '../store/room';
-import {addToQueue} from '../store/queue';
+import {addToQueue, fetchQueues} from '../store/queue';
 import {Queue} from './Queue';
+<<<<<<< HEAD
 import socket from '../socket';
 import {List, Image} from 'semantic-ui-react';
 import {ListenerElement} from './ListenerElement';
+=======
+import SearchForm from './SearchForm';
+>>>>>>> master
 
 class RoomView extends Component {
   constructor(props) {
@@ -33,9 +37,11 @@ class RoomView extends Component {
 
   async componentDidMount() {
     await this.props.fetchRoom();
+    await this.props.fetchQueues(this.props.room.id);
   }
 
   handleClick() {
+    // console.log('clicked!');
     this.props.addToQueue({name: 'Baby', artist: 'Justin Biebser'});
   }
 
@@ -70,7 +76,6 @@ class RoomView extends Component {
                 roomId={this.props.match.params.id}
               />
             ) : null}
-            <button onClick={this.handleClick}>Add to queue!</button>
           </div>
           <div className="rightRoom">
             <div>
@@ -93,6 +98,9 @@ class RoomView extends Component {
               )}
             </div>
           </div>
+          <div>
+            <SearchForm />
+          </div>
         </div>
       </div>
     ) : (
@@ -102,11 +110,17 @@ class RoomView extends Component {
 }
 
 const mapDispatch = (dispatch, ownProps) => ({
+<<<<<<< HEAD
   fetchRoom: () => {
     dispatch(fetchRoom(ownProps.match.params.id));
   },
   addToQueue: song => dispatch(addToQueue(song, ownProps.match.params.id))
   //will probably have to find the queue using the room id
+=======
+  fetchRoom: () => dispatch(fetchRoom(ownProps.match.params.id)),
+  addToQueue: song => dispatch(addToQueue(song, ownProps.match.params.id)),
+  fetchQueues: roomId => dispatch(fetchQueues(roomId))
+>>>>>>> master
 });
 
 const mapState = (state, ownProps) => {
