@@ -3,8 +3,9 @@ const {Rooms, QueueItem} = require('../db/models');
 module.exports = router;
 
 router.put('/', async (req, res, next) => {
-  console.log('REQUEST USER: ', req.user);
-  console.log('REQUEST BODY: ', req.body);
+  // console.log('REQUEST USER: ', req.user);
+  // console.log('REQUEST BODY: ', req.body);
+  // console.log('Request body item: ', req.body.item);
   try {
     const newItem = await QueueItem.create(req.body.item);
     res.status(201).send(newItem);

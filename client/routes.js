@@ -9,6 +9,7 @@ import {Queue} from './components/Queue';
 import {me} from './store';
 import SearchForm from './components/SearchForm';
 
+import {RoomForm} from './components/RoomForm';
 /**
  * COMPONENT
  */

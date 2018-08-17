@@ -8,7 +8,7 @@ export const ListenerElement = props => {
     <div>
       <Image avatar src={props.listener.imageUrl} />
       <List.Content>
-        <List.Header as="a">{props.listener.name}</List.Header>
+        <List.Header as="a">{props.listener}</List.Header>
       </List.Content>
     </div>
   );

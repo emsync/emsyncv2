@@ -1,5 +1,5 @@
 import React from "react"
-import QueueElement from "./QueueElement"
+import {QueueElement} from "./QueueElement"
 import propTypes from 'prop-types';
 
 //all clickcable elements thrown by the spotify search before this.
@@ -7,7 +7,7 @@ import propTypes from 'prop-types';
 
 export const SearchResultList = (props) => {
     return <div>
-        {props.map(song => <QueueElement  spotifyLink= {props.spotifyLink} image ={props.ImageUrl} key={song.name}/>)}
+        {props.spotifyResult.map(song => <QueueElement spotifyLink={song.uri} imageUrl={song.album.images[song.album.images.length-1].url} key={song.id} trackName={song.name} artistName= {song.artists[0].name} comingFrom= {'search'}/>)}
         </div>
 }
 

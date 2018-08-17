@@ -1,11 +1,10 @@
 const Sequelize = require('sequelize');
-const db = require('../db')
+const db = require('../db');
 
 const Room = db.define('room', {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
-    unique: true,
     validate: {
       notEmpty: true
     }
@@ -22,7 +21,7 @@ const Room = db.define('room', {
     type: Sequelize.STRING,
     defaultValue:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR8tcZONgfXI3h4m9BuCi6hg3K84kk7TU_lI6YqgsaoJFhGztOZg'
-  },
-})
+  }
+});
 
 module.exports = Room;

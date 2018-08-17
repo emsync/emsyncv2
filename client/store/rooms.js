@@ -10,10 +10,10 @@ const addRoom = room => {
 };
 
 export const fetchRooms = () => async dispatch => {
-  console.log('ROOMS: ', rooms);
+  // console.log('ROOMS: ', rooms);
   const response = await axios.get('/api/rooms');
   const rooms = response.data;
-  console.log('ROOMS: ', rooms);
+  // console.log('ROOMS: ', rooms);
   dispatch(getRooms(rooms));
 };
 
@@ -24,6 +24,7 @@ export const deleteRoom = id => async dispatch => {
 };
 
 export const createRoom = room => async dispatch => {
+  // console.log('ROOM IN REDUCER IS', room);
   const response = await axios.put(`/api/rooms`, room);
   const newRoom = response.data;
   dispatch(addRoom(newRoom));

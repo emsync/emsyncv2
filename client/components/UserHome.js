@@ -15,7 +15,7 @@ export class UserHome extends Component {
       this.props.rooms.length && (
         <div>
           <h3 style-={{'text-align': 'center'}}>Welcome</h3>
-          <RoomsList rooms={this.props.rooms} />
+          <RoomsList rooms={this.props.rooms} user={this.props.user} />
         </div>
       )
     );
@@ -26,8 +26,9 @@ export class UserHome extends Component {
  * CONTAINER
  */
 const mapState = state => {
-  console.log('STORED STATE: ', state);
+  // console.log('STORED STATE: ', state);
   return {
+    user: state.user,
     email: state.user.email,
     rooms: state.rooms
   };
