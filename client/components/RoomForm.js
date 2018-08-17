@@ -21,14 +21,14 @@ const options = [
 // name, imageUrl, isPrivate toggle (what does this mean in terms of rendering, password?), description
 
 export class UnconnectedRoomForm extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       name: '',
       isPrivate: false,
       description: '',
       imageUrl: '',
-      createBy: this.props.user.id
+      createdBy: Number(this.props.user.id)
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
