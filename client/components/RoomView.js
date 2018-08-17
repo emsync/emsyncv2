@@ -9,6 +9,7 @@ import socket from '../socket';
 import {List, Image} from 'semantic-ui-react';
 import {ListenerElement} from './ListenerElement';
 import SearchForm from './SearchForm';
+import SpotifyWebPlayer from './SpotifyWebPlayer';
 
 class RoomView extends Component {
   constructor(props) {
@@ -73,28 +74,12 @@ class RoomView extends Component {
           </div>
           <div className="rightRoom">
             <ListenersList listeners={this.state.listeners} />
-
-            {/* <h2>Listeners:</h2> */}
-            {/* {this.state.listeners.length > 0 ? (
-                <List>
-                  <List.Item>
-                    {this.state.listeners.map(userListening => {
-                      return (
-                        <ListenerElement
-                          key={userListening.id}
-                          listener={userListening}
-                        />
-                      );
-                    })}
-                  </List.Item>
-                </List>
-              ) : (
-                <p>You're the only listener!</p>
-              )}
-            </div> */}
           </div>
           <div>
             <SearchForm />
+          </div>
+          <div>
+            <SpotifyWebPlayer />
           </div>
         </div>
       </div>
