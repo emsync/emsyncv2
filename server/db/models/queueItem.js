@@ -25,7 +25,11 @@ const QueueItem = db.define('queueItem', {
   },
   imageUrl: {
     type: Sequelize.STRING,
-    defaultValue: 'http://icons-for-free.com/free-icons/png/512/1871847.png'
+    defaultValue: '/img/queueItemDefault.png'
+  },
+  imagePlayerURL: {
+    type: Sequelize.STRING,
+    defaultValue: '/img/queueItemDefault.png'
   },
   trackName: {
     type: Sequelize.STRING,
