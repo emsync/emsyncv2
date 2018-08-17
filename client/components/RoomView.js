@@ -75,12 +75,7 @@ class RoomView extends Component {
         <br />
         <div className="room">
           <div className="leftRoom">
-<<<<<<< HEAD
             {this.props.room.queueItems ? (
-=======
-            <Player />
-            {this.props.room.queueItems.length ? (
->>>>>>> master
               <Queue
                 queue={this.props.room.queueItems}
                 roomId={this.props.match.params.id}
