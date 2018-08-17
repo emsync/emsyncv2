@@ -9,6 +9,7 @@ import socket from '../socket';
 import {List, Image} from 'semantic-ui-react';
 import {ListenerElement} from './ListenerElement';
 import SearchForm from './SearchForm';
+import {Player} from './index';
 
 class RoomView extends Component {
   constructor(props) {
@@ -64,6 +65,7 @@ class RoomView extends Component {
         <h1 style={{textAlign: 'center'}}>{this.props.room.name}</h1>
         <div className="room">
           <div className="leftRoom">
+            <Player />
             {this.props.room.queueItems.length ? (
               <Queue
                 queue={this.props.room.queueItems}
