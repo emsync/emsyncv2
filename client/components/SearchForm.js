@@ -45,32 +45,36 @@ class SearchForm extends Component {
         </Card.Content>
         <Card.Content>
           <Feed>
-            <Feed.Event>
-              <Feed.Content>
-                <div className="ui icon input">
-                  <input
-                    type="text"
-                    placeholder="track/artist..."
-                    value={this.state.searchParams}
-                    onChange={this.handleChange}
-                    onKeyDown={this.keyPress}
-                  />
-                  <i
-                    className="inverted circular search link icon"
-                    onClick={this.handleClick}
-                  />
-                </div>
-              </Feed.Content>
-            </Feed.Event>
-            <Feed.Event>
-              <Feed.Content>
-                {this.state.showResults ? (
-                  <SearchResultList spotifyResult={this.state.music} />
-                ) : (
-                  <p>Search track/artist</p>
-                )}
-              </Feed.Content>
-            </Feed.Event>
+            <Card.Content>
+              <Feed.Event>
+                <Feed.Content>
+                  <div className="ui icon input">
+                    <input
+                      type="text"
+                      placeholder="track/artist..."
+                      value={this.state.searchParams}
+                      onChange={this.handleChange}
+                      onKeyDown={this.keyPress}
+                    />
+                    <i
+                      className="inverted circular search link icon"
+                      onClick={this.handleClick}
+                    />
+                  </div>
+                </Feed.Content>
+              </Feed.Event>
+            </Card.Content>
+            {this.state.showResults ? (
+              <Card.Content>
+                <Feed.Event>
+                  <Feed.Content>
+                    <SearchResultList spotifyResult={this.state.music} />
+                  </Feed.Content>
+                </Feed.Event>
+              </Card.Content>
+            ) : (
+              <p>Search track/artist</p>
+            )}
           </Feed>
         </Card.Content>
       </Card>

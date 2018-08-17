@@ -16,8 +16,12 @@ export class UserHome extends Component {
     return (
       this.props.rooms.length && (
         <div>
-          <Header as="h1" textAlign="center">
-            Welcome
+          <Header
+            as="h1"
+            textAlign="center"
+            style={{marginTop: 30, fontSize: 45}}
+          >
+            Active Rooms
           </Header>
           <RoomsList rooms={this.props.rooms} user={this.props.user} />
         </div>

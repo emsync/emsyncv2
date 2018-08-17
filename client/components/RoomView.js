@@ -62,7 +62,11 @@ class RoomView extends Component {
     return this.props.room.name ? (
       <div>
         <div>
-          <Header as="h1" textAlign="center">
+          <Header
+            as="h1"
+            textAlign="center"
+            style={{marginTop: 30, fontSize: 45}}
+          >
             <Image circular src={this.props.room.imageUrl} size="small" />
             {this.props.room.name}
           </Header>
@@ -70,7 +74,7 @@ class RoomView extends Component {
         <br />
         <div className="room">
           <div className="leftRoom">
-            {this.props.room.queueItems.length ? (
+            {this.props.room.queueItems ? (
               <Queue
                 queue={this.props.room.queueItems}
                 roomId={this.props.match.params.id}

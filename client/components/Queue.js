@@ -22,35 +22,33 @@ class UnconnectedQueue extends Component {
     });
     return (
       <div>
-        {this.props.queue.length ? (
-          <Card>
-            <Card.Content>
-              <Card.Header>Queue</Card.Header>
-            </Card.Content>
-            <Card.Content>
-              <Feed>
-                <Feed.Event>
-                  <Feed.Content>
-                    {this.props.queue.map(item => {
-                      return (
+        <Card>
+          <Card.Content>
+            <Card.Header>Queue</Card.Header>
+          </Card.Content>
+          <Feed>
+            {this.props.queue.length ? (
+              this.props.queue.map(item => {
+                return (
+                  <Card.Content>
+                    <Feed.Event>
+                      <Feed.Content>
                         <QueueElement
                           key={item.id}
                           sortFunc={this.sortArray}
                           item={item}
                           roomId={this.props.roomId}
                         />
-                      );
-                    })}
-                  </Feed.Content>
-                </Feed.Event>
-              </Feed>
-            </Card.Content>
-          </Card>
-        ) : (
-          <div>
-            <p>Queue is empty!</p>
-          </div>
-        )}
+                      </Feed.Content>
+                    </Feed.Event>
+                  </Card.Content>
+                );
+              })
+            ) : (
+              <p>Queue is empty!</p>
+            )}
+          </Feed>
+        </Card>
       </div>
     );
   }
