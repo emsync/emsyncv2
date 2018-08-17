@@ -10,13 +10,14 @@ class SpotifyWebPlayer extends Component {
       deviceId: '',
       loggedIn: false,
       error: '',
-      trackName: 'Track Name',
-      artistName: 'Artist Name',
-      albumName: 'albumName',
+      trackName: '',
+      artistName: '',
+      albumName: '',
       playing: false,
       position: 0,
       duration: 0,
-      images: []
+      images: [],
+      volume: 1
     };
     this.checkInterval = null;
   }
@@ -106,12 +107,39 @@ class SpotifyWebPlayer extends Component {
     });
 
     this.player.on('ready', data => {
-      let {deviceId} = data;
-      console.log('Playing Music');
+      let {deviceId, token} = data;
+      fetch('https://api.spotify.com/v1/me/player', {
+        method: 'PUT',
+        headers: {
+          authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({device_ids: [deviceId], play: true})
+      });
       this.setState({deviceId});
     });
+    console.log('Playing Music');
+
     this.player.on('player_state_changed', state => this.onStateChange(state));
   }
+
+  // Bound Functions
+  onPausePlayClick = () => {
+    // this.player.togglePlay();
+
+    this.player.setVolume(this.state.volume);
+    if (this.state.volume === 1) {
+      this.setState({volume: 0});
+    } else {
+      this.setState({volume: 1});
+    }
+  };
+
+  transferPlayback = () => {
+    const deviceId = this.state.deviceId;
+    const token = this.state.token;
+    fetch('https://');
+  };
 
   render() {
     const {
@@ -146,9 +174,15 @@ class SpotifyWebPlayer extends Component {
                 src={imageUrl}
                 onError={i => (i.target.style.display = 'none')}
               />
-              <p>Artist: {artistName}</p>
-              <p>Track: {trackName}</p>
-              <p>Album: {albumName}</p>
+              <p>Artist: {artistName !== '' ? artistName : 'n/a'}</p>
+              <p>Track: {trackName !== '' ? trackName : 'n/a'}</p>
+              <p>Album: {albumName !== '' ? albumName : 'n/a'}</p>
+              <p>Playing: {playing ? 'Yes' : 'No'}</p>
+              <p>
+                <button onClick={this.onPausePlayClick}>
+                  {playing ? 'Pause' : 'Play'}
+                </button>
+              </p>
             </div>
           ) : (
             <div>
