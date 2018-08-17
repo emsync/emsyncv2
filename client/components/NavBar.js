@@ -3,12 +3,14 @@ import {Menu} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
 import {me} from '../store';
 import {connect} from 'react-redux';
+import socket from '../socket';
 
 class NavBar extends Component {
   constructor() {
     super();
     this.state = {};
   }
+
   handleClick = () => {
     this.setState({loggedIn: !this.state.loggedIn});
   };
@@ -18,7 +20,8 @@ class NavBar extends Component {
   }
 
   render() {
-    console.log('USER: ', this.props.user.name);
+    // console.log('USER: ', this.props.user.name);
+    let key = 0;
     return (
       //if logged in show username
       <div>
@@ -27,12 +30,10 @@ class NavBar extends Component {
             <img src="/img/emsync-logo.jpeg" alt="emSync Logo" />
           </Menu.Item>
           {!this.props.user.name ? (
-            <Menu.Item href="/auth/spotify" key={1}>
+            <Menu.Item href="/auth/spotify" key={key++}>
               Login
             </Menu.Item>
           ) : null}
-
-          <Menu.Item key={2}>Test</Menu.Item>
 
           {/* If user is logged in */}
           {this.props.user.name
@@ -41,6 +42,7 @@ class NavBar extends Component {
                   className="navRight"
                   position="right"
                   name="welcomeUser"
+                  key={key++}
                 >
                   Welcome {this.props.user.name}
                 </Menu.Item>,
@@ -50,6 +52,7 @@ class NavBar extends Component {
                   className="navRight"
                   position="right"
                   name="addRoom"
+                  key={key++}
                 >
                   Add Room
                 </Menu.Item>,
@@ -57,6 +60,7 @@ class NavBar extends Component {
                   className="navRight"
                   name="logout"
                   href="/auth/spotify/logout"
+                  key={key++}
                 >
                   Logout
                 </Menu.Item>

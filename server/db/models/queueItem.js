@@ -36,10 +36,12 @@ const QueueItem = db.define('queueItem', {
     allowNull: false
   },
   upVotes: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   },
   downVotes: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   }
 });
 
