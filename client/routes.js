@@ -29,9 +29,7 @@ class Routes extends Component {
         <Route path="/signup" component={Signup} />
         <Route path="/search" component={SearchForm} />
         <Route exact path="/" component={UserHome} />
-        <Route exact path="/add-room" component={RoomForm} />
         <Route exact path="/me" component={UserProfile} />
-
         {/* Displays our Login component as a fallback */}
       </Switch>
     );

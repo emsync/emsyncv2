@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {RoomsList} from './RoomsList';
 import {fetchRooms} from '../store/rooms';
-import {Header} from 'semantic-ui-react';
-
 /**
  * COMPONENT
  */
@@ -16,13 +14,7 @@ export class UserHome extends Component {
     return (
       this.props.rooms.length && (
         <div>
-          <Header
-            as="h1"
-            textAlign="center"
-            style={{marginTop: 30, fontSize: 45}}
-          >
-            Active Rooms
-          </Header>
+          <h3 style-={{'text-align': 'center'}}>Welcome</h3>
           <RoomsList rooms={this.props.rooms} user={this.props.user} />
         </div>
       )

@@ -33,6 +33,7 @@ class UnconnectedUserProfile extends Component {
           <Header as="h2" textAlign="center">
             Your rooms:
           </Header>
+
           <RoomsList rooms={this.props.rooms} user={this.props.user} />
         </div>
       )
