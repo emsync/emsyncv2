@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import ReactDOM from 'react-dom';
 
 class SpotifyWebPlayer extends Component {
   constructor() {
@@ -23,10 +22,8 @@ class SpotifyWebPlayer extends Component {
   }
 
   componentDidMount() {
-    console.log('component mounted');
     this.loadSpotify();
     this.setState({token: this.props.user.accessToken, loggedIn: true});
-    console.log('able to print!');
   }
 
   loadSpotify = () => {
@@ -106,27 +103,18 @@ class SpotifyWebPlayer extends Component {
       console.log(state);
     });
 
-    this.player.on('ready', data => {
-      let {deviceId, token} = data;
-      fetch('https://api.spotify.com/v1/me/player', {
-        method: 'PUT',
-        headers: {
-          authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({device_ids: [deviceId], play: true})
-      });
-      this.setState({deviceId});
+    this.player.on('ready', async data => {
+      let {device_id, token} = data;
+      await this.setState({deviceId: device_id});
+      this.transferPlayback();
+      console.log('Playing Music');
     });
-    console.log('Playing Music');
 
     this.player.on('player_state_changed', state => this.onStateChange(state));
   }
 
   // Bound Functions
   onPausePlayClick = () => {
-    // this.player.togglePlay();
-
     this.player.setVolume(this.state.volume);
     if (this.state.volume === 1) {
       this.setState({volume: 0});
@@ -135,10 +123,38 @@ class SpotifyWebPlayer extends Component {
     }
   };
 
+  playTrack = async () => {
+    // console.log('authorization is: ', auth);
+    let auth = await this.bearerToken();
+    // console.log('request header', headers);
+    fetch('https://api.spotify.com/v1/me/player/play', {
+      method: 'PUT',
+      headers: auth,
+      body: JSON.stringify({uris: ['spotify:track:7o7i2MAVOKM0KJ6QXJhZFG']})
+    });
+  };
+
   transferPlayback = () => {
     const deviceId = this.state.deviceId;
     const token = this.state.token;
-    fetch('https://');
+    fetch('https://api.spotify.com/v1/me/player', {
+      method: 'PUT',
+      headers: {
+        authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({device_ids: [deviceId], play: true})
+    });
+  };
+
+  bearerToken = () => {
+    if (this.props.user) {
+      let headers = {};
+      headers.authorization = `Bearer ${this.state.token}`;
+      headers['Content-Type'] = 'application/json';
+      console.log('have props?', headers);
+      return headers;
+    }
   };
 
   render() {
@@ -182,6 +198,7 @@ class SpotifyWebPlayer extends Component {
                 <button onClick={this.onPausePlayClick}>
                   {playing ? 'Pause' : 'Play'}
                 </button>
+                <button onClick={this.playTrack}>Play Another One</button>
               </p>
             </div>
           ) : (

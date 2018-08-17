@@ -9,8 +9,8 @@ import {Header} from 'semantic-ui-react';
  * COMPONENT
  */
 export class UserHome extends Component {
-  componentDidMount() {
-    this.props.fetchRooms();
+  async componentDidMount() {
+    await this.props.fetchRooms();
   }
   render() {
     return (
