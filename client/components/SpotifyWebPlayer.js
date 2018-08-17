@@ -15,7 +15,8 @@ class SpotifyWebPlayer extends Component {
       albumName: 'albumName',
       playing: false,
       position: 0,
-      duration: 0
+      duration: 0,
+      images: []
     };
     this.checkInterval = null;
   }
@@ -60,9 +61,6 @@ class SpotifyWebPlayer extends Component {
   onStateChange = state => {
     console.log('new state!', state);
     if (state !== null) {
-      // const currentTrack = state.current_track;
-      // const position = state.position
-      // const duration = state.duration
       const {
         current_track: currentTrack,
         position,
@@ -71,6 +69,7 @@ class SpotifyWebPlayer extends Component {
       console.log('new track!', currentTrack);
       const trackName = currentTrack.name;
       const albumName = currentTrack.album.name;
+      const images = currentTrack.album.images;
       const artistName = currentTrack.artists
         .map(artist => artist.name)
         .join(',');
@@ -81,7 +80,8 @@ class SpotifyWebPlayer extends Component {
         trackName,
         albumName,
         artistName,
-        playing
+        playing,
+        images
       });
     }
   };
@@ -123,8 +123,15 @@ class SpotifyWebPlayer extends Component {
       error,
       position,
       duration,
-      playing
+      playing,
+      images
     } = this.state;
+
+    // Set image URL if there is one
+    let imageUrl = undefined;
+    if (images[0]) {
+      imageUrl = images[0].url;
+    }
 
     return (
       <div className="spotify-player">
@@ -135,6 +142,10 @@ class SpotifyWebPlayer extends Component {
           {error && <p>Error: {error}</p>}
           {loggedIn ? (
             <div>
+              <img
+                src={imageUrl}
+                onError={i => (i.target.style.display = 'none')}
+              />
               <p>Artist: {artistName}</p>
               <p>Track: {trackName}</p>
               <p>Album: {albumName}</p>
