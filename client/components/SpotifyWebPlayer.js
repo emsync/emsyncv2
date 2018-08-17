@@ -36,24 +36,53 @@ class SpotifyWebPlayer extends Component {
   };
 
   checkForPlayer = () => {
-    console.log('checking', this.state.token);
+    // console.log('checking', this.state.token);
     if (this.state.token !== '') {
-      console.log('hi there', window);
+      // console.log('hi there', window);
       const {token} = this.state;
       // clearInterval(this.checkInterval);
       if (window.Spotify !== null) {
         clearInterval(this.checkInterval);
-        console.log('interval? ', this.checkInterval);
+        // console.log('interval? ', this.checkInterval);
         this.player = new window.Spotify.Player({
           name: 'emSync Spotify Player',
           getOAuthToken: callBack => {
             callBack(token);
           }
         });
-        console.log('player!', this.player);
+        // console.log('player!', this.player);
         this.eventHandlers();
         this.player.connect();
       }
+    }
+  };
+
+  onStateChange = state => {
+    console.log('new state!', state);
+    if (state !== null) {
+      // const currentTrack = state.current_track;
+      // const position = state.position
+      // const duration = state.duration
+      const {
+        current_track: currentTrack,
+        position,
+        duration
+      } = state.track_window;
+      console.log('new track!', currentTrack);
+      const trackName = currentTrack.name;
+      const albumName = currentTrack.album.name;
+      const artistName = currentTrack.artists
+        .map(artist => artist.name)
+        .join(',');
+      const playing = !state.paused;
+      this.setState({
+        position,
+        duration,
+        trackName,
+        albumName,
+        artistName,
+        playing
+      });
     }
   };
 
@@ -81,6 +110,7 @@ class SpotifyWebPlayer extends Component {
       console.log('Playing Music');
       this.setState({deviceId});
     });
+    this.player.on('player_state_changed', state => this.onStateChange(state));
   }
 
   render() {
