@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Icon} from 'semantic-ui-react';
+import {Icon, Feed, Card} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 import {SearchResultList} from './SearchResultList';
 import {goSearch} from '../store/searchReducer';
@@ -39,26 +39,41 @@ class SearchForm extends Component {
   };
   render() {
     return (
-      <div>
-        <div className="ui icon input">
-          <input
-            type="text"
-            placeholder="track/artist..."
-            value={this.state.searchParams}
-            onChange={this.handleChange}
-            onKeyDown={this.keyPress}
-          />
-          <i
-            className="inverted circular search link icon"
-            onClick={this.handleClick}
-          />
-        </div>
-        {this.state.showResults ? (
-          <SearchResultList spotifyResult={this.state.music} />
-        ) : (
-          <p>Search track/artist</p>
-        )}
-      </div>
+      <Card>
+        <Card.Content>
+          <Card.Header>Search</Card.Header>
+        </Card.Content>
+        <Card.Content>
+          <Feed>
+            <Feed.Event>
+              <Feed.Content>
+                <div className="ui icon input">
+                  <input
+                    type="text"
+                    placeholder="track/artist..."
+                    value={this.state.searchParams}
+                    onChange={this.handleChange}
+                    onKeyDown={this.keyPress}
+                  />
+                  <i
+                    className="inverted circular search link icon"
+                    onClick={this.handleClick}
+                  />
+                </div>
+              </Feed.Content>
+            </Feed.Event>
+            <Feed.Event>
+              <Feed.Content>
+                {this.state.showResults ? (
+                  <SearchResultList spotifyResult={this.state.music} />
+                ) : (
+                  <p>Search track/artist</p>
+                )}
+              </Feed.Content>
+            </Feed.Event>
+          </Feed>
+        </Card.Content>
+      </Card>
     );
   }
 }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {List, Image} from 'semantic-ui-react';
+import {List, Card, Feed, Image} from 'semantic-ui-react';
 import {QueueElement} from './QueueElement';
 import {fetchQueues} from '../store/queue';
 
@@ -22,22 +22,30 @@ class UnconnectedQueue extends Component {
     });
     return (
       <div>
-        <h2>Queue:</h2>
         {this.props.queue.length ? (
-          <List>
-            <List.Item>
-              {this.props.queue.map(item => {
-                return (
-                  <QueueElement
-                    key={item.id}
-                    sortFunc={this.sortArray}
-                    item={item}
-                    roomId={this.props.roomId}
-                  />
-                );
-              })}
-            </List.Item>
-          </List>
+          <Card>
+            <Card.Content>
+              <Card.Header>Queue</Card.Header>
+            </Card.Content>
+            <Card.Content>
+              <Feed>
+                <Feed.Event>
+                  <Feed.Content>
+                    {this.props.queue.map(item => {
+                      return (
+                        <QueueElement
+                          key={item.id}
+                          sortFunc={this.sortArray}
+                          item={item}
+                          roomId={this.props.roomId}
+                        />
+                      );
+                    })}
+                  </Feed.Content>
+                </Feed.Event>
+              </Feed>
+            </Card.Content>
+          </Card>
         ) : (
           <div>
             <p>Queue is empty!</p>

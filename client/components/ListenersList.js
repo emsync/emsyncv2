@@ -1,19 +1,27 @@
 import React from 'react';
-import {List, Image} from 'semantic-ui-react';
+import {List, Image, Card, Feed} from 'semantic-ui-react';
 import {ListenerElement} from './ListenerElement';
 
 //props that should be passed here should be the current rooms listeners array
 const ListenersList = props => (
   <div>
-    <h2>Listeners:</h2>
     {props.listeners.length ? (
-      <List>
-        <List.Item>
-          {props.listeners.map(listener => {
-            return <ListenerElement key={listener} listener={listener} />;
-          })}
-        </List.Item>
-      </List>
+      <Card>
+        <Card.Content>
+          <Card.Header>Listeners</Card.Header>
+        </Card.Content>
+        <Card.Content>
+          <Feed>
+            <Feed.Event>
+              <Feed.Content>
+                {props.listeners.map(listener => {
+                  return <ListenerElement key={listener} listener={listener} />;
+                })}
+              </Feed.Content>
+            </Feed.Event>
+          </Feed>
+        </Card.Content>
+      </Card>
     ) : (
       <p>You're the only listener!</p>
     )}
