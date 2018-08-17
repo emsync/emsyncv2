@@ -16,6 +16,8 @@ class UnconnectedQueueElement extends Component {
       disabled: false,
       addedBy: this.props.comingFrom ? 'search' : this.props.item.userId,
       imageUrl: this.props.imageUrl || this.props.item.imageUrl,
+      imagePlayerURL:
+        this.props.imagePlayerURL || this.props.item.imagePlayerURL,
       spotifyLink: this.props.spotifyLink || this.props.item.spotifyLink,
       trackName:
         this.props.trackName || this.props.item.trackName || 'Hallelujah',
@@ -34,7 +36,10 @@ class UnconnectedQueueElement extends Component {
   // }
 
   handleClick = () => {
-    console.log('In QueueElement handleClick: ', this.props.room.id);
+    console.log(
+      'In QueueElement this.state.imagePlayerURL: ',
+      this.state.imagePlayerURL
+    );
     this.props.addQueue({
       // votes: this.state.likes - this.state.disklikes,
       addedBy: this.props.user.id,
@@ -42,6 +47,7 @@ class UnconnectedQueueElement extends Component {
       currentPlayingTime: 0,
       isPlaying: false,
       imageUrl: this.state.imageUrl,
+      imagePlayerURL: this.state.imagePlayerURL,
       roomId: this.props.room.id,
       trackName: this.state.trackName,
       artistName: this.state.artistName

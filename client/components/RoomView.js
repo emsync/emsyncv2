@@ -6,6 +6,7 @@ import {fetchRoom} from '../store/room';
 import {addToQueue, fetchQueues} from '../store/queue';
 import {Queue} from './Queue';
 import SearchForm from './SearchForm';
+import {Player} from './index';
 
 class RoomView extends Component {
   constructor() {
@@ -29,6 +30,7 @@ class RoomView extends Component {
         <h1 style={{textAlign: 'center'}}>{this.props.room.name}</h1>
         <div className="room">
           <div className="leftRoom">
+            <Player />
             {this.props.room.queueItems.length ? (
               <Queue
                 queue={this.props.room.queueItems}
