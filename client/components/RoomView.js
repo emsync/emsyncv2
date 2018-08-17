@@ -5,18 +5,39 @@ import ListenersList from './ListenersList';
 import {fetchRoom} from '../store/room';
 import {addToQueue, fetchQueues} from '../store/queue';
 import {Queue} from './Queue';
+import socket from '../socket';
+import {List, Image} from 'semantic-ui-react';
+import {ListenerElement} from './ListenerElement';
 import SearchForm from './SearchForm';
 import {Player} from './index';
 
 class RoomView extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.handleClick = this.handleClick.bind(this);
+    this.state = {
+      listeners: []
+    };
+    socket.on('update-listeners', (room, listenerList) => {
+      // console.log('we have an update', room, this.props.room.id);
+      if (room == this.props.room.id) {
+        const userNames = [];
+        for (let i = 0; i < listenerList.length; i++) {
+          userNames.push(listenerList[i].name);
+        }
+        // console.log('we have a match!', listenerList);
+        this.setState({listeners: userNames});
+      }
+    });
   }
 
   async componentDidMount() {
     await this.props.fetchRoom();
     await this.props.fetchQueues(this.props.room.id);
+  }
+
+  componentWillUnmount() {
+    socket.emit('left', this.props.user, this.props.match.params.id);
   }
 
   handleClick() {
@@ -25,6 +46,20 @@ class RoomView extends Component {
   }
 
   render() {
+    let present = false;
+
+    if (this.props.user) {
+      for (let i = 0; i < this.state.listeners.length; i++) {
+        if (this.state.listeners[i] === this.props.user.name) {
+          present = true;
+        }
+      }
+    }
+
+    if (this.props.user.name && !present) {
+      // console.log('emitting joined command');
+      socket.emit('joined', this.props.user, this.props.match.params.id);
+    }
     return this.props.room.name ? (
       <div>
         <h1 style={{textAlign: 'center'}}>{this.props.room.name}</h1>
@@ -39,7 +74,26 @@ class RoomView extends Component {
             ) : null}
           </div>
           <div className="rightRoom">
-            <ListenersList listeners={this.props.room.users} />
+            <ListenersList listeners={this.state.listeners} />
+
+            {/* <h2>Listeners:</h2> */}
+            {/* {this.state.listeners.length > 0 ? (
+                <List>
+                  <List.Item>
+                    {this.state.listeners.map(userListening => {
+                      return (
+                        <ListenerElement
+                          key={userListening.id}
+                          listener={userListening}
+                        />
+                      );
+                    })}
+                  </List.Item>
+                </List>
+              ) : (
+                <p>You're the only listener!</p>
+              )}
+            </div> */}
           </div>
           <div>
             <SearchForm />
@@ -60,7 +114,8 @@ const mapDispatch = (dispatch, ownProps) => ({
 
 const mapState = (state, ownProps) => {
   return {
-    room: state.room
+    room: state.room,
+    user: state.user
   };
 };
 

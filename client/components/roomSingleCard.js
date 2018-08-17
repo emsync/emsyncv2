@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Card, Icon, Button} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
+import socket from '../socket';
+
 const Extra = props => {
   return (
     <div>
@@ -20,7 +22,7 @@ const RoomSingleCard = props => {
     <Card
     //   image={props.room.imageUrl}
     //   header={props.room.name}
-    //   meta="Room"
+    //   meta="Room"e
     //   description={props.room.description}
     //   extra={<Extra listeners={props.room.users.length} id={props.room.id} />}
     >
@@ -35,7 +37,13 @@ const RoomSingleCard = props => {
         <Card.Meta>"Room"</Card.Meta>
         <Card.Description>{props.room.description}</Card.Description>
         <Card.Content extra>
-          {<Extra listeners={props.room.users.length} id={props.room.id} />}
+          {
+            <Extra
+              listeners={props.room.users.length}
+              id={props.room.id}
+              user={props.user}
+            />
+          }
         </Card.Content>
       </Card.Content>
     </Card>
