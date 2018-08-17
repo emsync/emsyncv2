@@ -8,7 +8,7 @@ import {QueueElement} from './components/QueueElement';
 import {Queue} from './components/Queue';
 import {me} from './store';
 import SearchForm from './components/SearchForm';
-
+import {UserProfile} from './components/UserProfile';
 import {RoomForm} from './components/RoomForm';
 /**
  * COMPONENT
@@ -30,6 +30,7 @@ class Routes extends Component {
         <Route path="/search" component={SearchForm} />
         <Route exact path="/" component={UserHome} />
         <Route exact path="/add-room" component={RoomForm} />
+        <Route exact path="/me" component={UserProfile} />
 
         {/* Displays our Login component as a fallback */}
       </Switch>
