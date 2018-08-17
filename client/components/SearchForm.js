@@ -38,6 +38,7 @@ class SearchForm extends Component {
     this.setState({searchParams: e.target.value});
   };
   render() {
+    // console.log('SearchForm music is: ', this.state.music);
     return (
       <Card>
         <Card.Content>

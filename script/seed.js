@@ -66,19 +66,22 @@ const newRooms = [
   {
     name: 'Funky Room',
     description: 'Best funky room on earth!',
-    imageUrl: 'https://static.thenounproject.com/png/87940-200.png'
+    imageUrl: 'https://static.thenounproject.com/png/87940-200.png',
+    createdBy: 8
   },
   {
     name: 'No So Funky Room',
     description: 'Meh funky room on earth!',
     imageUrl:
-      'https://vignette.wikia.nocookie.net/nintendo/images/3/3f/Funky_Kong_portal_icon.png/revision/latest?cb=20120822060521&path-prefix=en'
+      'https://vignette.wikia.nocookie.net/nintendo/images/3/3f/Funky_Kong_portal_icon.png/revision/latest?cb=20120822060521&path-prefix=en',
+    createdBy: 8
   },
   {
     name: 'Rap Room',
     description: 'RAP-it up!!',
     imageUrl:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhmqfO9vZ9bsnow6PfUdDdPLEeddLYF9bPmTHvcA5dorZ-fnYM'
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhmqfO9vZ9bsnow6PfUdDdPLEeddLYF9bPmTHvcA5dorZ-fnYM',
+    createdBy: 8
   },
   {
     name: 'Pop Room',
