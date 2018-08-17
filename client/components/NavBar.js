@@ -38,18 +38,12 @@ class NavBar extends Component {
           {/* If user is logged in */}
           {this.props.user.name
             ? [
-                <Menu.Item
-                  className="navRight"
-                  position="right"
-                  name="welcomeUser"
-                  key={key++}
-                >
+                <Menu.Item position="right" name="welcomeUser" key={key++}>
                   Welcome {this.props.user.name}
                 </Menu.Item>,
                 <Menu.Item
                   as={Link}
                   to="/add-room"
-                  className="navRight"
                   position="right"
                   name="addRoom"
                   key={key++}
@@ -57,7 +51,6 @@ class NavBar extends Component {
                   Add Room
                 </Menu.Item>,
                 <Menu.Item
-                  className="navRight"
                   name="logout"
                   href="/auth/spotify/logout"
                   key={key++}

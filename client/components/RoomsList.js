@@ -1,18 +1,23 @@
 import React from 'react';
-import {Grid, Image} from 'semantic-ui-react';
+import {Grid, Image, Card} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 import RoomSingleCard from './roomSingleCard';
 
 export const RoomsList = props => {
   return (
-    <Grid container columns="three">
+    <Card.Group
+      // doubling="true"
+      itemsPerRow="4"
+      // stackable="true"
+      // centered="true"
+    >
       {props.rooms.map(room => {
         return (
-          <Grid.Column key={room.id}>
-            <RoomSingleCard room={room} user={props.user} key={room.id} />
-          </Grid.Column>
+          // <Grid.Column key={room.id}>
+          <RoomSingleCard room={room} user={props.user} key={room.id} />
+          // </Grid.Column>
         );
       })}
-    </Grid>
+    </Card.Group>
   );
 };
