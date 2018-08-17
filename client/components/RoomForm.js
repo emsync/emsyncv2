@@ -26,7 +26,8 @@ export class UnconnectedRoomForm extends Component {
       name: '',
       isPrivate: false,
       description: '',
-      imageUrl: ''
+      imageUrl: '',
+      createBy: this.props.user.id
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -114,8 +115,11 @@ export class UnconnectedRoomForm extends Component {
   }
 }
 
+const mapState = state => ({
+  user: state.user
+});
 const mapDispatch = dispatch => ({
   createRoom: room => dispatch(createRoom(room))
 });
 
-export const RoomForm = connect(null, mapDispatch)(UnconnectedRoomForm);
+export const RoomForm = connect(mapState, mapDispatch)(UnconnectedRoomForm);
