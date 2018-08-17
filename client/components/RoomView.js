@@ -6,7 +6,7 @@ import {fetchRoom} from '../store/room';
 import {addToQueue, fetchQueues} from '../store/queue';
 import {Queue} from './Queue';
 import socket from '../socket';
-import {List, Image, Header} from 'semantic-ui-react';
+import {List, Image} from 'semantic-ui-react';
 import {ListenerElement} from './ListenerElement';
 import SearchForm from './SearchForm';
 import {Player} from './index';
@@ -62,20 +62,11 @@ class RoomView extends Component {
     }
     return this.props.room.name ? (
       <div>
-        <div>
-          <Header
-            as="h1"
-            textAlign="center"
-            style={{marginTop: 30, fontSize: 45}}
-          >
-            <Image circular src={this.props.room.imageUrl} size="small" />
-            {this.props.room.name}
-          </Header>
-        </div>
-        <br />
+        <h1 style={{textAlign: 'center'}}>{this.props.room.name}</h1>
         <div className="room">
           <div className="leftRoom">
-            {this.props.room.queueItems ? (
+            <Player />
+            {this.props.room.queueItems.length ? (
               <Queue
                 queue={this.props.room.queueItems}
                 roomId={this.props.match.params.id}

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import CardContent, {List, Image} from 'semantic-ui-react';
-import {Button, Icon, Label, Card} from 'semantic-ui-react';
+import {List, Image} from 'semantic-ui-react';
+import {Button, Icon, Label} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 import {fetchUser} from '../store/user';
 import {updateVote, addToQueue} from '../store/queue';
@@ -87,19 +87,13 @@ class UnconnectedQueueElement extends Component {
     // console.log('In QueueElement: ', this.props.room.id);
     return (
       <div>
-        <Card>
-          <Card.Content>
-            <Image
-              floated="left"
-              circular
-              size="mini"
-              src={this.state.imageUrl}
-            />
-            <Card.Header>{this.state.trackName}</Card.Header>
-            <Card.Description>{this.state.artistName}</Card.Description>
-          </Card.Content>
+        <List.Content>
+          <Image avatar src={this.state.imageUrl} />
+          <List.Header>{this.state.artistName}</List.Header>
+          <List.Header as="a">{this.state.trackName}</List.Header>
+
           {this.state.addedBy !== 'search' ? (
-            <Card.Content extra>
+            <div>
               <Button
                 as="div"
                 disabled={this.state.disabled ? true : false}
@@ -124,15 +118,13 @@ class UnconnectedQueueElement extends Component {
                   {this.state.dislikes}
                 </Label>
               </Button>
-            </Card.Content>
+            </div>
           ) : (
-            <Card.Content extra>
-              <Button onClick={this.handleClick}>
-                <Icon name="add circle" />
-              </Button>
-            </Card.Content>
+            <Button onClick={this.handleClick}>
+              <Icon name="add circle" />
+            </Button>
           )}
-        </Card>
+        </List.Content>
       </div>
     );
   }

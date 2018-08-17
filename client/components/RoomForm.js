@@ -7,8 +7,7 @@ import {
   Input,
   Radio,
   Select,
-  TextArea,
-  Segment
+  TextArea
 } from 'semantic-ui-react';
 import {createRoom} from '../store/rooms';
 
@@ -46,84 +45,72 @@ export class UnconnectedRoomForm extends Component {
     // console.log(this.state);
     const {value} = this.state;
     return (
-      <Segment.Group>
-        <Segment>Create a room!</Segment>
-        <Segment.Group horizontal={true}>
-          <Form>
-            <Segment>
-              <Form.Group widths="equal">
-                <Form.Field
-                  control={Input}
-                  name="name"
-                  label="Name"
-                  placeholder="Name"
-                  onChange={this.handleChange}
-                />
-                <Form.Field
-                  control={TextArea}
-                  label="Description"
-                  name="description"
-                  placeholder="Description"
-                  onChange={this.handleChange}
-                />
-
-                <Form.Field
-                  control={Input}
-                  label="Image Url"
-                  name="imageUrl"
-                  placeholder="Image Url"
-                  onChange={this.handleChange}
-                />
-              </Form.Group>
-            </Segment>
-            <Segment>
-              <Form.Group inline>
-                <label>Private Room</label>
-                <Form.Field
-                  control={Radio}
-                  label="Yes"
-                  name="private"
-                  value="Yes"
-                  checked={value === 'Yes'}
-                  onChange={this.handleChange}
-                />
-                <Form.Field
-                  control={Radio}
-                  label="No"
-                  name="private"
-                  value="No"
-                  checked={value === 'No'}
-                  onChange={this.handleChange}
-                />
-              </Form.Group>
-            </Segment>
-            <Segment>
-              <Form.Group inline>
-                <label>Queue sorted by:</label>
-                <Form.Field
-                  control={Radio}
-                  label="Time"
-                  name="sort"
-                  value="time"
-                  checked={value === 'time'}
-                  onChange={this.handleChange}
-                />
-                <Form.Field
-                  control={Radio}
-                  label="Votes"
-                  name="sort"
-                  value="votes"
-                  checked={value === 'votes'}
-                  onChange={this.handleChange}
-                />
-              </Form.Group>
-            </Segment>
-            <Form.Field onClick={this.handleSubmit} control={Button}>
-              Submit
-            </Form.Field>
-          </Form>
-        </Segment.Group>
-      </Segment.Group>
+      <Form>
+        <Form.Group widths="equal">
+          <Form.Field
+            control={Input}
+            name="name"
+            label="Name"
+            placeholder="Name"
+            onChange={this.handleChange}
+          />
+          <Form.Field
+            control={TextArea}
+            label="Description"
+            name="description"
+            placeholder="Description"
+            onChange={this.handleChange}
+          />
+          <Form.Field
+            control={Input}
+            label="Image Url"
+            name="imageUrl"
+            placeholder="Image Url"
+            onChange={this.handleChange}
+          />
+        </Form.Group>
+        <Form.Group inline>
+          <label>Private Room</label>
+          <Form.Field
+            control={Radio}
+            label="Yes"
+            name="private"
+            value="Yes"
+            checked={value === 'Yes'}
+            onChange={this.handleChange}
+          />
+          <Form.Field
+            control={Radio}
+            label="No"
+            name="private"
+            value="No"
+            checked={value === 'No'}
+            onChange={this.handleChange}
+          />
+        </Form.Group>
+        <Form.Group inline>
+          <label>Queue sorted by:</label>
+          <Form.Field
+            control={Radio}
+            label="Time"
+            name="sort"
+            value="time"
+            checked={value === 'time'}
+            onChange={this.handleChange}
+          />
+          <Form.Field
+            control={Radio}
+            label="Votes"
+            name="sort"
+            value="votes"
+            checked={value === 'votes'}
+            onChange={this.handleChange}
+          />
+        </Form.Group>
+        <Form.Field onClick={this.handleSubmit} control={Button}>
+          Submit
+        </Form.Field>
+      </Form>
     );
   }
 }
