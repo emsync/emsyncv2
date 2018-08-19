@@ -37,6 +37,7 @@ class SpotifyWebPlayer extends Component {
   componentWillUnmount() {
     this.player.disconnect().then(() => console.log('player disconnected'));
   }
+  // end
 
   loadSpotify = () => {
     console.log('called', this.state);
@@ -127,7 +128,7 @@ class SpotifyWebPlayer extends Component {
     });
 
     this.player.on('ready', async data => {
-      let {device_id, token} = data;
+      let {device_id} = data;
       await this.setState({deviceId: device_id});
       this.transferPlayback();
       console.log('Playing Music');
@@ -136,11 +137,17 @@ class SpotifyWebPlayer extends Component {
 
   // Bound Functions
   onPausePlayClick = () => {
-    this.player.setVolume(this.state.volume);
-    if (this.state.volume === 1) {
+    this.player.togglePlay();
+  };
+
+  mute = () => {
+    console.log('current volume is: ', this.state.volume);
+    if (this.state.volume > 0) {
       this.setState({volume: 0});
+      this.player.setVolume(0);
     } else {
       this.setState({volume: 1});
+      this.player.setVolume(1);
     }
   };
 
@@ -162,7 +169,7 @@ class SpotifyWebPlayer extends Component {
         authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({device_ids: [deviceId], play: true})
+      body: JSON.stringify({device_ids: [deviceId], play: false})
     });
   };
 
@@ -223,6 +230,9 @@ class SpotifyWebPlayer extends Component {
               <p>
                 <button onClick={this.onPausePlayClick}>
                   {playing ? 'Pause' : 'Play'}
+                </button>
+                <button onClick={this.mute}>
+                  {this.state.volume > 0 ? 'Mute' : 'Unmute'}
                 </button>
                 <button onClick={this.nextTrack}>Next Track</button>
               </p>

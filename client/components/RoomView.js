@@ -48,8 +48,8 @@ class RoomView extends Component {
   nextQueue = () => {};
 
   render() {
+    // Listener stuff
     let present = false;
-
     if (this.props.user) {
       for (let i = 0; i < this.state.listeners.length; i++) {
         if (this.state.listeners[i] === this.props.user.name) {
@@ -57,11 +57,12 @@ class RoomView extends Component {
         }
       }
     }
-
     if (this.props.user.name && !present) {
       // console.log('emitting joined command');
       socket.emit('joined', this.props.user, this.props.match.params.id);
     }
+    // End of Listener Stuff
+
     return this.props.room.name ? (
       <div>
         <div>
