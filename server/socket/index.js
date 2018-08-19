@@ -11,7 +11,6 @@ module.exports = io => {
     // user disconnected from server
     socket.on('disconnect', () => {
       console.log(`Connection ${socket.id} has left the building`);
-      console.log('users object is: ', users);
       removeUser(socket.id);
       if (users[socket.id]) {
         users[socket.id].forEach(room => {
@@ -62,8 +61,6 @@ module.exports = io => {
           }
         }
       }
-      // console.log('ROOM ID: ', room);
-      // console.log('ROOM LISTENERS: ', tempListeners);
       io.sockets.emit('update-listeners', room, tempListeners);
     };
 
@@ -72,7 +69,6 @@ module.exports = io => {
       if (room) {
         rooms[room][socketId] = undefined;
       }
-      // users[socket.id].splice(users[socket.id].indexOf(room), 1);
       updateListeners(room);
     };
   });
