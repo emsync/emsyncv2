@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {removeFromQueue} from '../store/queue';
+import socket from '../socket';
 
 class SpotifyWebPlayer extends Component {
   constructor() {
@@ -17,9 +18,14 @@ class SpotifyWebPlayer extends Component {
       position: 0,
       duration: 0,
       images: [],
-      volume: 1
+      volume: 1,
+      prevTrack: ''
     };
     this.checkInterval = null;
+
+    socket.on('next_track', () => {
+      console.log('next_track requested', this.nextTrack());
+    });
   }
 
   componentDidMount() {
@@ -72,15 +78,27 @@ class SpotifyWebPlayer extends Component {
         .map(artist => artist.name)
         .join(',');
       const playing = !state.paused;
-      this.setState({
-        position,
-        duration,
+      console.log(
+        'current position & paused: ',
+        state.position,
+        state.paused,
         trackName,
-        albumName,
-        artistName,
-        playing,
-        images
-      });
+        this.state.trackName
+      );
+      console.log('previous tracks', state.track_window.previous_tracks.length);
+      if (state.track_window.previous_tracks.length) {
+        this.nextTrack();
+      } else {
+        this.setState({
+          position,
+          duration,
+          trackName,
+          albumName,
+          artistName,
+          playing,
+          images
+        });
+      }
     }
   };
 
@@ -156,6 +174,7 @@ class SpotifyWebPlayer extends Component {
   nextTrack = () => {
     console.log('current queue', this.props.queue[0]);
     this.playTrack(this.props.queue[0].spotifyLink);
+    socket.emit('next_track');
     this.props.nextSong(this.props.queue[0].id);
   };
 

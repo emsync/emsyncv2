@@ -1,16 +1,13 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import ListenersList from './ListenersList';
 import {fetchRoom} from '../store/room';
 import {addToQueue, fetchQueues} from '../store/queue';
 import {Queue} from './Queue';
 import socket from '../socket';
-import {List, Image, Header} from 'semantic-ui-react';
-import {ListenerElement} from './ListenerElement';
+import {Image, Header} from 'semantic-ui-react';
 import SearchForm from './SearchForm';
 import SpotifyWebPlayer from './SpotifyWebPlayer';
-import {Player} from './index';
 
 class RoomView extends Component {
   constructor(props) {
@@ -21,6 +18,7 @@ class RoomView extends Component {
     };
     socket.on('update-listeners', (room, listenerList) => {
       // console.log('we have an update', room, this.props.room.id);
+      console.log('the keys are: ', listenerList, listenerList[0]);
       if (room == this.props.room.id) {
         const userNames = [];
         for (let i = 0; i < listenerList.length; i++) {
@@ -38,7 +36,7 @@ class RoomView extends Component {
   }
 
   componentWillUnmount() {
-    socket.emit('left', this.props.user, this.props.match.params.id);
+    socket.emit('left', socket.id, this.props.match.params.id);
   }
 
   handleClick() {

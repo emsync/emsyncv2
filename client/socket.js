@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 const socket = io(window.location.origin);
 
 socket.on('connect', () => {
-  console.log('Connected!');
+  console.log(`Connected with ID ${socket.id}!`);
 });
 
 // socket.on('update-listeners', () => {
