@@ -28,9 +28,14 @@ class SpotifyWebPlayer extends Component {
     });
   }
 
+  // Lifecycle methods
   componentDidMount() {
     this.loadSpotify();
     this.setState({token: this.props.user.accessToken, loggedIn: true});
+  }
+
+  componentWillUnmount() {
+    this.player.disconnect().then(() => console.log('player disconnected'));
   }
 
   loadSpotify = () => {
@@ -219,7 +224,6 @@ class SpotifyWebPlayer extends Component {
                 <button onClick={this.onPausePlayClick}>
                   {playing ? 'Pause' : 'Play'}
                 </button>
-                <button onClick={this.playTrack}>Play Another One</button>
                 <button onClick={this.nextTrack}>Next Track</button>
               </p>
             </div>
