@@ -29,6 +29,7 @@ router.get('/:roomId', async (req, res, next) => {
 });
 
 router.delete('/:itemId', async (req, res, next) => {
+  console.log('request body', req.params);
   try {
     const queueItem = await QueueItem.findById(req.params.itemId);
     if (queueItem) {

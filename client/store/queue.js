@@ -19,8 +19,8 @@ const removeQueue = id => ({type: REMOVE_QUEUE, id});
 const updateVotes = queueItem => ({type: UPDATE_VOTES, queueItem});
 
 //THUNK CREATORS
-export const removeFromQueue = (item, itemId) => async dispatch => {
-  const res = await axios.delete(`/api/queues/${itemId}`, {item});
+export const removeFromQueue = itemId => async dispatch => {
+  const res = await axios.delete(`/api/queues/${itemId}`);
   dispatch(removeQueue(itemId));
 };
 
@@ -50,6 +50,7 @@ export default function(state = [], action) {
     case ADD_QUEUE:
       return [...state, action.item];
     case REMOVE_QUEUE:
+      console.log('queue array object', state);
       let copyQueue = state.slice();
       let finalQueue = copyQueue.filter(item => {
         return item.id !== action.id;

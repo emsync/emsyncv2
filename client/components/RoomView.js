@@ -46,6 +46,9 @@ class RoomView extends Component {
     this.props.addToQueue({name: 'Baby', artist: 'Justin Biebser'});
   }
 
+  // Bound Functions
+  nextQueue = () => {};
+
   render() {
     let present = false;
 

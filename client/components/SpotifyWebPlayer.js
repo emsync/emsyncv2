@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {removeFromQueue} from '../store/queue';
 
 class SpotifyWebPlayer extends Component {
   constructor() {
@@ -57,14 +58,13 @@ class SpotifyWebPlayer extends Component {
   };
 
   onStateChange = state => {
-    console.log('new state!', state);
     if (state !== null) {
       const {
         current_track: currentTrack,
         position,
         duration
       } = state.track_window;
-      console.log('new track!', currentTrack);
+      console.log('new state!', state, currentTrack);
       const trackName = currentTrack.name;
       const albumName = currentTrack.album.name;
       const images = currentTrack.album.images;
@@ -100,7 +100,7 @@ class SpotifyWebPlayer extends Component {
     });
 
     this.player.on('player_state_changed', state => {
-      console.log(state);
+      this.onStateChange(state);
     });
 
     this.player.on('ready', async data => {
@@ -109,8 +109,6 @@ class SpotifyWebPlayer extends Component {
       this.transferPlayback();
       console.log('Playing Music');
     });
-
-    this.player.on('player_state_changed', state => this.onStateChange(state));
   }
 
   // Bound Functions
@@ -123,14 +121,12 @@ class SpotifyWebPlayer extends Component {
     }
   };
 
-  playTrack = async () => {
-    // console.log('authorization is: ', auth);
+  playTrack = async songUri => {
     let auth = await this.bearerToken();
-    // console.log('request header', headers);
     fetch('https://api.spotify.com/v1/me/player/play', {
       method: 'PUT',
       headers: auth,
-      body: JSON.stringify({uris: ['spotify:track:7o7i2MAVOKM0KJ6QXJhZFG']})
+      body: JSON.stringify({uris: [songUri]})
     });
   };
 
@@ -152,9 +148,15 @@ class SpotifyWebPlayer extends Component {
       let headers = {};
       headers.authorization = `Bearer ${this.state.token}`;
       headers['Content-Type'] = 'application/json';
-      console.log('have props?', headers);
+      // console.log('have props?', headers);
       return headers;
     }
+  };
+
+  nextTrack = () => {
+    console.log('current queue', this.props.queue[0]);
+    this.playTrack(this.props.queue[0].spotifyLink);
+    this.props.nextSong(this.props.queue[0].id);
   };
 
   render() {
@@ -199,6 +201,7 @@ class SpotifyWebPlayer extends Component {
                   {playing ? 'Pause' : 'Play'}
                 </button>
                 <button onClick={this.playTrack}>Play Another One</button>
+                <button onClick={this.nextTrack}>Next Track</button>
               </p>
             </div>
           ) : (
@@ -215,8 +218,18 @@ class SpotifyWebPlayer extends Component {
 const mapState = state => {
   console.log('state updated');
   return {
-    user: state.user
+    user: state.user,
+    queue: state.queue
   };
 };
 
-export default connect(mapState, null)(SpotifyWebPlayer);
+const mapDispatch = dispatch => {
+  return {
+    nextSong: id => {
+      console.log('hit this method', id);
+      dispatch(removeFromQueue(id));
+    }
+  };
+};
+
+export default connect(mapState, mapDispatch)(SpotifyWebPlayer);
