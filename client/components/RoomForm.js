@@ -28,7 +28,9 @@ export class UnconnectedRoomForm extends Component {
       isPrivate: false,
       description: '',
       imageUrl: '',
-      createdBy: Number(this.props.user.id)
+      createdBy: Number(this.props.user.id),
+      allowAdd: false,
+      isDemocratic: true
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -43,8 +45,6 @@ export class UnconnectedRoomForm extends Component {
   }
 
   render() {
-    // console.log(this.state);
-    const {value} = this.state;
     return (
       <Segment.Group>
         <Segment>Create a room!</Segment>
@@ -78,44 +78,30 @@ export class UnconnectedRoomForm extends Component {
             </Segment>
             <Segment>
               <Form.Group inline>
-                <label>Private Room</label>
                 <Form.Field
-                  control={Radio}
-                  label="Yes"
-                  name="private"
-                  value="Yes"
-                  checked={value === 'Yes'}
-                  onChange={this.handleChange}
-                />
+                  label="Sort queue by"
+                  name="isDemocratic"
+                  control="select"
+                >
+                  <option value={false}>Time added</option>
+                  <option value={true}>Votes</option>
+                </Form.Field>
                 <Form.Field
-                  control={Radio}
-                  label="No"
-                  name="private"
-                  value="No"
-                  checked={value === 'No'}
-                  onChange={this.handleChange}
-                />
-              </Form.Group>
-            </Segment>
-            <Segment>
-              <Form.Group inline>
-                <label>Queue sorted by:</label>
+                  label="Allow listeners to add to queue"
+                  name="allowAdd"
+                  control="select"
+                >
+                  <option value={false}>Do not allow</option>
+                  <option value={true}>Allow</option>
+                </Form.Field>
                 <Form.Field
-                  control={Radio}
-                  label="Time"
-                  name="sort"
-                  value="time"
-                  checked={value === 'time'}
-                  onChange={this.handleChange}
-                />
-                <Form.Field
-                  control={Radio}
-                  label="Votes"
-                  name="sort"
-                  value="votes"
-                  checked={value === 'votes'}
-                  onChange={this.handleChange}
-                />
+                  label="Require a password to enter"
+                  name="isPrivate"
+                  control="select"
+                >
+                  <option value={false}>Public</option>
+                  <option value={true}>Private</option>
+                </Form.Field>
               </Form.Group>
             </Segment>
             <Form.Field onClick={this.handleSubmit} control={Button}>

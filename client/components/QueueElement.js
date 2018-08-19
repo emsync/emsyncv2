@@ -19,21 +19,19 @@ class UnconnectedQueueElement extends Component {
       imagePlayerURL:
         this.props.imagePlayerURL || this.props.item.imagePlayerURL,
       spotifyLink: this.props.spotifyLink || this.props.item.spotifyLink,
-      trackName:
-        this.props.trackName || this.props.item.trackName || 'Hallelujah',
-      artistName: this.props.artistName || this.props.item.artistName
+      trackName: this.props.trackName || this.props.item.trackName,
+      artistName: this.props.artistName || this.props.item.artistName,
+      active: true
     };
     this.handleDislike = this.handleDislike.bind(this);
     this.handleLike = this.handleLike.bind(this);
   }
 
-  // componentDidMount() {
-  //   this.setState({
-  //     imageUrl: this.props.item.imageUrl || this.props.imageUrl,
-  //     spotifyLink: this.props.item.spotifyLink || this.props.spotifyLink
-  //     trackName: this.props.item.sp
-  //   });
-  // }
+  componentDidMount() {
+    if (this.props.sortFunc) {
+      this.props.sortFunc();
+    }
+  }
 
   handleClick = () => {
     console.log(
@@ -52,6 +50,7 @@ class UnconnectedQueueElement extends Component {
       trackName: this.state.trackName,
       artistName: this.state.artistName
     });
+    this.setState({active: !this.state.active});
   };
 
   async handleLike() {
@@ -127,7 +126,12 @@ class UnconnectedQueueElement extends Component {
             </Card.Content>
           ) : (
             <Card.Content extra>
-              <Button onClick={this.handleClick}>
+              <Button
+                onClick={this.handleClick}
+                toggle
+                active={this.state.active}
+                disabled={!this.state.active}
+              >
                 <Icon name="add circle" />
               </Button>
             </Card.Content>
