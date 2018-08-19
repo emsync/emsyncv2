@@ -6,10 +6,11 @@ import {fetchRoom} from '../store/room';
 import {addToQueue, fetchQueues} from '../store/queue';
 import {Queue} from './Queue';
 import socket from '../socket';
-import {List, Image, Header} from 'semantic-ui-react';
+import {Card, Image, Header} from 'semantic-ui-react';
 import {ListenerElement} from './ListenerElement';
 import SearchForm from './SearchForm';
 import {Player} from './index';
+import ReactSpeedometer from 'react-d3-speedometer';
 
 class RoomView extends Component {
   constructor(props) {
@@ -84,28 +85,28 @@ class RoomView extends Component {
           </div>
           <div className="rightRoom">
             <ListenersList listeners={this.state.listeners} />
-
-            {/* <h2>Listeners:</h2> */}
-            {/* {this.state.listeners.length > 0 ? (
-                <List>
-                  <List.Item>
-                    {this.state.listeners.map(userListening => {
-                      return (
-                        <ListenerElement
-                          key={userListening.id}
-                          listener={userListening}
-                        />
-                      );
-                    })}
-                  </List.Item>
-                </List>
-              ) : (
-                <p>You're the only listener!</p>
-              )}
-            </div> */}
           </div>
           <div>
             <SearchForm />
+          </div>
+          <div>
+            <Card>
+              <Card.Content>
+                <Card.Header>Hot or Not</Card.Header>
+              </Card.Content>
+              <Card.Content>
+                <ReactSpeedometer
+                  maxValue={this.state.listeners.length}
+                  minValue={-this.state.listeners.length}
+                  value={0}
+                  //itll be this.nowplaying.votes
+                  needleColor="red"
+                  segments={5}
+                  needleTransitionDuration={4000}
+                  needleTransition="easeElastic"
+                />
+              </Card.Content>
+            </Card>
           </div>
         </div>
       </div>

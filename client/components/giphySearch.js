@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Feed, Card, Input} from 'semantic-ui-react';
+import {Feed, Card, Input, Button} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 import {GiphyResultsList} from './giphyResultsList';
 import {search, getTrending} from '../store/giphy';
@@ -63,7 +63,9 @@ class GiphySearch extends Component {
           <Card.Content>
             <Feed.Event>
               <Feed.Content>
-                <GiphyResultsList results={this.props.gifs} />
+                <Button>
+                  <GiphyResultsList results={this.props.gifs} />
+                </Button>
               </Feed.Content>
             </Feed.Event>
           </Card.Content>
