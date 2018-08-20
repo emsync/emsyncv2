@@ -42,8 +42,8 @@ module.exports = io => {
       removeUser(user, room);
     });
 
-    socket.on('next_track', () => {
-      socket.broadcast.emit('next_track');
+    socket.on('next_track', roomId => {
+      socket.broadcast.emit('next_track', roomId);
     });
 
     // error handling

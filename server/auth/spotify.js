@@ -89,7 +89,6 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
         'user-read-private',
         'user-modify-playback-state'
       ]
-      // scope: ['user-read-private', 'user-read-email'],
     })
   );
 
@@ -103,9 +102,8 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
         'user-read-private',
         'user-modify-playback-state'
       ],
-      // scope: ['user-read-private', 'user-read-email'],
       successRedirect: '/',
-      failureRedirect: '/login'
+      failureRedirect: '/'
     })
   );
 
