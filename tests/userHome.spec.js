@@ -47,7 +47,7 @@ describe('#HOME ', () => {
         expect(wrapper.contains(roomList)).to.equal(true);
       })
 
-      spy(UserHome.prototype, 'componentDidMount');
+      // spy(UserHome.prototype, 'componentDidMount');
 
       // describe('<UserHome />', () => {
       //   it('calls componentDidMount', () => {
