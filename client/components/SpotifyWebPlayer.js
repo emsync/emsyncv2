@@ -130,7 +130,7 @@ class SpotifyWebPlayer extends Component {
       let {device_id} = data;
       await this.setState({deviceId: device_id});
       console.log('deviceId is', device_id);
-      await this.transferPlayback();
+      this.transferPlayback();
       console.log('Playing Music');
     });
   }
@@ -151,14 +151,14 @@ class SpotifyWebPlayer extends Component {
     }
   };
 
-  playTrack = async songUri => {
+  playTrack = async song => {
     let auth;
     try {
       auth = await this.bearerToken();
     } catch (err) {
       console.log(err);
     }
-    console.log('playing song witu URI', this.state.deviceId);
+    console.log('playing song with URI', this.state.deviceId);
     try {
       await fetch(
         `https://api.spotify.com/v1/me/player/play?device_id=${
@@ -166,8 +166,11 @@ class SpotifyWebPlayer extends Component {
         }`,
         {
           method: 'PUT',
-          headers: auth,
-          body: JSON.stringify({uris: [songUri]})
+          body: JSON.stringify({uris: [song.spotifyLink]}),
+          headers: {
+            'Content-Type': 'application/json',
+            ...auth
+          }
         }
       );
     } catch (err) {
@@ -178,7 +181,7 @@ class SpotifyWebPlayer extends Component {
     const startTimeStamp = d.getTime();
     try {
       await this.props.playSong({
-        id: this.props.queue[1].id,
+        id: song.id,
         startTimeStamp,
         isPlaying: true
       });
@@ -187,8 +190,13 @@ class SpotifyWebPlayer extends Component {
     }
   };
 
-  setPosition = position => {
-    this.player.seek(position);
+  setPosition = async position => {
+    try {
+      await this.player.seek(position);
+      console.log('setting position maybe?');
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   makeRequest = async (url, body) => {
@@ -208,7 +216,7 @@ class SpotifyWebPlayer extends Component {
   nextTrack = async () => {
     // console.log('0th id', this.props.queue[0].id);
     await this.props.nextSong(this.props.queue[0].id);
-    this.playTrack(this.props.queue[1].spotifyLink);
+    this.playTrack(this.props.queue[1]);
     socket.emit('next_track');
   };
 
@@ -229,14 +237,15 @@ class SpotifyWebPlayer extends Component {
       },
       body: JSON.stringify({device_ids: [deviceId], play: true})
     });
-    await this.syncOnJoin();
+    console.log('fetch response', response);
+    this.syncOnJoin();
   };
 
   syncOnJoin = async () => {
     if (!this.props.queue[0].isPlaying) {
       console.log('first track not playing');
       console.log('first queue object is', this.props.queue[0]);
-      this.playTrack(this.props.queue[0].spotifyLink);
+      this.playTrack(this.props.queue[0]);
     } else {
       const d = new Date();
       const time = d.getTime();
@@ -254,8 +263,11 @@ class SpotifyWebPlayer extends Component {
         this.props.queue[0].spotifyLink
       );
       console.log('first queue object is', this.props.queue[0]);
-      await this.playTrack(this.props.queue[0].spotifyLink);
-      await this.setPosition(position);
+      // await this.playTrack({
+      //   spotifyLink: 'spotify:track:7AclP0W2jy6yrbvBiC4prQ'
+      // });
+      await this.playTrack(this.props.queue[0]);
+      // await this.setPosition(position);
     }
   };
 
