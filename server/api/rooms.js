@@ -25,7 +25,7 @@ router.get('/:id', async (req, res, next) => {
 router.put('/', async (req, res, next) => {
   // console.log('REQ>BODY', req.body);
   const newRoom = await Room.create(req.body);
-  res.json(newRoom).redirect(201, '/');
+  res.send(newRoom);
 });
 
 router.delete('/:id', async (req, res, next) => {
