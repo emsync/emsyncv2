@@ -8,11 +8,13 @@ class GiphySearch extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchParams: ''
+      searchParams: '',
+      selected: ''
     };
     this.keyPress = this.keyPress.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    // this.onClick = this.onClick.bind(this);
   }
   handleClick = async e => {
     e.preventDefault();
@@ -37,7 +39,7 @@ class GiphySearch extends Component {
     this.setState({searchParams: e.target.value});
   };
   render() {
-    // console.log('SearchForm music is: ', this.state.music);
+    console.log('State: ', this.state);
     return (
       <Feed>
         <Card.Content>
@@ -64,7 +66,10 @@ class GiphySearch extends Component {
             <Feed.Event>
               <Feed.Content>
                 <Button>
-                  <GiphyResultsList results={this.props.gifs} />
+                  <GiphyResultsList
+                    results={this.props.gifs}
+                    clicker={this.props.clicker}
+                  />
                 </Button>
               </Feed.Content>
             </Feed.Event>

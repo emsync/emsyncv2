@@ -21,7 +21,7 @@ const Extra = props => {
 
 const RoomSingleCard = props => {
   return (
-    <Card centered="true">
+    <Card centered="true" raised={true}>
       <Image
         src={props.room.imageUrl}
         size="small"
@@ -36,7 +36,6 @@ const RoomSingleCard = props => {
       /> */}
       <Card.Content>
         <Card.Header>{props.room.name}</Card.Header>
-        <Card.Meta>"Room"</Card.Meta>
         <Card.Description>{props.room.description}</Card.Description>
         <Card.Content extra>
           {

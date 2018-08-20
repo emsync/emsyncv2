@@ -222,7 +222,7 @@ class SpotifyWebPlayer extends Component {
     } else {
       const d = new Date();
       const time = d.getTime();
-      const position = 0;
+      let position = 0;
       const startedAt = this.props.queue[0].startTimeStamp;
       if (time - startedAt > this.props.queue[0].duration) {
         position = 0;
