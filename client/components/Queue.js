@@ -7,15 +7,15 @@ import {fetchQueues} from '../store/queue';
 //props that should be passed here should be the current rooms listeners array
 class UnconnectedQueue extends Component {
   sortArray = () => {
-    if (this.props.room.isDemocratic) {
-      this.props.queue.sort((a, b) => {
-        return b.votes - a.votes;
-      });
-    } else {
-      this.props.queue.sort((a, b) => {
-        return a.createdAt - b.createdAt;
-      });
-    }
+    // if (this.props.room.isDemocratic) {
+    this.props.queue.sort((a, b) => {
+      return b.votes - a.votes;
+    });
+    // } else {
+    //   this.props.queue.sort((a, b) => {
+    //     return a.createdAt - b.createdAt;
+    //   });
+    // }
   };
 
   async componentDidMount() {

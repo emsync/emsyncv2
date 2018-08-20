@@ -21,7 +21,7 @@ class RoomView extends Component {
     };
     socket.on('update-listeners', (room, listenerList) => {
       // console.log('we have an update', room, this.props.room.id);
-      console.log('the keys are: ', listenerList, listenerList[0]);
+      // console.log('the keys are: ', listenerList, listenerList[0]);
       if (room == this.props.room.id) {
         const userNames = [];
         for (let i = 0; i < listenerList.length; i++) {

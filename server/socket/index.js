@@ -54,7 +54,7 @@ module.exports = io => {
     updateListeners = room => {
       let tempListeners = [];
       for (var key in rooms[room]) {
-        console.log('the key is', key);
+        // console.log('the key is', key);
         if (rooms[room].hasOwnProperty(key)) {
           if (rooms[room][key]) {
             tempListeners.push(rooms[room][key]);
