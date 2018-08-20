@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import ListenersList from './ListenersList';
 import {fetchRoom} from '../store/room';
+import {goRefreshToken} from '../store/refreshToken';
 import {addToQueue, fetchQueues} from '../store/queue';
 import {Queue} from './Queue';
 import socket from '../socket';
@@ -35,6 +36,7 @@ class RoomView extends Component {
   }
 
   async componentDidMount() {
+    await this.props.goRefreshToken();
     await this.props.fetchRoom();
     await this.props.fetchQueues(this.props.room.id);
   }
@@ -126,7 +128,8 @@ class RoomView extends Component {
 const mapDispatch = (dispatch, ownProps) => ({
   fetchRoom: () => dispatch(fetchRoom(ownProps.match.params.id)),
   addToQueue: song => dispatch(addToQueue(song, ownProps.match.params.id)),
-  fetchQueues: roomId => dispatch(fetchQueues(roomId))
+  fetchQueues: roomId => dispatch(fetchQueues(roomId)),
+  goRefreshToken: () => dispatch(goRefreshToken())
 });
 
 const mapState = (state, ownProps) => {
