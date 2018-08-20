@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {List, Card, Feed, Image} from 'semantic-ui-react';
 import {QueueElement} from './QueueElement';
 import {fetchQueues} from '../store/queue';
+import socket from '../socket';
 
 //props that should be passed here should be the current rooms listeners array
 class UnconnectedQueue extends Component {
@@ -16,6 +17,12 @@ class UnconnectedQueue extends Component {
     //     return a.createdAt - b.createdAt;
     //   });
     // }
+
+    socket.on('new_queue', async roomId => {
+      if ((roomId = this.props.room.id)) {
+        await this.props.getQueues(this.props.roomId);
+      }
+    });
   };
 
   async componentDidMount() {
