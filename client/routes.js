@@ -10,6 +10,7 @@ import {me} from './store';
 import SearchForm from './components/SearchForm';
 import {UserProfile} from './components/UserProfile';
 import {RoomForm} from './components/RoomForm';
+import {Landing} from './components/Landing';
 import GiphySearch from './components/giphySearch';
 /**
  * COMPONENT
@@ -25,6 +26,7 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+        <Route path="/landing" component={Landing} />
         <Route path="/login" component={Login} />
         <Route path="/rooms/:id" component={RoomView} />
         <Route path="/signup" component={Signup} />
