@@ -10,7 +10,7 @@ const QueueItem = db.define('queueItem', {
     defaultValue: 0
   },
   addedBy: Sequelize.INTEGER,
-  startTimeStamp: Sequelize.DATE,
+  startTimeStamp: Sequelize.BIGINT,
   spotifyLink: {
     type: Sequelize.STRING,
     allowNull: false

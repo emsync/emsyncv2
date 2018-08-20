@@ -19,12 +19,13 @@ class SpotifyWebPlayer extends Component {
       duration: 0,
       images: [],
       volume: 1,
-      prevTrack: ''
+      prevTrack: '',
+      lastSong: false
     };
     this.checkInterval = null;
 
     socket.on('next_track', () => {
-      console.log('next_track requested', this.nextTrack());
+      // console.log('next_track requested', this.nextTrack());
     });
   }
 
@@ -40,7 +41,7 @@ class SpotifyWebPlayer extends Component {
   // end
 
   loadSpotify = () => {
-    console.log('called', this.state);
+    // console.log('called', this.state);
 
     this.checkInterval = setInterval(() => {
       this.checkForPlayer();
@@ -75,7 +76,6 @@ class SpotifyWebPlayer extends Component {
         position,
         duration
       } = state.track_window;
-      console.log('new state!', state, currentTrack);
       const trackName = currentTrack.name;
       const albumName = currentTrack.album.name;
       const images = currentTrack.album.images;
@@ -83,14 +83,6 @@ class SpotifyWebPlayer extends Component {
         .map(artist => artist.name)
         .join(',');
       const playing = !state.paused;
-      console.log(
-        'current position & paused: ',
-        state.position,
-        state.paused,
-        trackName,
-        this.state.trackName
-      );
-      console.log('previous tracks', state.track_window.previous_tracks.length);
       if (state.track_window.previous_tracks.length) {
         this.nextTrack();
       } else {
@@ -107,18 +99,18 @@ class SpotifyWebPlayer extends Component {
     }
   };
 
-  eventHandlers() {
-    this.player.on('initialization_error', er => {
+  async eventHandlers() {
+    this.player.on('initialization_error', err => {
       console.error(err);
     });
-    this.player.on('authentication_error', er => {
+    this.player.on('authentication_error', err => {
       this.setState({loggedIn: false});
       console.error(err);
     });
-    this.player.on('account_error', er => {
+    this.player.on('account_error', err => {
       console.error(err);
     });
-    this.player.on('playback_error', er => {
+    this.player.on('playback_error', err => {
       console.error(err);
     });
 
@@ -128,52 +120,69 @@ class SpotifyWebPlayer extends Component {
 
     this.player.on('ready', async data => {
       let {device_id} = data;
-      await this.setState({deviceId: device_id});
+      this.setState({deviceId: device_id});
       await this.transferPlayback();
-      await this.syncOnJoin();
       console.log('Playing Music');
     });
   }
-
   // Bound Functions
   onPausePlayClick = () => {
     this.player.togglePlay();
   };
 
   mute = () => {
-    console.log('current volume is: ', this.state.volume);
     if (this.state.volume > 0) {
       this.setState({volume: 0});
       this.player.setVolume(0);
+      this.setState({lastSong: false});
     } else {
       this.setState({volume: 1});
       this.player.setVolume(1);
+      this.setState({lastSong: true});
     }
   };
 
-  playTrack = async songUri => {
-    let auth = await this.bearerToken();
-    fetch('https://api.spotify.com/v1/me/player/play', {
-      method: 'PUT',
-      headers: auth,
-      body: JSON.stringify({uris: [songUri]})
-    });
-
-    const d = new Date();
-    const startTimeStamp = d.getTime();
+  playTrack = async (song, position) => {
+    let auth;
     try {
-      await this.props.playSong({
-        id: this.props.queue[1].id,
-        startTimeStamp,
-        isPlaying: true
-      });
+      auth = await this.bearerToken();
+    } catch (err) {
+      console.log(err);
+    }
+    try {
+      const response = await fetch(
+        `https://api.spotify.com/v1/me/player/play?device_id=${
+          this.state.deviceId
+        }`,
+        {
+          method: 'PUT',
+          body: JSON.stringify({
+            uris: [song.spotifyLink],
+            position_ms: position || 0
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+            ...auth
+          }
+        }
+      );
     } catch (err) {
       console.error(err);
     }
-  };
 
-  setPosition = position => {
-    this.player.seek(position);
+    if (!position) {
+      const d = await new Date();
+      const startTimeStamp = await d.getTime();
+      try {
+        await this.props.playSong({
+          id: song.id,
+          startTimeStamp,
+          isPlaying: true
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    }
   };
 
   makeRequest = async (url, body) => {
@@ -191,8 +200,12 @@ class SpotifyWebPlayer extends Component {
   };
 
   nextTrack = async () => {
-    await this.props.nextSong(this.props.queue[0].id);
-    this.playTrack(this.props.queue[1].spotifyLink);
+    if (this.props.queue[1]) {
+      await this.props.nextSong(this.props.queue[0].id);
+      await this.playTrack(this.props.queue[1]);
+    } else {
+      await this.playTrack(this.props.queue[1]);
+    }
     socket.emit('next_track');
   };
 
@@ -205,7 +218,6 @@ class SpotifyWebPlayer extends Component {
 
     const deviceId = this.state.deviceId;
     const token = this.state.token;
-    console.log('users token:', this.state.token);
     const response = await fetch('https://api.spotify.com/v1/me/player', {
       method: 'PUT',
       headers: {
@@ -214,23 +226,28 @@ class SpotifyWebPlayer extends Component {
       },
       body: JSON.stringify({device_ids: [deviceId], play: true})
     });
+    // console.log('fetch response', response);
+    this.syncOnJoin();
   };
 
   syncOnJoin = async () => {
     if (!this.props.queue[0].isPlaying) {
-      this.playTrack(this.props.queue[0].spotifyLink);
+      await this.playTrack(this.props.queue[0]);
     } else {
-      const d = new Date();
-      const time = d.getTime();
-      const position = 0;
+      const d = await new Date();
+      const time = await d.getTime();
+      var position = 0;
       const startedAt = this.props.queue[0].startTimeStamp;
+      // console.log('start time was:', startedAt, ' and current time is', time);
+      // console.log('difference is', time - startedAt);
       if (time - startedAt > this.props.queue[0].duration) {
+        // console.log('starting from beginning');
         position = 0;
       } else {
+        // console.log('resuming from position', position);
         position = time - startedAt || 0;
       }
-      await this.playTrack(this.props.queue[0].spotifyLink);
-      await this.player.setPosition(position);
+      await this.playTrack(this.props.queue[0], position);
     }
   };
 
