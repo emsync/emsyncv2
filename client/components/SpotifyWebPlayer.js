@@ -25,7 +25,7 @@ class SpotifyWebPlayer extends Component {
     this.checkInterval = null;
 
     socket.on('next_track', () => {
-      // console.log('next_track requested', this.nextTrack());
+      console.log('next_track requested');
     });
   }
 
@@ -290,7 +290,11 @@ class SpotifyWebPlayer extends Component {
                 <button onClick={this.mute}>
                   {this.state.volume > 0 ? 'Mute' : 'Unmute'}
                 </button>
-                <button onClick={this.nextTrack}>Next Track</button>
+                <button
+                  onClick={() => socket.emit('next_track', this.props.roomId)}
+                >
+                  Next Track
+                </button>
                 <button onClick={this.sync}>Sync</button>
               </p>
             </div>

@@ -10,6 +10,7 @@ import {ListenerElement} from './ListenerElement';
 import {Player} from './index';
 import ReactSpeedometer from 'react-d3-speedometer';
 import SpotifyWebPlayer from './SpotifyWebPlayer';
+import SearchForm from './SearchForm';
 
 class RoomView extends Component {
   constructor(props) {
@@ -112,7 +113,7 @@ class RoomView extends Component {
                 />
               </Card.Content>
             </Card>
-            <SpotifyWebPlayer />
+            <SpotifyWebPlayer roomId={this.props.room.id} />
           </div>
         </div>
       </div>
