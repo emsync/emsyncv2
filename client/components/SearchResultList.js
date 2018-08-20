@@ -6,6 +6,9 @@ import propTypes from 'prop-types';
 //Room id should come from props
 
 export const SearchResultList = props => {
+  {
+    console.log('time?: ', props.spotifyResult[0].duration_ms);
+  }
   return (
     <div>
       {props.spotifyResult.map(song => (
@@ -17,6 +20,7 @@ export const SearchResultList = props => {
           trackName={song.name}
           artistName={song.artists[0].name}
           comingFrom={'search'}
+          duration={song.duration_ms}
         />
       ))}
     </div>
