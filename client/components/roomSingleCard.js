@@ -20,7 +20,7 @@ const Extra = props => {
 //really want to implement a dimmer here (see semantic ui)
 
 const RoomSingleCard = props => {
-  return (
+  return props.room ? (
     <Card centered="true" raised={true}>
       <Image
         src={props.room.imageUrl}
@@ -38,7 +38,7 @@ const RoomSingleCard = props => {
         <Card.Header>{props.room.name}</Card.Header>
         <Card.Description>{props.room.description}</Card.Description>
         <Card.Content extra>
-          {props.rooms.users ? (
+          {props.room.users ? (
             <Extra listeners={props.room.users.length} id={props.room.id} />
           ) : (
             <Extra listeners={0} id={props.room.id} />
@@ -46,6 +46,8 @@ const RoomSingleCard = props => {
         </Card.Content>
       </Card.Content>
     </Card>
+  ) : (
+    <p>Loading</p>
   );
 };
 
