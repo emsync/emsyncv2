@@ -10,7 +10,6 @@ import {ListenerElement} from './ListenerElement';
 import SearchForm from './SearchForm';
 import {Player} from './index';
 import ReactSpeedometer from 'react-d3-speedometer';
-import SearchForm from './SearchForm';
 import SpotifyWebPlayer from './SpotifyWebPlayer';
 
 class RoomView extends Component {
