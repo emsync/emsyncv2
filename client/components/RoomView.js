@@ -9,7 +9,6 @@ import {Card, Image, Header} from 'semantic-ui-react';
 import {ListenerElement} from './ListenerElement';
 import {Player} from './index';
 import ReactSpeedometer from 'react-d3-speedometer';
-import SearchForm from './SearchForm';
 import SpotifyWebPlayer from './SpotifyWebPlayer';
 
 class RoomView extends Component {
@@ -21,7 +20,7 @@ class RoomView extends Component {
     };
     socket.on('update-listeners', (room, listenerList) => {
       // console.log('we have an update', room, this.props.room.id);
-      console.log('the keys are: ', listenerList, listenerList[0]);
+      // console.log('the keys are: ', listenerList, listenerList[0]);
       if (room == this.props.room.id) {
         const userNames = [];
         for (let i = 0; i < listenerList.length; i++) {
