@@ -38,13 +38,11 @@ const RoomSingleCard = props => {
         <Card.Header>{props.room.name}</Card.Header>
         <Card.Description>{props.room.description}</Card.Description>
         <Card.Content extra>
-          {
-            <Extra
-              listeners={props.room.users.length}
-              id={props.room.id}
-              user={props.user}
-            />
-          }
+          {props.rooms.users ? (
+            <Extra listeners={props.room.users.length} id={props.room.id} />
+          ) : (
+            <Extra listeners={0} id={props.room.id} />
+          )}
         </Card.Content>
       </Card.Content>
     </Card>

@@ -115,6 +115,7 @@ export class UnconnectedRoomForm extends Component {
 
   handleSubmit() {
     this.props.createRoom(this.state);
+    this.props.history.push('/');
   }
 
   render() {
@@ -128,6 +129,7 @@ export class UnconnectedRoomForm extends Component {
               <Form.Group widths="equal">
                 <Form.Field
                   control={Input}
+                  required
                   name="name"
                   label="Name"
                   placeholder="Name"
@@ -135,6 +137,7 @@ export class UnconnectedRoomForm extends Component {
                 />
                 <Form.Field
                   control={TextArea}
+                  required
                   label="Description"
                   name="description"
                   placeholder="Description"
@@ -145,6 +148,7 @@ export class UnconnectedRoomForm extends Component {
                 <Segment>
                   <Form.Field
                     control={Input}
+                    required
                     label="Image Url"
                     name="imageUrl"
                     placeholder="Image Url"
@@ -158,6 +162,7 @@ export class UnconnectedRoomForm extends Component {
               <Form.Group inline>
                 <Form.Select
                   fluid
+                  required
                   name="isDemocratic"
                   label="Sort queue by:"
                   options={this.isDemocratic()}
@@ -165,6 +170,7 @@ export class UnconnectedRoomForm extends Component {
                 />
                 <Form.Select
                   fluid
+                  required
                   name="allowAdd"
                   label="Allow listeners to add to queue"
                   options={this.allowAdd()}
@@ -172,6 +178,7 @@ export class UnconnectedRoomForm extends Component {
                 />
                 <Form.Select
                   fluid
+                  required
                   name="isPrivate"
                   label="Room privacy"
                   options={this.isPrivate()}
