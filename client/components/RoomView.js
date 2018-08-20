@@ -7,7 +7,6 @@ import {Queue} from './Queue';
 import socket from '../socket';
 import {Card, Image, Header} from 'semantic-ui-react';
 import {ListenerElement} from './ListenerElement';
-import SearchForm from './SearchForm';
 import {Player} from './index';
 import ReactSpeedometer from 'react-d3-speedometer';
 import SpotifyWebPlayer from './SpotifyWebPlayer';

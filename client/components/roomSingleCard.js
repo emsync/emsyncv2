@@ -21,7 +21,7 @@ const Extra = props => {
 
 const RoomSingleCard = props => {
   return (
-    <Card centered="true">
+    <Card centered="true" raised={true}>
       <Image
         src={props.room.imageUrl}
         size="small"
@@ -36,16 +36,13 @@ const RoomSingleCard = props => {
       /> */}
       <Card.Content>
         <Card.Header>{props.room.name}</Card.Header>
-        <Card.Meta>"Room"</Card.Meta>
         <Card.Description>{props.room.description}</Card.Description>
         <Card.Content extra>
-          {
-            <Extra
-              listeners={props.room.users.length}
-              id={props.room.id}
-              user={props.user}
-            />
-          }
+          {props.rooms.users ? (
+            <Extra listeners={props.room.users.length} id={props.room.id} />
+          ) : (
+            <Extra listeners={0} id={props.room.id} />
+          )}
         </Card.Content>
       </Card.Content>
     </Card>

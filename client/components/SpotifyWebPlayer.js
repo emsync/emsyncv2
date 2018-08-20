@@ -229,9 +229,9 @@ class SpotifyWebPlayer extends Component {
     if (!this.props.queue[0].isPlaying) {
       await this.playTrack(this.props.queue[0]);
     } else {
-      const d = await new Date();
-      const time = await d.getTime();
-      var position = 0;
+      const d = new Date();
+      const time = d.getTime();
+      let position = 0;
       const startedAt = this.props.queue[0].startTimeStamp;
       if (time - startedAt > this.props.queue[0].duration) {
         position = 0;

@@ -1,24 +1,18 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import _ from 'lodash';
+
 import {
   Button,
-  Checkbox,
   Form,
   Input,
-  Radio,
-  Select,
+  Label,
+  Accordion,
   TextArea,
   Segment
 } from 'semantic-ui-react';
 import {createRoom} from '../store/rooms';
-
-const options = [
-  {key: 'm', text: 'Male', value: 'male'},
-  {key: 'f', text: 'Female', value: 'female'}
-];
-
-//what do we even want in the form?
-// name, imageUrl, isPrivate toggle (what does this mean in terms of rendering, password?), description
+import GiphySearch from './giphySearch';
 
 export class UnconnectedRoomForm extends Component {
   constructor(props) {
@@ -30,11 +24,90 @@ export class UnconnectedRoomForm extends Component {
       imageUrl: '',
       createdBy: Number(this.props.user.id),
       allowAdd: false,
-      isDemocratic: true
+      isDemocratic: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
+
+  allowAdd() {
+    return [
+      {
+        key: 't',
+        text: 'Allow',
+        value: true,
+        onClick: this.handleClick,
+        name: 'allowAdd'
+      },
+      {
+        key: 'f',
+        text: 'Block',
+        value: false,
+        onClick: this.handleClick,
+        name: 'allowAdd'
+      }
+    ];
+  }
+
+  isPrivate() {
+    return [
+      {
+        key: 't',
+        text: 'Private',
+        value: true,
+        onClick: this.handleClick,
+        name: 'isPrivate'
+      },
+      {
+        key: 'f',
+        text: 'Public',
+        value: false,
+        onClick: this.handleClick,
+        name: 'isPrivate'
+      }
+    ];
+  }
+
+  isDemocratic() {
+    return [
+      {
+        key: 't',
+        text: 'Votes',
+        value: true,
+        onClick: this.handleClick,
+        name: 'isDemocratic'
+      },
+      {
+        key: 'f',
+        text: 'Time Added',
+        value: false,
+        onClick: this.handleClick,
+        name: 'isDemocratic'
+      }
+    ];
+  }
+
+  panels = () => {
+    return _.times(1, i => ({
+      key: `panel-${i}`,
+      title: {
+        content: <Label color="red" content="Search using GIPHY" />
+      },
+      content: {
+        content: <GiphySearch clicker={this.onClick} />
+      }
+    }));
+  };
+  onClick = (event, data) => {
+    this.setState({imageUrl: data.content});
+  };
+
+  handleClick = (event, data) => {
+    console.log(data);
+    this.setState({[data.name]: data.value});
+  };
 
   handleChange(event, {value}) {
     this.setState({[event.target.name]: value});
@@ -42,9 +115,11 @@ export class UnconnectedRoomForm extends Component {
 
   handleSubmit() {
     this.props.createRoom(this.state);
+    this.props.history.push('/');
   }
 
   render() {
+    console.log(this.state);
     return (
       <Segment.Group>
         <Segment>Create a room!</Segment>
@@ -54,6 +129,7 @@ export class UnconnectedRoomForm extends Component {
               <Form.Group widths="equal">
                 <Form.Field
                   control={Input}
+                  required
                   name="name"
                   label="Name"
                   placeholder="Name"
@@ -61,47 +137,53 @@ export class UnconnectedRoomForm extends Component {
                 />
                 <Form.Field
                   control={TextArea}
+                  required
                   label="Description"
                   name="description"
                   placeholder="Description"
                   onChange={this.handleChange}
                 />
-
-                <Form.Field
-                  control={Input}
-                  label="Image Url"
-                  name="imageUrl"
-                  placeholder="Image Url"
-                  onChange={this.handleChange}
-                />
+              </Form.Group>
+              <Form.Group>
+                <Segment>
+                  <Form.Field
+                    control={Input}
+                    required
+                    label="Image Url"
+                    name="imageUrl"
+                    placeholder="Image Url"
+                    onChange={this.handleChange}
+                  />
+                  <Accordion panels={this.panels()} defaultActiveIndex={1} />
+                </Segment>
               </Form.Group>
             </Segment>
             <Segment>
               <Form.Group inline>
-                <Form.Field
-                  label="Sort queue by"
+                <Form.Select
+                  fluid
+                  required
                   name="isDemocratic"
-                  control="select"
-                >
-                  <option value={false}>Time added</option>
-                  <option value={true}>Votes</option>
-                </Form.Field>
-                <Form.Field
-                  label="Allow listeners to add to queue"
+                  label="Sort queue by:"
+                  options={this.isDemocratic()}
+                  placeholder="Select"
+                />
+                <Form.Select
+                  fluid
+                  required
                   name="allowAdd"
-                  control="select"
-                >
-                  <option value={false}>Do not allow</option>
-                  <option value={true}>Allow</option>
-                </Form.Field>
-                <Form.Field
-                  label="Require a password to enter"
+                  label="Allow listeners to add to queue"
+                  options={this.allowAdd()}
+                  placeholder="Select"
+                />
+                <Form.Select
+                  fluid
+                  required
                   name="isPrivate"
-                  control="select"
-                >
-                  <option value={false}>Public</option>
-                  <option value={true}>Private</option>
-                </Form.Field>
+                  label="Room privacy"
+                  options={this.isPrivate()}
+                  placeholder="Select"
+                />
               </Form.Group>
             </Segment>
             <Form.Field onClick={this.handleSubmit} control={Button}>
