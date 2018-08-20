@@ -43,7 +43,8 @@ module.exports = io => {
     });
 
     socket.on('next_track', roomId => {
-      socket.broadcast.emit('next_track', roomId);
+      console.log('next track request from room', roomId);
+      io.sockets.emit('next_track', roomId);
     });
 
     // error handling

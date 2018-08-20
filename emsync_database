@@ -1,0 +1,411 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 10.4
+-- Dumped by pg_dump version 10.4
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: RoomListeners; Type: TABLE; Schema: public; Owner: rterry
+--
+
+CREATE TABLE public."RoomListeners" (
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    "userId" integer NOT NULL,
+    "roomId" integer NOT NULL
+);
+
+
+ALTER TABLE public."RoomListeners" OWNER TO rterry;
+
+--
+-- Name: Sessions; Type: TABLE; Schema: public; Owner: rterry
+--
+
+CREATE TABLE public."Sessions" (
+    sid character varying(32) NOT NULL,
+    expires timestamp with time zone,
+    data text,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public."Sessions" OWNER TO rterry;
+
+--
+-- Name: queueItems; Type: TABLE; Schema: public; Owner: rterry
+--
+
+CREATE TABLE public."queueItems" (
+    id integer NOT NULL,
+    voters character varying(255)[],
+    votes integer DEFAULT 0,
+    "addedBy" integer,
+    "startTimeStamp" bigint,
+    "spotifyLink" character varying(255) NOT NULL,
+    "currentPlayingTime" integer DEFAULT 0,
+    "isPlaying" boolean DEFAULT false,
+    "imageUrl" character varying(255) DEFAULT '/img/queueItemDefault.png'::character varying,
+    "imagePlayerURL" character varying(255) DEFAULT '/img/queueItemDefault.png'::character varying,
+    "trackName" character varying(255) NOT NULL,
+    "artistName" character varying(255) NOT NULL,
+    "upVotes" integer DEFAULT 0,
+    "downVotes" integer DEFAULT 0,
+    duration integer DEFAULT 0,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    "roomId" integer
+);
+
+
+ALTER TABLE public."queueItems" OWNER TO rterry;
+
+--
+-- Name: queueItems_id_seq; Type: SEQUENCE; Schema: public; Owner: rterry
+--
+
+CREATE SEQUENCE public."queueItems_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."queueItems_id_seq" OWNER TO rterry;
+
+--
+-- Name: queueItems_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: rterry
+--
+
+ALTER SEQUENCE public."queueItems_id_seq" OWNED BY public."queueItems".id;
+
+
+--
+-- Name: rooms; Type: TABLE; Schema: public; Owner: rterry
+--
+
+CREATE TABLE public.rooms (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    "isPrivate" boolean DEFAULT false,
+    description text DEFAULT 'This room does not have a description yet'::text,
+    "imageUrl" character varying(255) DEFAULT 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR8tcZONgfXI3h4m9BuCi6hg3K84kk7TU_lI6YqgsaoJFhGztOZg'::character varying,
+    "createdBy" integer,
+    "allowAdd" boolean DEFAULT true,
+    "isDemocratic" boolean DEFAULT true,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.rooms OWNER TO rterry;
+
+--
+-- Name: rooms_id_seq; Type: SEQUENCE; Schema: public; Owner: rterry
+--
+
+CREATE SEQUENCE public.rooms_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.rooms_id_seq OWNER TO rterry;
+
+--
+-- Name: rooms_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: rterry
+--
+
+ALTER SEQUENCE public.rooms_id_seq OWNED BY public.rooms.id;
+
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: rterry
+--
+
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    email character varying(255) NOT NULL,
+    "imageUrl" character varying(255) DEFAULT 'https://image.flaticon.com/icons/svg/27/27011.svg'::character varying,
+    salt character varying(255),
+    "spotifyDisplayName" character varying(255),
+    "accessToken" character varying(255) NOT NULL,
+    "refreshToken" character varying(255) NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.users OWNER TO rterry;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: rterry
+--
+
+CREATE SEQUENCE public.users_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_id_seq OWNER TO rterry;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: rterry
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- Name: queueItems id; Type: DEFAULT; Schema: public; Owner: rterry
+--
+
+ALTER TABLE ONLY public."queueItems" ALTER COLUMN id SET DEFAULT nextval('public."queueItems_id_seq"'::regclass);
+
+
+--
+-- Name: rooms id; Type: DEFAULT; Schema: public; Owner: rterry
+--
+
+ALTER TABLE ONLY public.rooms ALTER COLUMN id SET DEFAULT nextval('public.rooms_id_seq'::regclass);
+
+
+--
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: rterry
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- Data for Name: RoomListeners; Type: TABLE DATA; Schema: public; Owner: rterry
+--
+
+COPY public."RoomListeners" ("createdAt", "updatedAt", "userId", "roomId") FROM stdin;
+2018-08-20 13:08:07.629-04	2018-08-20 13:08:07.629-04	3	4
+2018-08-20 13:08:07.634-04	2018-08-20 13:08:07.634-04	2	3
+2018-08-20 13:08:07.634-04	2018-08-20 13:08:07.634-04	1	2
+2018-08-20 13:08:07.634-04	2018-08-20 13:08:07.634-04	4	5
+2018-08-20 13:08:07.634-04	2018-08-20 13:08:07.634-04	5	3
+2018-08-20 13:08:07.639-04	2018-08-20 13:08:07.639-04	7	3
+2018-08-20 13:08:07.639-04	2018-08-20 13:08:07.639-04	6	1
+\.
+
+
+--
+-- Data for Name: Sessions; Type: TABLE DATA; Schema: public; Owner: rterry
+--
+
+COPY public."Sessions" (sid, expires, data, "createdAt", "updatedAt") FROM stdin;
+V8KU8A3TzUOb1M-CWNPo6GIr0273rlsJ	2018-08-20 16:30:10.236-04	{"cookie":{"originalMaxAge":null,"expires":null,"httpOnly":true,"path":"/"},"passport":{"user":8}}	2018-08-19 16:29:44.633-04	2018-08-19 16:30:10.236-04
+XTEqPcI33_KDxrpgDKSKwIL3vJB_GXBU	2018-08-20 20:28:29.841-04	{"cookie":{"originalMaxAge":null,"expires":null,"httpOnly":true,"path":"/"},"passport":{"user":8}}	2018-08-19 20:27:17.837-04	2018-08-19 20:28:29.841-04
+4CYi8ZJieRV0qKAq2q-svau0rvOVRJS7	2018-08-21 16:11:01.211-04	{"cookie":{"originalMaxAge":null,"expires":null,"httpOnly":true,"path":"/"},"passport":{"user":1}}	2018-08-20 16:09:27.485-04	2018-08-20 16:11:01.211-04
+5tPNs-5b8ZEc_J_t5LfLzbOiMhWuMV_y	2018-08-21 12:20:12.171-04	{"cookie":{"originalMaxAge":null,"expires":null,"httpOnly":true,"path":"/"},"passport":{"user":1}}	2018-08-20 12:13:48.576-04	2018-08-20 12:20:12.172-04
+EztsIJQGOy6ZM7bjPRn6Cw93UsTDzH9w	2018-08-20 17:42:57.757-04	{"cookie":{"originalMaxAge":null,"expires":null,"httpOnly":true,"path":"/"},"passport":{"user":9}}	2018-08-19 17:42:57.76-04	2018-08-19 17:42:57.76-04
+NSM6-3LDGNKE7VHrJRbtSSZyKr6bQTy5	2018-08-21 16:11:08.029-04	{"cookie":{"originalMaxAge":null,"expires":null,"httpOnly":true,"path":"/"},"passport":{"user":8}}	2018-08-20 16:09:34.15-04	2018-08-20 16:11:08.03-04
+348AV_veRMzvAqqRCpO26G3UHE0hVt_b	2018-08-21 15:04:00.478-04	{"cookie":{"originalMaxAge":null,"expires":null,"httpOnly":true,"path":"/"},"passport":{"user":9}}	2018-08-20 12:46:02.827-04	2018-08-20 15:04:00.478-04
+4_ZI0RCZvGbisDtje_kkK9qm_8b9bhWp	2018-08-20 20:24:18.995-04	{"cookie":{"originalMaxAge":null,"expires":null,"httpOnly":true,"path":"/"},"passport":{"user":8}}	2018-08-19 20:22:22.888-04	2018-08-19 20:24:18.995-04
+\.
+
+
+--
+-- Data for Name: queueItems; Type: TABLE DATA; Schema: public; Owner: rterry
+--
+
+COPY public."queueItems" (id, voters, votes, "addedBy", "startTimeStamp", "spotifyLink", "currentPlayingTime", "isPlaying", "imageUrl", "imagePlayerURL", "trackName", "artistName", "upVotes", "downVotes", duration, "createdAt", "updatedAt", "roomId") FROM stdin;
+8	\N	1	5	\N	http:spotify.someOtherSong.com	0	f	/img/queueItemDefault.png	/img/queueItemDefault.png	7	7	751	760	0	2018-08-20 13:08:07.591-04	2018-08-20 15:46:07.322-04	2
+4	\N	1	3	\N	http:spotify.someOtherSong.com	0	f	/img/queueItemDefault.png	/img/queueItemDefault.png	3	3	350	360	0	2018-08-20 13:08:07.59-04	2018-08-20 13:08:07.59-04	2
+3	\N	-1	5	1534794329952	http:spotify.someOtherSong.com	0	t	/img/queueItemDefault.png	/img/queueItemDefault.png	4	4	450	451	0	2018-08-20 13:08:07.59-04	2018-08-20 15:46:08.934-04	2
+6	\N	6	5	\N	http:spotify.someOtherSong.com	0	f	/img/queueItemDefault.png	/img/queueItemDefault.png	5	5	550	560	0	2018-08-20 13:08:07.59-04	2018-08-20 13:08:07.59-04	1
+7	\N	6	5	\N	http:spotify.someOtherSong.com	0	f	/img/queueItemDefault.png	/img/queueItemDefault.png	6	6	650	660	0	2018-08-20 13:08:07.591-04	2018-08-20 13:08:07.591-04	1
+32	\N	0	8	\N	spotify:track:2WfaOiMkCvy7F5fcp2zZ8L	0	f	https://i.scdn.co/image/38c04d9df82e1172f096511d5af3fedc1c053948	https://i.scdn.co/image/c41ae5b513a39d1c616c4c279ebe19981a3092f3	Take On Me	a-ha	0	0	225280	2018-08-20 15:46:19.328-04	2018-08-20 15:46:19.328-04	2
+42	\N	1	1	1534795846140	spotify:track:77a5Eu7lC3tG0Sukt2O91U	0	t	https://i.scdn.co/image/09f8d0798589a954689b4f24923306b0ae8beaca	https://i.scdn.co/image/e61d3b1d63f1b3e70c06bdbe2d05063d2cfb1d6e	Born to Love You	LANCO	3	0	230013	2018-08-20 16:10:36.679-04	2018-08-20 16:10:53.774-04	4
+43	\N	1	1	\N	spotify:track:2yQZwi1P8AkkxxFhQ8rMEK	0	f	https://i.scdn.co/image/09f8d0798589a954689b4f24923306b0ae8beaca	https://i.scdn.co/image/e61d3b1d63f1b3e70c06bdbe2d05063d2cfb1d6e	Greatest Love Story	LANCO	2	0	222573	2018-08-20 16:10:37.536-04	2018-08-20 16:10:58.902-04	4
+29	\N	-1	8	1534795788008	spotify:track:66pxmg3Jhjm09tHoWR1wVR	0	t	https://i.scdn.co/image/6622b7330f5126ee63a786e54ad8657c8bd90f12	https://i.scdn.co/image/de947dc9d880bb26819f1a2bd595c606fb10cee8	All the Pretty Girls	Kenny Chesney	1	2	212893	2018-08-20 14:45:14.155-04	2018-08-20 16:09:48.167-04	4
+44	\N	0	1	\N	spotify:track:6TzJLISIitIzn1WtjDY0Op	0	f	https://i.scdn.co/image/f86ca094622c8a47e3d9cb1e4bf270d5b3767ed3	https://i.scdn.co/image/a1e4ed2942e4a9b4fce5d654cb28fc30ceb968ef	Hallelujah	Panic! At The Disco	0	0	180626	2018-08-20 16:10:38.193-04	2018-08-20 16:10:38.193-04	4
+45	\N	0	1	\N	spotify:track:66pxmg3Jhjm09tHoWR1wVR	0	f	https://i.scdn.co/image/6622b7330f5126ee63a786e54ad8657c8bd90f12	https://i.scdn.co/image/de947dc9d880bb26819f1a2bd595c606fb10cee8	All the Pretty Girls	Kenny Chesney	0	0	212893	2018-08-20 16:10:38.751-04	2018-08-20 16:10:38.751-04	4
+46	\N	0	1	\N	spotify:track:0HZk0QsXPhMNAWNDR3rYE8	0	f	https://i.scdn.co/image/cebd620ef6441bd65862bd2d738f0847cd2a96b3	https://i.scdn.co/image/3329bc2e25d9a2d4908753ec0739931e13374568	Hallelujah	Pentatonix	0	0	268960	2018-08-20 16:10:39.703-04	2018-08-20 16:10:39.703-04	4
+47	\N	0	1	\N	spotify:track:74X1epeRufHckhuX1KFD04	0	f	https://i.scdn.co/image/577e1a945a800688e5baa7f8a2e0b4b2114ba02e	https://i.scdn.co/image/21a1dd1ddd2176dbcd434552b76a5e7a40283529	Hallelujah	Jeff Buckley	0	0	413320	2018-08-20 16:10:40.784-04	2018-08-20 16:10:40.784-04	4
+48	\N	0	1	\N	spotify:track:7AclP0W2jy6yrbvBiC4prQ	0	f	https://i.scdn.co/image/6622b7330f5126ee63a786e54ad8657c8bd90f12	https://i.scdn.co/image/de947dc9d880bb26819f1a2bd595c606fb10cee8	Setting the World On Fire	Kenny Chesney	0	0	217466	2018-08-20 16:10:42.014-04	2018-08-20 16:10:42.014-04	4
+33	\N	0	8	\N	spotify:track:2Za1AlJNvksouPPWbXpR2X	0	f	https://i.scdn.co/image/12e5e138a15f76c9e3592cb29d01f8f4f61256ff	https://i.scdn.co/image/cd3a696cccd5ec42ec3f9b56ef3d6ccab633d06b	Good Old Days (feat. Kesha)	Macklemore	0	0	240506	2018-08-20 15:46:41.423-04	2018-08-20 15:46:41.423-04	2
+34	\N	0	8	\N	spotify:track:5OMwQFBcte0aWFJFqrr5oj	0	f	https://i.scdn.co/image/85c2d03503220c7c9301eaca87f9ccc1a33ff157	https://i.scdn.co/image/579f986edd3dd677d1eaee545345638433524e52	TiK ToK	Kesha	0	0	199693	2018-08-20 15:46:45.415-04	2018-08-20 15:46:45.415-04	2
+35	\N	0	8	\N	spotify:track:79NlESqzFSW0hdBWgls4FX	0	f	https://i.scdn.co/image/c9eb3c27200f9b8733f75ef1d7521003467f9f33	https://i.scdn.co/image/efc08f1ec80efa6617cb4f9b45b224fb102239f1	Praying	Kesha	0	0	230269	2018-08-20 15:46:46.387-04	2018-08-20 15:46:46.387-04	2
+\.
+
+
+--
+-- Data for Name: rooms; Type: TABLE DATA; Schema: public; Owner: rterry
+--
+
+COPY public.rooms (id, name, "isPrivate", description, "imageUrl", "createdBy", "allowAdd", "isDemocratic", "createdAt", "updatedAt") FROM stdin;
+1	Funky Room	f	Best funky room on earth!	https://static.thenounproject.com/png/87940-200.png	8	t	t	2018-08-20 13:08:07.574-04	2018-08-20 13:08:07.574-04
+2	No So Funky Room	f	Meh funky room on earth!	https://vignette.wikia.nocookie.net/nintendo/images/3/3f/Funky_Kong_portal_icon.png/revision/latest?cb=20120822060521&path-prefix=en	8	t	t	2018-08-20 13:08:07.575-04	2018-08-20 13:08:07.575-04
+3	Rap Room	f	RAP-it up!!	https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhmqfO9vZ9bsnow6PfUdDdPLEeddLYF9bPmTHvcA5dorZ-fnYM	8	t	t	2018-08-20 13:08:07.575-04	2018-08-20 13:08:07.575-04
+4	Pop Room	f	So pop-ish!!	https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR8tcZONgfXI3h4m9BuCi6hg3K84kk7TU_lI6YqgsaoJFhGztOZg	\N	t	t	2018-08-20 13:08:07.575-04	2018-08-20 13:08:07.575-04
+5	Classical Room	f	Room for the classic	https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR8tcZONgfXI3h4m9BuCi6hg3K84kk7TU_lI6YqgsaoJFhGztOZg	\N	t	t	2018-08-20 13:08:07.576-04	2018-08-20 13:08:07.576-04
+6	Rick	t	HEllo	https://media3.giphy.com/media/l0HlFMRrRUsIMGHpm/100.gif	8	f	t	2018-08-20 15:41:57.397-04	2018-08-20 15:41:57.397-04
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: rterry
+--
+
+COPY public.users (id, name, email, "imageUrl", salt, "spotifyDisplayName", "accessToken", "refreshToken", "createdAt", "updatedAt") FROM stdin;
+2	Bruce	bruce@email.com	https://image.flaticon.com/icons/svg/27/27011.svg	\N	\N	BQBArvKXXRkMA5Br6T6D7kCinRQ7VtnbRBlASLCuP9Tk9COzVMCH2iV6pqvw9U6pYH0CDSg86w5uiSzAm5k_YeE78cb_nOqnIulCGkd26r-frkEAjYRB_hjn7Yu8Er9swtrqXLh3UqSXFB7FdFrx7SZCcDjoAuUL	AQCc8evED7Of-W3EAUdmkwMj1BB-ID1tzFHqmiepEiSpjPLxkrG-cFR4AnotC5oe8TI7RS7LQ7R7V_O3_wTBT4ZjmHWDW7RbwqyBDHnVA-ehzqbTvl1bE9upVP_403Ds5Mk	2018-08-20 13:08:07.528-04	2018-08-20 13:08:07.528-04
+3	monikrz	monica@email.com	https://image.flaticon.com/icons/svg/27/27011.svg	\N	\N	BQAnlxNVDbu82zgg7HdfylJ8E1sHroXYNBhjJSBwEOY-v7cKGBAQeKTN-_Eczxx_J6S3_wyVi8O2zrywDXUaIABJKglSVmrR4mkOlM3ZgmrGMBsYBqU9lx0d2TDGKC2GuUFdzZ7OfsFWBZkD6BouOtNxaYfZgg	AQCNndBudx31uRQv5ogINkqpbPmTOdb1zDtAjpiAU_l6t6y26Cwzlmjzvv3WVYn1Kv3qXBLumakK3e2uF27NOovrhueCpPBJ4Q5AHGYxRRVOitKzWh6AtM2J-17WWeXGCKo	2018-08-20 13:08:07.528-04	2018-08-20 13:08:07.528-04
+4	user1	user1@email.com	https://image.flaticon.com/icons/svg/27/27011.svg	\N	\N	fake user	fake refresh	2018-08-20 13:08:07.528-04	2018-08-20 13:08:07.528-04
+5	user2	user2@email.com	https://image.flaticon.com/icons/svg/27/27011.svg	\N	\N	fake user	fake refresh	2018-08-20 13:08:07.528-04	2018-08-20 13:08:07.528-04
+6	user3	user3@email.com	https://image.flaticon.com/icons/svg/27/27011.svg	\N	\N	fake user	fake refresh	2018-08-20 13:08:07.529-04	2018-08-20 13:08:07.529-04
+7	user4	user4@email.com	https://image.flaticon.com/icons/svg/27/27011.svg	\N	\N	fake user	fake refresh	2018-08-20 13:08:07.529-04	2018-08-20 13:08:07.529-04
+9	msdonnakim	donnakim831@yahoo.com	https://image.flaticon.com/icons/svg/27/27011.svg	\N	msdonnakim	BQAjH4jLfaSY17R01pGc83RUrJwhSdygwNMqfjQzlZCQoDT5qU83bExjWkj2yHVLcUGY_ilEs8kV6tJpYBL9TFWXpP-rW_-KIfENs76-h88BWrTdVuz3qMbp91HYcJrPlsSyYDsO0j66efofZy1HeFkzf3J0rZpOya9z6tqlW0Q	AQDtgWseYGB5HwtSBhvRbKKtCOLHtvEZfMuCal_RZrp8uVLbguTRBp4nMmWJMy_A06JpCoiGgXWZnBIvrNRQp-oib9uTo0hnXO8BESs7Qv1FAw5bPxiKawS7b2YGENiAlwQ	2018-08-20 14:55:42.497-04	2018-08-20 14:55:45.12-04
+1	wormat23	rick@email.com	https://image.flaticon.com/icons/svg/27/27011.svg	\N	\N	BQAOb1Uwa6uouPfsViZSlbKFJsa23jYcqBtXS8--ImiDuJ53ke5snfB86YfEYWhSTm3atD7fyDICwyFiSureLMX-lGmB4UIKLoF6qOostDUs4CcH3EXr_TiPiE5Vfvyxrxzi2DaoFk88W8-t9fLrmteS9AeV6tGZ1fL8CSNW	AQBXHKUY7hbnrydnjyDjiJ01Jh0cXqgsZxgltxT-sVkgPOsTOGuw3CL-roLlPN_uMUKiQFfPs6ah--vibAJMXdUeuCxzmwatZzNGrI2EMNJ3raHrEkzXK4TRu9FZQ5UkNto	2018-08-20 13:08:07.527-04	2018-08-20 16:09:27.474-04
+8	cup70ixpsgg54gc7ipfr6ywtj	rterrynyc@gmail.com	https://image.flaticon.com/icons/svg/27/27011.svg	\N	cup70ixpsgg54gc7ipfr6ywtj	BQBRlFUKL01C8NgH10n1gKq43r-1kRZlsuIFO3rf61kp5jE8lyCKe1X-wsMLzIxWpjuoBdKjywalAunMtdC8Lva5tquV40VjJhQ5tRT9hkgNJZNnbyf0Oh7NFBOvAywVg3QP5Id6_dQBNn_nwNGSbvOFpFrBQGsCQ9WKS6sHG06XyTqDHxONsKD7CBgZmGg	AQDUOrijMVW5eC31yRdVsIdY2IHuAXDaoERBi0cdLB1AkwE63ftC52a7cdrT4g2YA1Yfgi4RlreiFoWLz5uz-ou_rK0ShXkTkvWaPv-paaw4PBy5axEGDeh_iKFMHmam2uU	2018-08-20 13:08:30.743-04	2018-08-20 16:09:34.143-04
+\.
+
+
+--
+-- Name: queueItems_id_seq; Type: SEQUENCE SET; Schema: public; Owner: rterry
+--
+
+SELECT pg_catalog.setval('public."queueItems_id_seq"', 48, true);
+
+
+--
+-- Name: rooms_id_seq; Type: SEQUENCE SET; Schema: public; Owner: rterry
+--
+
+SELECT pg_catalog.setval('public.rooms_id_seq', 6, true);
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: rterry
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 9, true);
+
+
+--
+-- Name: RoomListeners RoomListeners_pkey; Type: CONSTRAINT; Schema: public; Owner: rterry
+--
+
+ALTER TABLE ONLY public."RoomListeners"
+    ADD CONSTRAINT "RoomListeners_pkey" PRIMARY KEY ("userId", "roomId");
+
+
+--
+-- Name: Sessions Sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: rterry
+--
+
+ALTER TABLE ONLY public."Sessions"
+    ADD CONSTRAINT "Sessions_pkey" PRIMARY KEY (sid);
+
+
+--
+-- Name: queueItems queueItems_pkey; Type: CONSTRAINT; Schema: public; Owner: rterry
+--
+
+ALTER TABLE ONLY public."queueItems"
+    ADD CONSTRAINT "queueItems_pkey" PRIMARY KEY (id);
+
+
+--
+-- Name: rooms rooms_pkey; Type: CONSTRAINT; Schema: public; Owner: rterry
+--
+
+ALTER TABLE ONLY public.rooms
+    ADD CONSTRAINT rooms_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: rterry
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_email_key UNIQUE (email);
+
+
+--
+-- Name: users users_name_key; Type: CONSTRAINT; Schema: public; Owner: rterry
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_name_key UNIQUE (name);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: rterry
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: RoomListeners RoomListeners_roomId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: rterry
+--
+
+ALTER TABLE ONLY public."RoomListeners"
+    ADD CONSTRAINT "RoomListeners_roomId_fkey" FOREIGN KEY ("roomId") REFERENCES public.rooms(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: RoomListeners RoomListeners_userId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: rterry
+--
+
+ALTER TABLE ONLY public."RoomListeners"
+    ADD CONSTRAINT "RoomListeners_userId_fkey" FOREIGN KEY ("userId") REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: queueItems queueItems_roomId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: rterry
+--
+
+ALTER TABLE ONLY public."queueItems"
+    ADD CONSTRAINT "queueItems_roomId_fkey" FOREIGN KEY ("roomId") REFERENCES public.rooms(id) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
