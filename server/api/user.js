@@ -28,8 +28,9 @@ router.get('/users', async (req, res, next) => {
 });
 
 //GET user by name
-router.get('/user', async (req, res, next) => {
-  const user = await User.findById(1);
+router.get('/:id', async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+  console.log('USER IS', user);
   if (user === undefined) {
     res.send('No data found');
   } else {

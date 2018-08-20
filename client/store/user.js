@@ -28,7 +28,8 @@ export const me = () => async dispatch => {
 
 export const fetchUser = id => async dispatch => {
   try {
-    const res = await axios.get(`/user/${id}`);
+    const res = await axios.get(`/api/user/${id}`);
+    console.log('retuned!!', res);
     return res.data;
   } catch (err) {
     console.error(err);

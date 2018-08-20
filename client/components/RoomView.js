@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import ListenersList from './ListenersList';
 import {fetchRoom} from '../store/room';
 import {addToQueue, fetchQueues} from '../store/queue';
+import {fetchUser} from '../store/user';
 import {Queue} from './Queue';
 import socket from '../socket';
 import {Card, Image, Header} from 'semantic-ui-react';
@@ -11,13 +12,16 @@ import {Player} from './index';
 import ReactSpeedometer from 'react-d3-speedometer';
 import SpotifyWebPlayer from './SpotifyWebPlayer';
 import SearchForm from './SearchForm';
+import RoomSettings from './RoomSettings';
 
 class RoomView extends Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
+    this.getDj = this.getDj.bind(this);
     this.state = {
-      listeners: []
+      listeners: [],
+      DJ: {}
     };
     socket.on('update-listeners', (room, listenerList) => {
       if (room == this.props.room.id) {
@@ -30,9 +34,17 @@ class RoomView extends Component {
     });
   }
 
+  async getDj() {
+    const DJ = await this.props.getDJ();
+    this.setState({
+      DJ
+    });
+  }
   async componentDidMount() {
     await this.props.fetchRoom();
+    console.log(this.props.room.id);
     await this.props.fetchQueues(this.props.room.id);
+    await this.getDj();
   }
 
   componentWillUnmount() {
@@ -62,7 +74,7 @@ class RoomView extends Component {
       socket.emit('joined', this.props.user, this.props.match.params.id);
     }
     // End of Listener Stuff
-
+    console.log(this.state);
     return this.props.room.name ? (
       <div>
         <div>
@@ -87,6 +99,11 @@ class RoomView extends Component {
           </div>
           <div className="rightRoom">
             <ListenersList listeners={this.state.listeners} />
+          </div>
+          <div className="rightRoom">
+            {this.state.DJ.name && (
+              <RoomSettings user={this.state.DJ} room={this.props.room} />
+            )}
           </div>
           <div>
             <SearchForm />
@@ -122,7 +139,8 @@ class RoomView extends Component {
 const mapDispatch = (dispatch, ownProps) => ({
   fetchRoom: () => dispatch(fetchRoom(ownProps.match.params.id)),
   addToQueue: song => dispatch(addToQueue(song, ownProps.match.params.id)),
-  fetchQueues: roomId => dispatch(fetchQueues(roomId))
+  fetchQueues: roomId => dispatch(fetchQueues(roomId)),
+  getDJ: () => dispatch(fetchUser(ownProps.match.params.id))
 });
 
 const mapState = (state, ownProps) => {
