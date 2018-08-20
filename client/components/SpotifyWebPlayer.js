@@ -179,20 +179,6 @@ class SpotifyWebPlayer extends Component {
     }
   };
 
-  // makeRequest = async (url, body) => {
-  //   try {
-  //     let auth = await this.bearerToken();
-  //     const response = await fetch(url, {
-  //       method: 'PUT',
-  //       headers: auth,
-  //       body
-  //     });
-  //     return response;
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
-
   nextTrack = async () => {
     if (this.props.queue[1]) {
       await this.props.nextSong(this.props.queue[0].id);
@@ -201,6 +187,10 @@ class SpotifyWebPlayer extends Component {
     } else {
       // await this.playTrack(this.props.queue[0]);
       this.setState({lastSong: true});
+      if (!this.state.playing) {
+        await this.props.nextSong(this.props.queue[0].id);
+        await this.playTrack(this.props.queue[1]);
+      }
     }
     socket.emit('next_track');
   };
