@@ -24,6 +24,14 @@ const Room = db.define('room', {
   },
   createdBy: {
     type: Sequelize.INTEGER
+  },
+  allowAdd: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: true
+  },
+  isDemocratic: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: true
   }
 });
 

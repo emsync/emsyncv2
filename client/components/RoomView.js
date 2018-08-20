@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import ListenersList from './ListenersList';
 import {fetchRoom} from '../store/room';
@@ -11,6 +10,8 @@ import {ListenerElement} from './ListenerElement';
 import SearchForm from './SearchForm';
 import {Player} from './index';
 import ReactSpeedometer from 'react-d3-speedometer';
+import SearchForm from './SearchForm';
+import SpotifyWebPlayer from './SpotifyWebPlayer';
 
 class RoomView extends Component {
   constructor(props) {
@@ -21,12 +22,14 @@ class RoomView extends Component {
     };
     socket.on('update-listeners', (room, listenerList) => {
       // console.log('we have an update', room, this.props.room.id);
+      console.log('the keys are: ', listenerList, listenerList[0]);
       if (room == this.props.room.id) {
         const userNames = [];
         for (let i = 0; i < listenerList.length; i++) {
           userNames.push(listenerList[i].name);
         }
         // console.log('we have a match!', listenerList);
+        //its yelling at us because this isnt in the component did mount vvv
         this.setState({listeners: userNames});
       }
     });
@@ -38,7 +41,7 @@ class RoomView extends Component {
   }
 
   componentWillUnmount() {
-    socket.emit('left', this.props.user, this.props.match.params.id);
+    socket.emit('left', socket.id, this.props.match.params.id);
   }
 
   handleClick() {
@@ -46,9 +49,12 @@ class RoomView extends Component {
     this.props.addToQueue({name: 'Baby', artist: 'Justin Biebser'});
   }
 
-  render() {
-    let present = false;
+  // Bound Functions
+  nextQueue = () => {};
 
+  render() {
+    // Listener stuff
+    let present = false;
     if (this.props.user) {
       for (let i = 0; i < this.state.listeners.length; i++) {
         if (this.state.listeners[i] === this.props.user.name) {
@@ -56,11 +62,12 @@ class RoomView extends Component {
         }
       }
     }
-
     if (this.props.user.name && !present) {
       // console.log('emitting joined command');
       socket.emit('joined', this.props.user, this.props.match.params.id);
     }
+    // End of Listener Stuff
+
     return this.props.room.name ? (
       <div>
         <div>
@@ -107,6 +114,7 @@ class RoomView extends Component {
                 />
               </Card.Content>
             </Card>
+            <SpotifyWebPlayer />
           </div>
         </div>
       </div>

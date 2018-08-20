@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Icon, Feed, Card} from 'semantic-ui-react';
+import {Icon, Feed, Card, Input} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 import {SearchResultList} from './SearchResultList';
 import {goSearch} from '../store/searchReducer';
@@ -10,7 +10,8 @@ class SearchForm extends Component {
     super(props);
     this.state = {
       searchParams: '',
-      showResults: false
+      showResults: false,
+      disabled: false
     };
   }
   handleClick = async e => {
@@ -23,6 +24,17 @@ class SearchForm extends Component {
     this.setState({searchParams: '', showResults: true, music: music});
   };
 
+  componentDidMount() {
+    if (
+      !this.props.room.allowAdd &&
+      this.props.room.createdBy !== this.props.user.id
+    ) {
+      console.log('disabling');
+      this.setState({
+        disabled: true
+      });
+    }
+  }
   keyPress = async e => {
     if (e.keyCode == 13) {
       const searchParams = {
@@ -50,12 +62,13 @@ class SearchForm extends Component {
               <Feed.Event>
                 <Feed.Content>
                   <div className="ui icon input">
-                    <input
+                    <Input
                       type="text"
                       placeholder="track/artist..."
                       value={this.state.searchParams}
                       onChange={this.handleChange}
                       onKeyDown={this.keyPress}
+                      disabled={this.state.disabled}
                     />
                     <i
                       className="inverted circular search link icon"
@@ -74,7 +87,11 @@ class SearchForm extends Component {
                 </Feed.Event>
               </Card.Content>
             ) : (
-              <p>Search track/artist</p>
+              <p>
+                {this.state.disabled
+                  ? 'Adding to queue is disabled for this room'
+                  : 'Search track/artist'}
+              </p>
             )}
           </Feed>
         </Card.Content>
@@ -84,7 +101,9 @@ class SearchForm extends Component {
 }
 
 const mapStateToProps = state => ({
-  accessToken: state.user.accessToken
+  accessToken: state.user.accessToken,
+  room: state.room,
+  user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({
