@@ -41,28 +41,24 @@ class SpotifyWebPlayer extends Component {
   // end
 
   loadSpotify = () => {
-    // console.log('called', this.state);
-
     this.checkInterval = setInterval(() => {
       this.checkForPlayer();
     }, 1000);
   };
 
   checkForPlayer = () => {
-    // console.log('checking', this.state.token);
     if (this.state.token !== '') {
-      // console.log('hi there', window);
       const {token} = this.state;
-      // clearInterval(this.checkInterval);
       if (window.Spotify !== null) {
-        clearInterval(this.checkInterval);
-        // console.log('interval? ', this.checkInterval);
         this.player = new window.Spotify.Player({
           name: 'emSync Spotify Player',
           getOAuthToken: callBack => {
             callBack(token);
           }
         });
+        if (this.player) {
+          clearInterval(this.checkInterval);
+        }
         this.eventHandlers();
         this.player.connect();
       }
@@ -134,11 +130,9 @@ class SpotifyWebPlayer extends Component {
     if (this.state.volume > 0) {
       this.setState({volume: 0});
       this.player.setVolume(0);
-      this.setState({lastSong: false});
     } else {
       this.setState({volume: 1});
       this.player.setVolume(1);
-      this.setState({lastSong: true});
     }
   };
 
@@ -185,26 +179,28 @@ class SpotifyWebPlayer extends Component {
     }
   };
 
-  makeRequest = async (url, body) => {
-    try {
-      let auth = await this.bearerToken();
-      const response = await fetch(url, {
-        method: 'PUT',
-        headers: auth,
-        body
-      });
-      return response;
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  // makeRequest = async (url, body) => {
+  //   try {
+  //     let auth = await this.bearerToken();
+  //     const response = await fetch(url, {
+  //       method: 'PUT',
+  //       headers: auth,
+  //       body
+  //     });
+  //     return response;
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
   nextTrack = async () => {
     if (this.props.queue[1]) {
       await this.props.nextSong(this.props.queue[0].id);
       await this.playTrack(this.props.queue[1]);
+      this.setState({lastSong: false});
     } else {
-      await this.playTrack(this.props.queue[1]);
+      await this.playTrack(this.props.queue[0]);
+      this.setState({lastSong: true});
     }
     socket.emit('next_track');
   };
@@ -226,8 +222,7 @@ class SpotifyWebPlayer extends Component {
       },
       body: JSON.stringify({device_ids: [deviceId], play: true})
     });
-    // console.log('fetch response', response);
-    this.syncOnJoin();
+    await this.syncOnJoin();
   };
 
   syncOnJoin = async () => {
@@ -238,13 +233,9 @@ class SpotifyWebPlayer extends Component {
       const time = await d.getTime();
       var position = 0;
       const startedAt = this.props.queue[0].startTimeStamp;
-      // console.log('start time was:', startedAt, ' and current time is', time);
-      // console.log('difference is', time - startedAt);
       if (time - startedAt > this.props.queue[0].duration) {
-        // console.log('starting from beginning');
         position = 0;
       } else {
-        // console.log('resuming from position', position);
         position = time - startedAt || 0;
       }
       await this.playTrack(this.props.queue[0], position);
