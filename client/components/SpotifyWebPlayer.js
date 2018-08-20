@@ -199,7 +199,7 @@ class SpotifyWebPlayer extends Component {
       await this.playTrack(this.props.queue[1]);
       this.setState({lastSong: false});
     } else {
-      await this.playTrack(this.props.queue[0]);
+      // await this.playTrack(this.props.queue[0]);
       this.setState({lastSong: true});
     }
     socket.emit('next_track');
@@ -293,6 +293,7 @@ class SpotifyWebPlayer extends Component {
               <p>Album: {albumName !== '' ? albumName : 'n/a'}</p>
               <p>Playing: {playing ? 'Yes' : 'No'}</p>
               <p>
+                {this.state.lastSong ? <div>Error: Last Song</div> : null}
                 <button onClick={this.onPausePlayClick}>
                   {playing ? 'Pause' : 'Play'}
                 </button>
