@@ -205,6 +205,7 @@ class SpotifyWebPlayer extends Component {
 
     const deviceId = this.state.deviceId;
     const token = this.state.token;
+    console.log('users token:', this.state.token);
     const response = await fetch('https://api.spotify.com/v1/me/player', {
       method: 'PUT',
       headers: {

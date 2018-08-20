@@ -20,6 +20,7 @@ const playSong = queueItem => ({type: PLAY_SONG, queueItem});
 
 //THUNK CREATORS
 export const playSongs = queueItem => async dispatch => {
+  console.log('can we add playign?', queueItem);
   console.log('can we add playign?', queueItem.item);
   const res = await axios.put(`/api/queues/${queueItem.id}`, {
     duration: queueItem.duration,
