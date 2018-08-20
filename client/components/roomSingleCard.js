@@ -17,6 +17,8 @@ const Extra = props => {
   );
 };
 
+//really want to implement a dimmer here (see semantic ui)
+
 const RoomSingleCard = props => {
   return (
     <Card centered="true">

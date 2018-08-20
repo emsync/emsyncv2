@@ -25,6 +25,7 @@ class RoomView extends Component {
           userNames.push(listenerList[i].name);
         }
         // console.log('we have a match!', listenerList);
+        //its yelling at us because this isnt in the component did mount vvv
         this.setState({listeners: userNames});
       }
     });
