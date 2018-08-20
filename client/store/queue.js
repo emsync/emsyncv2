@@ -20,12 +20,14 @@ const playSong = queueItem => ({type: PLAY_SONG, queueItem});
 
 //THUNK CREATORS
 export const playSongs = queueItem => async dispatch => {
+  // console.log('inside playSings thunk');
   const res = await axios.put(`/api/queues/${queueItem.id}`, {
     duration: queueItem.duration,
     startTimeStamp: queueItem.startTimeStamp,
     isPlaying: true
   });
-  dispatch(playSong, res.data);
+  await res;
+  dispatch(playSong(res.data));
 };
 export const removeFromQueue = itemId => async dispatch => {
   const res = await axios.delete(`/api/queues/${itemId}`);
@@ -67,6 +69,14 @@ export default function(state = [], action) {
       });
       finaleQueue.push(action.queueItem);
       return finaleQueue;
+    case PLAY_SONG:
+      console.log('action.data', action.queueItem);
+      let cQueue = [...state];
+      let fQueue = cQueue.filter(item => {
+        return item.id !== action.queueItem.id;
+      });
+      fQueue.push(action.queueItem);
+      return fQueue;
     case FETCH_QUEUE:
       return action.queue;
     default:
