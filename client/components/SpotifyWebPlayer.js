@@ -238,8 +238,8 @@ class SpotifyWebPlayer extends Component {
       const time = await d.getTime();
       var position = 0;
       const startedAt = this.props.queue[0].startTimeStamp;
-      console.log('start time was:', startedAt, ' and current time is', time);
-      console.log('difference is', time - startedAt);
+      // console.log('start time was:', startedAt, ' and current time is', time);
+      // console.log('difference is', time - startedAt);
       if (time - startedAt > this.props.queue[0].duration) {
         // console.log('starting from beginning');
         position = 0;
