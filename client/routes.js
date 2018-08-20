@@ -10,6 +10,7 @@ import {me} from './store';
 import SearchForm from './components/SearchForm';
 import {UserProfile} from './components/UserProfile';
 import {RoomForm} from './components/RoomForm';
+import GiphySearch from './components/giphySearch';
 /**
  * COMPONENT
  */
@@ -31,6 +32,7 @@ class Routes extends Component {
         <Route exact path="/" component={UserHome} />
         <Route exact path="/add-room" component={RoomForm} />
         <Route exact path="/me" component={UserProfile} />
+        <Route exact path="/gifs" component={GiphySearch} />
 
         {/* Displays our Login component as a fallback */}
       </Switch>
