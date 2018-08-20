@@ -50,7 +50,8 @@ class UnconnectedQueueElement extends Component {
       imagePlayerURL: this.state.imagePlayerURL,
       roomId: this.props.room.id,
       trackName: this.state.trackName,
-      artistName: this.state.artistName
+      artistName: this.state.artistName,
+      duration: this.props.duration
     });
   };
 

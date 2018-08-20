@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {removeFromQueue} from '../store/queue';
+import {removeFromQueue, playSongs} from '../store/queue';
 import socket from '../socket';
 
 class SpotifyWebPlayer extends Component {
@@ -62,7 +62,6 @@ class SpotifyWebPlayer extends Component {
             callBack(token);
           }
         });
-        // console.log('player!', this.player);
         this.eventHandlers();
         this.player.connect();
       }
@@ -130,7 +129,8 @@ class SpotifyWebPlayer extends Component {
     this.player.on('ready', async data => {
       let {device_id} = data;
       await this.setState({deviceId: device_id});
-      this.transferPlayback();
+      await this.transferPlayback();
+      await this.syncOnJoin();
       console.log('Playing Music');
     });
   }
@@ -158,19 +158,79 @@ class SpotifyWebPlayer extends Component {
       headers: auth,
       body: JSON.stringify({uris: [songUri]})
     });
+
+    const d = new Date();
+    const startTimeStamp = d.getTime();
+    try {
+      await this.props.playSong({
+        id: this.props.queue[1].id,
+        startTimeStamp,
+        isPlaying: true
+      });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  transferPlayback = () => {
+  setPosition = position => {
+    this.player.seek(position);
+  };
+
+  makeRequest = async (url, body) => {
+    try {
+      let auth = await this.bearerToken();
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: auth,
+        body
+      });
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  nextTrack = async () => {
+    await this.props.nextSong(this.props.queue[0].id);
+    this.playTrack(this.props.queue[1].spotifyLink);
+    socket.emit('next_track');
+  };
+
+  transferPlayback = async () => {
+    /**
+     * Will set current device to emSync and then start playing the current item in the queue
+     * position should be 0 if the song has completed
+     * (aka need a user in the room to go to next song)
+     */
+
     const deviceId = this.state.deviceId;
     const token = this.state.token;
-    fetch('https://api.spotify.com/v1/me/player', {
+    const response = await fetch('https://api.spotify.com/v1/me/player', {
       method: 'PUT',
       headers: {
         authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({device_ids: [deviceId], play: false})
+      body: JSON.stringify({device_ids: [deviceId], play: true})
     });
+  };
+
+  syncOnJoin = async () => {
+    if (!this.props.queue[0].isPlaying) {
+      this.playTrack(this.props.queue[0].spotifyLink);
+    } else {
+      const d = new Date();
+      const time = d.getTime();
+      const position = 0;
+      const startedAt = this.props.queue[0].startTimeStamp;
+      if (time - startedAt > this.props.queue[0].duration) {
+        position = 0;
+      } else {
+        position = time - startedAt || 0;
+      }
+      await this.playTrack(this.props.queue[0].spotifyLink);
+      await this.player.setPosition(position);
+    }
   };
 
   bearerToken = () => {
@@ -178,16 +238,12 @@ class SpotifyWebPlayer extends Component {
       let headers = {};
       headers.authorization = `Bearer ${this.state.token}`;
       headers['Content-Type'] = 'application/json';
-      // console.log('have props?', headers);
       return headers;
     }
   };
 
-  nextTrack = () => {
-    console.log('current queue', this.props.queue[0]);
-    this.playTrack(this.props.queue[0].spotifyLink);
-    socket.emit('next_track');
-    this.props.nextSong(this.props.queue[0].id);
+  sync = () => {
+    console.log('something');
   };
 
   render() {
@@ -235,6 +291,7 @@ class SpotifyWebPlayer extends Component {
                   {this.state.volume > 0 ? 'Mute' : 'Unmute'}
                 </button>
                 <button onClick={this.nextTrack}>Next Track</button>
+                <button onClick={this.sync}>Sync</button>
               </p>
             </div>
           ) : (
@@ -259,8 +316,10 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     nextSong: id => {
-      console.log('hit this method', id);
       dispatch(removeFromQueue(id));
+    },
+    playSong: item => {
+      dispatch(playSongs(item));
     }
   };
 };

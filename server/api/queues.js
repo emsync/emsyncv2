@@ -45,7 +45,9 @@ router.delete('/:itemId', async (req, res, next) => {
 
 router.put('/:songId', async (req, res, next) => {
   try {
+    console.log('update request is', req.body, req.params.songId);
     var queueItem = await QueueItem.findById(req.params.songId);
+    console.log('search result is', queueItem);
     queueItem = await queueItem.update(req.body);
     res.send(queueItem);
   } catch (err) {

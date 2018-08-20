@@ -4,6 +4,7 @@ const ADD_QUEUE = 'ADD_QUEUE';
 const REMOVE_QUEUE = 'REMOVE_QUEUE';
 const UPDATE_VOTES = 'UPDATE_VOTES';
 const FETCH_QUEUE = 'FETCH_QUEUE';
+const PLAY_SONG = 'PLAY_SONG';
 
 //ACTION CREATORS
 const addQueue = item => {
@@ -13,12 +14,20 @@ const addQueue = item => {
 const fetchQueue = queue => {
   return {type: FETCH_QUEUE, queue};
 };
-
 const removeQueue = id => ({type: REMOVE_QUEUE, id});
-
 const updateVotes = queueItem => ({type: UPDATE_VOTES, queueItem});
+const playSong = queueItem => ({type: PLAY_SONG, queueItem});
 
 //THUNK CREATORS
+export const playSongs = queueItem => async dispatch => {
+  console.log('can we add playign?', queueItem.item);
+  const res = await axios.put(`/api/queues/${queueItem.id}`, {
+    duration: queueItem.duration,
+    startTimeStamp: queueItem.startTimeStamp,
+    isPlaying: true
+  });
+  dispatch(playSong, res.data);
+};
 export const removeFromQueue = itemId => async dispatch => {
   const res = await axios.delete(`/api/queues/${itemId}`);
   dispatch(removeQueue(itemId));
