@@ -6,7 +6,7 @@ import {addToQueue, fetchQueues} from '../store/queue';
 import {fetchUser} from '../store/user';
 import {Queue} from './Queue';
 import socket from '../socket';
-import {Card, Image, Header} from 'semantic-ui-react';
+import {Card, Image, Header, Grid} from 'semantic-ui-react';
 import {ListenerElement} from './ListenerElement';
 import {Player} from './index';
 import ReactSpeedometer from 'react-d3-speedometer';
@@ -87,48 +87,51 @@ class RoomView extends Component {
             {this.props.room.name}
           </Header>
         </div>
-        <br />
-        <div className="room">
-          <div className="leftRoom">
-            {this.props.room.queueItems ? (
-              <Queue
-                queue={this.props.room.queueItems}
-                roomId={this.props.match.params.id}
-              />
-            ) : null}
-          </div>
-          <div className="rightRoom">
-            <ListenersList listeners={this.state.listeners} />
-          </div>
-          <div className="rightRoom">
-            {this.state.DJ.name && (
-              <RoomSettings user={this.state.DJ} room={this.props.room} />
-            )}
-          </div>
-          <div>
-            <SearchForm />
-          </div>
-          <div>
-            <Card>
-              <Card.Content>
-                <Card.Header>Hot or Not</Card.Header>
-              </Card.Content>
-              <Card.Content>
-                <ReactSpeedometer
-                  maxValue={this.state.listeners.length}
-                  minValue={-this.state.listeners.length}
-                  value={0}
-                  //itll be this.nowplaying.votes
-                  needleColor="red"
-                  segments={5}
-                  needleTransitionDuration={4000}
-                  needleTransition="easeElastic"
+        <Grid columns={4}>
+          <Grid.Row>
+            <Grid.Column>
+              <SpotifyWebPlayer roomId={this.props.room.id} />
+            </Grid.Column>
+            <Grid.Column>
+              <ListenersList listeners={this.state.listeners} />
+            </Grid.Column>
+            <Grid.Column>
+              {this.state.DJ.name && (
+                <RoomSettings user={this.state.DJ} room={this.props.room} />
+              )}
+            </Grid.Column>
+            <Grid.Column>
+              {this.props.room.queueItems ? (
+                <Queue
+                  queue={this.props.room.queueItems}
+                  roomId={this.props.match.params.id}
                 />
-              </Card.Content>
-            </Card>
-            <SpotifyWebPlayer roomId={this.props.room.id} />
-          </div>
-        </div>
+              ) : null}{' '}
+            </Grid.Column>
+            <Grid.Column>
+              <Card>
+                <Card.Content>
+                  <Card.Header>Hot or Not</Card.Header>
+                </Card.Content>
+                <Card.Content>
+                  <ReactSpeedometer
+                    maxValue={this.state.listeners.length}
+                    minValue={-this.state.listeners.length}
+                    value={0}
+                    //itll be this.nowplaying.votes
+                    needleColor="red"
+                    segments={5}
+                    needleTransitionDuration={4000}
+                    needleTransition="easeElastic"
+                  />
+                </Card.Content>
+              </Card>
+            </Grid.Column>
+            <Grid.Column>
+              <SearchForm />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
       </div>
     ) : (
       <p>Loading...</p>
