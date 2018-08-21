@@ -28,6 +28,9 @@ class NavBar extends Component {
           <Menu.Item as={Link} to="/">
             <img src="/img/emsync-logo.jpeg" alt="emSync Logo" />
           </Menu.Item>
+          <Menu.Item className="title" as={Link} to="/">
+            Emsync
+          </Menu.Item>
           {!this.props.user.name ? (
             <Menu.Item href="/auth/spotify" key={key++}>
               Login
