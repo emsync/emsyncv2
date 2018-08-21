@@ -13,6 +13,8 @@ const redirect_uri = process.env.SPOTIFY_REDIRECT_URI;
 router.use(cors());
 router.use(cookieParser());
 
+router.get('/', async (req, res, next) => {});
+
 //GET all users
 router.get('/users', async (req, res, next) => {
   const users = await User.findAll();
@@ -20,6 +22,16 @@ router.get('/users', async (req, res, next) => {
     res.send('No data found');
   } else {
     res.send(users);
+  }
+});
+
+//GET user by name
+router.get('/:id', async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+  if (user === undefined) {
+    res.send('No data found');
+  } else {
+    res.send(user);
   }
 });
 

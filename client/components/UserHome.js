@@ -19,6 +19,7 @@ export class UserHome extends Component {
           <Header
             as="h1"
             textAlign="center"
+            className="title"
             style={{marginTop: 30, fontSize: 45}}
           >
             Active Rooms
@@ -34,7 +35,6 @@ export class UserHome extends Component {
  * CONTAINER
  */
 const mapState = state => {
-  // console.log('STORED STATE: ', state);
   return {
     user: state.user,
     email: state.user.email,

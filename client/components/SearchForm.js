@@ -29,7 +29,6 @@ class SearchForm extends Component {
       !this.props.room.allowAdd &&
       this.props.room.createdBy !== this.props.user.id
     ) {
-      console.log('disabling');
       this.setState({
         disabled: true
       });
@@ -50,7 +49,6 @@ class SearchForm extends Component {
     this.setState({searchParams: e.target.value});
   };
   render() {
-    // console.log('SearchForm music is: ', this.state.music);
     return (
       <Card>
         <Card.Content>
