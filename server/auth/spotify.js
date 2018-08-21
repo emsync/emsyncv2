@@ -30,13 +30,13 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
   const strategy = new SpotifyStrategy(
     spotifyConfig,
     async (aToken, rToken, profile, done) => {
-      // console.log('Profile: ', profile);
+      console.log('Profile: ', profile);
       const userName = profile.id;
       const email = profile.emails[0].value;
       const spotifyDisplayName = profile.username;
       const accessToken = aToken;
       const refreshToken = rToken;
-      const images = profile.images;
+      const photos = profile.photos;
 
       var data = {
         name: userName,
@@ -68,7 +68,7 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
           spotifyDisplayName: userName,
           accessToken: accessToken,
           refreshToken: refreshToken,
-          spotifyImage: images[0] || null,
+          spotifyImage: photos[0] || null,
           
         });
         done(null, user);
