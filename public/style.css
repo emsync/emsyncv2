@@ -15,9 +15,14 @@ body {
   font-family: sans-serif;
 }
 
+.ui.card > .content > .header:not(.ui),
+.ui.cards > .card > .content > .header:not(.ui) {
+  color: rgba(255, 255, 255, 0.9);
+}
+
 .ui.card > .content,
 .ui.cards > .card > .content {
-  background-color: #1b1c1d;
+  background-color: #1b1c1d !important;
   color: white;
 }
 
