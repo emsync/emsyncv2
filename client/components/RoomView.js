@@ -48,6 +48,23 @@ class RoomView extends Component {
     if (this.props.user.id) {
       await this.props.goRefreshToken(this.props.user.id);
     }
+
+    let present = false;
+    if (this.props.user) {
+      for (let i = 0; i < this.state.listeners.length; i++) {
+        if (this.state.listeners[i] === this.props.user.name) {
+          present = true;
+        }
+      }
+    }
+
+    if (this.props.user.name && !present) {
+      socket.emit(
+        'joined',
+        {id: this.props.user, name: this.props.user.name},
+        this.props.match.params.id
+      );
+    }
   }
 
   componentWillUnmount() {
@@ -62,19 +79,6 @@ class RoomView extends Component {
   nextQueue = () => {};
 
   render() {
-    // Listener stuff
-    let present = false;
-    if (this.props.user) {
-      for (let i = 0; i < this.state.listeners.length; i++) {
-        if (this.state.listeners[i] === this.props.user.name) {
-          present = true;
-        }
-      }
-    }
-    if (this.props.user.name && !present) {
-      socket.emit('joined', this.props.user, this.props.match.params.id);
-    }
-    // End of Listener Stuff
     return this.props.room.name ? (
       <div>
         <div>
