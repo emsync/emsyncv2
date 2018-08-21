@@ -36,7 +36,7 @@ class RoomView extends Component {
   }
 
   async getDj() {
-    const DJ = await this.props.getDJ();
+    const DJ = await this.props.getDJ(this.props.room.createdBy);
     this.setState({
       DJ
     });
@@ -148,7 +148,7 @@ const mapDispatch = (dispatch, ownProps) => ({
   fetchRoom: () => dispatch(fetchRoom(ownProps.match.params.id)),
   addToQueue: song => dispatch(addToQueue(song, ownProps.match.params.id)),
   fetchQueues: roomId => dispatch(fetchQueues(roomId)),
-  getDJ: () => dispatch(fetchUser(ownProps.match.params.id)),
+  getDJ: id => dispatch(fetchUser(id)),
   goRefreshToken: userId => dispatch(goRefreshToken(userId))
 });
 
