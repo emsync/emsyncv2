@@ -68,7 +68,7 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
           spotifyDisplayName: userName,
           accessToken: accessToken,
           refreshToken: refreshToken,
-          spotifyImage: photos[0] || null,
+          imageUrl: photos[0] || null,
           
         });
         done(null, user);
