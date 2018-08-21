@@ -36,6 +36,7 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
       const spotifyDisplayName = profile.username;
       const accessToken = aToken;
       const refreshToken = rToken;
+      const images = profile.images;
 
       var data = {
         name: userName,
@@ -66,7 +67,9 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
           email: email,
           spotifyDisplayName: userName,
           accessToken: accessToken,
-          refreshToken: refreshToken
+          refreshToken: refreshToken,
+          spotifyImage: images[0] || null,
+          
         });
         done(null, user);
       }

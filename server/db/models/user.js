@@ -40,7 +40,7 @@ const User = db.define('user', {
       return () => this.getDataValue('salt');
     }
   },
-  spotifyDisplayName: {
+  spotifyImage: {
     type: Sequelize.STRING
   },
   accessToken: {

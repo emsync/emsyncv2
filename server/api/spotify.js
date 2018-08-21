@@ -11,11 +11,14 @@ const spotifyApi = new SpotifyWebApi({
   redirectUri: AuthConfig.clientRedirectURI
 });
 
-router.put('/refreshToken/:userId', async (req, res, next) => {
-  // console.log('in api/spotify/refreshToken');
-  // console.log('old access token is: ', req.user.accessToken);
-  // console.log('old refreshToken is: ', req.user.refreshToken);
+//Get spotify user info
+router.get('/:userId' , async(req,res,next) => {
+  const user = await spotifyApi.getUser();
+  console.log(user);
+})
 
+
+router.put('/refreshToken/:userId', async (req, res, next) => {
   try {
     const params = new URLSearchParams();
     params.append('grant_type', 'refresh_token');
