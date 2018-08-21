@@ -9,7 +9,6 @@ import {Queue} from './Queue';
 import socket from '../socket';
 import {Card, Image, Header, Grid} from 'semantic-ui-react';
 import {ListenerElement} from './ListenerElement';
-import {Player} from './index';
 import ReactSpeedometer from 'react-d3-speedometer';
 import SpotifyWebPlayer from './SpotifyWebPlayer';
 import SearchForm from './SearchForm';
@@ -80,32 +79,23 @@ class RoomView extends Component {
 
   render() {
     return this.props.room.name ? (
-      <div>
+      <div className="pageContainer">
         <div>
           <Header
             as="h1"
             textAlign="center"
-            color="white"
             style={{marginTop: 30, fontSize: 45}}
           >
             <Image circular src={this.props.room.imageUrl} size="small" />
             {this.props.room.name}
           </Header>
         </div>
-        <Grid columns={4}>
+        <Grid centered columns={5}>
           <Grid.Row>
-            <Grid.Column>
+            <Grid.Column key="player">
               <SpotifyWebPlayer roomId={this.props.room.id} />
             </Grid.Column>
-            <Grid.Column>
-              <ListenersList listeners={this.state.listeners} />
-            </Grid.Column>
-            <Grid.Column>
-              {this.state.DJ.name && (
-                <RoomSettings user={this.state.DJ} room={this.props.room} />
-              )}
-            </Grid.Column>
-            <Grid.Column>
+            <Grid.Column key="queue">
               {this.props.room.queueItems ? (
                 <Queue
                   queue={this.props.room.queueItems}
@@ -113,12 +103,23 @@ class RoomView extends Component {
                 />
               ) : null}{' '}
             </Grid.Column>
-            <Grid.Column>
-              {/* <Card>
+            <Grid.Column key="search">
+              <SearchForm />
+            </Grid.Column>
+            <Grid.Column key="listeners">
+              <ListenersList listeners={this.state.listeners} />
+            </Grid.Column>
+            <Grid.Column key="settings">
+              {this.state.DJ.name && (
+                <RoomSettings user={this.state.DJ} room={this.props.room} />
+              )}
+            </Grid.Column>
+            {/* <Grid.Column> */}
+            {/* <Card>
                 <Card.Content>
                   <Card.Header>Hot or Not</Card.Header>
                 </Card.Content> */}
-              {/* <Card.Content>
+            {/* <Card.Content>
                   <ReactSpeedometer
                     maxValue={this.state.listeners.length}
                     minValue={-this.state.listeners.length}
@@ -130,11 +131,8 @@ class RoomView extends Component {
                     needleTransition="easeElastic"
                   />
                 </Card.Content> */}
-              {/* </Card> */}
-            </Grid.Column>
-            <Grid.Column>
-              <SearchForm />
-            </Grid.Column>
+            {/* </Card> */}
+            {/* </Grid.Column> */}
           </Grid.Row>
         </Grid>
       </div>

@@ -25,7 +25,7 @@ export class UserHome extends Component {
   render() {
     return (
       this.props.rooms.length && (
-        <div>
+        <div className="pageContainer">
           <Header
             as="h1"
             textAlign="center"
