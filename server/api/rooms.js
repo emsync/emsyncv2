@@ -18,14 +18,19 @@ router.get('/:id', async (req, res, next) => {
     //console.log('ROOM: ', room);
     res.json(room);
   } catch (err) {
+    res.json(`Room doesn't exist`)
     console.log('err');
   }
 });
 
 router.put('/', async (req, res, next) => {
   // console.log('REQ>BODY', req.body);
-  const newRoom = await Room.create(req.body);
-  res.status(201).json(newRoom);
+  try{
+    const newRoom = await Room.create(req.body);
+    res.status(201).json(newRoom);
+  }catch (err) {
+    res.status(400).json('Room not created')
+  }
 });
 
 router.delete('/:id', async (req, res, next) => {

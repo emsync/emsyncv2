@@ -12,6 +12,7 @@ const QueueItem = require('../server/db/models/queueItem');
 
 
 
+describe(' +++++++++++++++++++++ SEQUELIZE MODELS  +++++++++++++++++++++', () => {
 
 describe('#User-model', () => {
     const User = {name :'user1' , email: 'user1@email.com' , imageUrl: 'hsdlkfhlaksf', refreshToken: 'KJHGGDUW' , accessToken: 'JBKACBUQEY'}
@@ -61,4 +62,5 @@ describe('#queueItem-model', () => {
             'roomId'
         ].forEach(checkPropertyExists(queueItem))
     })
+});
 });
