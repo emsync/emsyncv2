@@ -42,10 +42,16 @@ module.exports = io => {
       removeUser(user, room);
     });
 
+    // next track - either use initiated or end of previous track
     socket.on('next_track', roomId => {
-      socket.broadcast.emit('next_track', roomId);
+      console.log('next track request from room', roomId);
+      io.sockets.emit('next_track', roomId);
     });
 
+    // queue update
+    socket.on('new_queue', roomId => {
+      socket.broadcast.emit('new_queue', roomId);
+    });
     // error handling
     socket.on('error', function(err) {
       console.log(err);
