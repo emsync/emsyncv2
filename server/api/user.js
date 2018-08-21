@@ -22,6 +22,7 @@ router.get('/users', async (req, res, next) => {
     res.send('No data found');
   } else {
     res.send(users);
+    done();
   }
 });
 

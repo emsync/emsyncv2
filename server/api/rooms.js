@@ -5,6 +5,7 @@ router.get('/', async (req, res, next) => {
   try {
     const rooms = await Room.findAll({include: {all: true}});
     res.json(rooms);
+    done();
   } catch (err) {
     console.log(err);
   }
@@ -21,7 +22,7 @@ router.get('/:id', async (req, res, next) => {
 
 router.put('/', async (req, res, next) => {
   const newRoom = await Room.create(req.body);
-  res.send(newRoom);
+  res.status(201).send(newRoom);
 });
 
 router.delete('/:id', async (req, res, next) => {

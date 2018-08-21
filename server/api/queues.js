@@ -21,7 +21,7 @@ router.get('/:roomId', async (req, res, next) => {
         roomId: req.params.roomId
       }
     });
-    res.send(queue);
+    res.json(queue);
   } catch (err) {
     next(err);
   }
