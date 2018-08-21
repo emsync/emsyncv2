@@ -43,11 +43,6 @@ router.get('/:roomId', async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-
-  try {
-  } catch (err) {
-    next(err);
-  }
 });
 
 const sortArray = arr => {

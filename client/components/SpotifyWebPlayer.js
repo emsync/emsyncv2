@@ -196,6 +196,7 @@ class SpotifyWebPlayer extends Component {
         await this.playTrack(this.props.queue[0]);
       }
     }
+    socket.emit('new_queue');
     // socket.emit('next_track');
   };
 
@@ -214,7 +215,7 @@ class SpotifyWebPlayer extends Component {
         authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({device_ids: [deviceId], play: true})
+      body: JSON.stringify({device_ids: [deviceId], play: false})
     });
     await this.syncOnJoin();
   };
