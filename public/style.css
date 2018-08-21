@@ -162,3 +162,9 @@ ul.ui.list li {
 .ui.centered.header {
   color: white;
 }
+
+.pageContainer {
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;
+}
