@@ -15,13 +15,20 @@ router.get('/:id', async (req, res, next) => {
     const room = await Room.findById(req.params.id, {include: {all: true}});
     res.json(room);
   } catch (err) {
+    res.json(`Room doesn't exist`)
     console.log('err');
   }
 });
 
 router.put('/', async (req, res, next) => {
-  const newRoom = await Room.create(req.body);
-  res.send(newRoom);
+  // console.log('REQ>BODY', req.body);
+  try{
+    const newRoom = await Room.create(req.body);
+    res.status(201).json(newRoom);
+  }catch (err) {
+    res.status(400).json('Room not created')
+  }
+
 });
 
 router.delete('/:id', async (req, res, next) => {
