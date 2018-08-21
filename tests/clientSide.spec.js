@@ -151,11 +151,6 @@ describe(' +++++++++++++++++++++ REACT COMPONENTS  +++++++++++++++++++++', () =>
         const songs = {name: 'song1', description: 'some description'};
         mockAxios.onPost(`/api/spotify`, songs).replyOnce(200, songs);
       });
-      // it('Handles Change and Submit for Create Room Form ', () => {
-      //   let accesToken = '';
-      //   const wrapper = shallow(<SearchForm props = {accesToken} store={store} accessToken = {'sdhflasubi'}/>);
-      //   expect(wrapper.find('handleClick()').length).to.equal(0);
-      // })
     });
   });
 });
