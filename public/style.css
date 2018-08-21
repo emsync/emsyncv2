@@ -164,7 +164,7 @@ ul.ui.list li {
 }
 
 .pageContainer {
-  padding-left: 30px;
-  padding-right: 30px;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;
 }

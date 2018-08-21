@@ -103,6 +103,9 @@ class RoomView extends Component {
                 />
               ) : null}{' '}
             </Grid.Column>
+            <Grid.Column key="search">
+              <SearchForm />
+            </Grid.Column>
             <Grid.Column key="listeners">
               <ListenersList listeners={this.state.listeners} />
             </Grid.Column>
@@ -110,9 +113,6 @@ class RoomView extends Component {
               {this.state.DJ.name && (
                 <RoomSettings user={this.state.DJ} room={this.props.room} />
               )}
-            </Grid.Column>
-            <Grid.Column key="search">
-              <SearchForm />
             </Grid.Column>
             {/* <Grid.Column> */}
             {/* <Card>
