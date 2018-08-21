@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {removeFromQueue, playSongs} from '../store/queue';
 import socket from '../socket';
+import {List, Card, Feed, Image, Label, Button} from 'semantic-ui-react';
 
 class SpotifyWebPlayer extends Component {
   constructor() {
@@ -270,43 +271,53 @@ class SpotifyWebPlayer extends Component {
 
     return (
       <div className="spotify-player">
-        <div>
-          <h2>Now Playing</h2>
-        </div>
-        <div>
-          {error && <p>Error: {error}</p>}
-          {loggedIn ? (
-            <div>
-              <img
-                src={imageUrl}
-                onError={i => (i.target.style.display = 'none')}
-              />
-              <p>Artist: {artistName !== '' ? artistName : 'n/a'}</p>
-              <p>Track: {trackName !== '' ? trackName : 'n/a'}</p>
-              <p>Album: {albumName !== '' ? albumName : 'n/a'}</p>
-              <p>Playing: {playing ? 'Yes' : 'No'}</p>
-              <p>
-                {this.state.lastSong ? <div>Error: Last Song</div> : null}
-                <button onClick={this.onPausePlayClick}>
-                  {playing ? 'Pause' : 'Play'}
-                </button>
-                <button onClick={this.mute}>
-                  {this.state.volume > 0 ? 'Mute' : 'Unmute'}
-                </button>
-                <button
-                  onClick={() => socket.emit('next_track', this.props.roomId)}
-                >
-                  Next Track
-                </button>
-                <button onClick={this.sync}>Sync</button>
-              </p>
-            </div>
-          ) : (
-            <div>
-              <a>Please login</a>
-            </div>
-          )}
-        </div>
+        <Card>
+          <Card.Content>
+            <Card.Header>Now Playing</Card.Header>
+          </Card.Content>
+          <div>
+            {error && <p>Error: {error}</p>}
+            {loggedIn ? (
+              <div>
+                <Card.Content>
+                  <Image
+                    src={imageUrl}
+                    onError={i => (i.target.style.display = 'none')}
+                  />
+                  <List>
+                    <List.Item>
+                      {trackName !== '' ? trackName : 'n/a'}{' '}
+                    </List.Item>
+                    <List.Item>
+                      {artistName !== '' ? artistName : 'n/a'}
+                    </List.Item>
+                    <List.Item>
+                      {albumName !== '' ? albumName : 'n/a'}
+                    </List.Item>
+                    {playing ? 'Now playing' : 'Paused'}
+                  </List>
+                  {this.state.lastSong ? <div>Error: Last Song</div> : null}
+                  <Button size="tiny" onClick={this.mute}>
+                    {this.state.volume > 0 ? 'Mute' : 'Unmute'}
+                  </Button>
+                  <Button
+                    size="tiny"
+                    content="Next"
+                    icon="right arrow"
+                    labelPosition="right"
+                    onClick={() => socket.emit('next_track', this.props.roomId)}
+                  >
+                    Next
+                  </Button>
+                </Card.Content>
+              </div>
+            ) : (
+              <div>
+                <a>Please login</a>
+              </div>
+            )}
+          </div>
+        </Card>
       </div>
     );
   }

@@ -19,7 +19,6 @@ class GiphySearch extends Component {
   handleClick = async e => {
     e.preventDefault();
     await this.props.search(this.state.searchParams);
-    console.log(this.state.searchParams);
     this.setState({searchParams: ''});
   };
 
@@ -30,7 +29,6 @@ class GiphySearch extends Component {
   keyPress = async e => {
     if (e.keyCode === 13) {
       await this.props.search(this.state.searchParams);
-      console.log(this.state.searchParams);
       this.setState({searchParams: ''});
     }
   };
@@ -39,7 +37,6 @@ class GiphySearch extends Component {
     this.setState({searchParams: e.target.value});
   };
   render() {
-    console.log('State: ', this.state);
     return (
       <Feed>
         <Card.Content>

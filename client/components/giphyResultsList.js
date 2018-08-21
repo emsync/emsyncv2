@@ -6,7 +6,6 @@ import {Card, Button, Image} from 'semantic-ui-react';
 //Room id should come from props
 
 export const GiphyResultsList = props => {
-  console.log('results are', props.results);
   return props.results ? (
     <Card.Group itemsPerRow={5}>
       {props.results.map(gif => {
@@ -15,10 +14,10 @@ export const GiphyResultsList = props => {
             color="pink"
             key={gif.id}
             onClick={props.clicker}
-            content={gif.images.fixed_height_small.url}
+            content={gif.images.fixed_height.url}
             raised={true}
           >
-            <Image src={gif.images.fixed_height_small.url} />
+            <Image src={gif.images.fixed_height.url} />
           </Card>
         );
       })}

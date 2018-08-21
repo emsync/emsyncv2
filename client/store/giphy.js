@@ -15,9 +15,7 @@ const gotGiphyResults = results => ({
 
 export const search = searchParams => async dispatch => {
   try {
-    console.log('search params are', searchParams);
     const {data} = await axios.post('/api/giphy', {q: searchParams});
-    // console.log('response => ',data.tracks.items)
     dispatch(gotGiphyResults(data));
   } catch (err) {
     console.log(err);
@@ -27,7 +25,6 @@ export const search = searchParams => async dispatch => {
 export const getTrending = () => async dispatch => {
   try {
     const {data} = await axios.get('/api/giphy/trending');
-    // console.log('response => ',data.tracks.items)
     dispatch(gotGiphyResults(data));
   } catch (err) {
     console.log(err);

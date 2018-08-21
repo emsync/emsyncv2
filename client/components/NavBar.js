@@ -20,7 +20,6 @@ class NavBar extends Component {
   }
 
   render() {
-    // console.log('USER: ', this.props.user.name);
     let key = 0;
     return (
       //if logged in show username
@@ -28,6 +27,9 @@ class NavBar extends Component {
         <Menu stackable inverted>
           <Menu.Item as={Link} to="/">
             <img src="/img/emsync-logo.jpeg" alt="emSync Logo" />
+          </Menu.Item>
+          <Menu.Item className="title" as={Link} to="/">
+            Emsync
           </Menu.Item>
           {!this.props.user.name ? (
             <Menu.Item href="/auth/spotify" key={key++}>
@@ -43,7 +45,7 @@ class NavBar extends Component {
                   position="right"
                   name="welcomeUser"
                   key={key++}
-                  to="/me"
+                  to={`/user/${this.props.user.id}`}
                 >
                   Welcome {this.props.user.name}
                 </Menu.Item>,
