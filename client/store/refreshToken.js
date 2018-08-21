@@ -6,12 +6,11 @@ export const refreshToken = timeSinceRefresh => ({
   timeSinceRefresh
 });
 
-export const goRefreshToken = () => async dispatch => {
+export const goRefreshToken = userId => async dispatch => {
   try {
-    let rtoken = await axios.put('/api/spotify/refreshToken');
-    const timeSinceRefresh = await axios.get('/api/user/elapsedtime');
-    console.log('got refresh token');
-    console.log('in REFRESH TOKEN, TIME TO UPATE!');
+    const timeSinceRefresh = await axios.get(`/api/user/elapsedtime/${userId}`);
+    let rtoken = await axios.put(`/api/spotify/refreshToken/${userId}`);
+    console.log(`timeSinceRefresh is ${timeSinceRefresh}`);
     dispatch(refreshToken(timeSinceRefresh));
   } catch (err) {
     console.log(err);

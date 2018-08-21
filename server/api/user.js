@@ -24,9 +24,8 @@ router.get('/users', async (req, res, next) => {
 });
 
 //GET user by id
-router.get('/elapsedtime', async (req, res, next) => {
-  console.log('get /user, req.user.id is: ', req);
-  const user = await User.findById(req.user.id);
+router.get('/elapsedtime/:userId', async (req, res, next) => {
+  const user = await User.findById(req.params.userId);
   if (user === undefined) {
     res.send('No data found');
   } else {

@@ -11,20 +11,30 @@ const spotifyApi = new SpotifyWebApi({
   redirectUri: AuthConfig.clientRedirectURI
 });
 
-router.put('/refreshToken', async (req, res, next) => {
-  console.log('in api/spotify/refreshToken');
-  console.log('old access token is: ', req.user.accessToken);
+router.put('/refreshToken/:userId', async (req, res, next) => {
+  // console.log('in api/spotify/refreshToken');
+  // console.log('old access token is: ', req.user.accessToken);
+  // console.log('old refreshToken is: ', req.user.refreshToken);
 
-  spotifyApi.setAccessToken(req.user.accessToken);
-  spotifyApi.setRefreshToken(req.user.refreshToken);
   try {
-    const refreshedToken = await spotifyApi.refreshAccessToken();
-    spotifyApi.setAccessToken(refreshedToken.body.access_token);
-    console.log('new access token is: ', refreshedToken.body.access_token);
+    const params = new URLSearchParams();
+    params.append('grant_type', 'refresh_token');
+    params.append('refresh_token', req.user.refreshToken);
+
+    const refreshedToken = await axios.post(
+      'https://accounts.spotify.com/api/token',
+      params,
+      {
+        headers: {
+          Authorization:
+            'Basic YmRkZDExMDFkOTc1NDRmMjkzMDkyOTEwNWEwYzBmMDA6ZWY3NGYyYWRhNTQxNGQ3N2JjNzY2NTU0YTg4NWQwNDc='
+        }
+      }
+    );
+    // console.log('new refreshedToken:', refreshedToken.data.access_token);
 
     const user = await User.findById(req.user.id);
-    await user.update({accessToken: refreshedToken.body.access_token});
-    console.log('from db: user.accessToken is: ', user.accessToken);
+    await user.update({accessToken: refreshedToken.data.access_token});
     res.status(201);
   } catch (err) {
     console.log(err);

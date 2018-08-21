@@ -36,9 +36,13 @@ class RoomView extends Component {
   }
 
   async componentDidMount() {
-    await this.props.goRefreshToken();
     await this.props.fetchRoom();
     await this.props.fetchQueues(this.props.room.id);
+    console.log(`in Roomview, user id is: ${this.props.user.id}`);
+    if (this.props.user.id) {
+      console.log('component did mount - refreshing token');
+      await this.props.goRefreshToken(this.props.user.id);
+    }
   }
 
   componentWillUnmount() {
@@ -129,7 +133,7 @@ const mapDispatch = (dispatch, ownProps) => ({
   fetchRoom: () => dispatch(fetchRoom(ownProps.match.params.id)),
   addToQueue: song => dispatch(addToQueue(song, ownProps.match.params.id)),
   fetchQueues: roomId => dispatch(fetchQueues(roomId)),
-  goRefreshToken: () => dispatch(goRefreshToken())
+  goRefreshToken: userId => dispatch(goRefreshToken(userId))
 });
 
 const mapState = (state, ownProps) => {
