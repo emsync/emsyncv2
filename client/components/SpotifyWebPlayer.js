@@ -286,34 +286,17 @@ class SpotifyWebPlayer extends Component {
                   />
                   <List>
                     <List.Item>
-                      <Label color="red" horizontal>
-                        Artist
-                      </Label>
-                      {artistName !== '' ? artistName : 'n/a'}
-                    </List.Item>
-                    <List.Item>
-                      <Label color="red" horizontal>
-                        Track
-                      </Label>
                       {trackName !== '' ? trackName : 'n/a'}{' '}
                     </List.Item>
                     <List.Item>
-                      <Label color="red" horizontal>
-                        Album
-                      </Label>
+                      {artistName !== '' ? artistName : 'n/a'}
+                    </List.Item>
+                    <List.Item>
                       {albumName !== '' ? albumName : 'n/a'}
                     </List.Item>
-                    <Label color="red" horizontal>
-                      <List.Item>Playing </List.Item>
-                    </Label>
-                    {playing ? 'Yes' : 'No'}
+                    {playing ? 'Now playing' : 'Paused'}
                   </List>
-                </Card.Content>
-                <Card.Content>
                   {this.state.lastSong ? <div>Error: Last Song</div> : null}
-                  <Button size="tiny" onClick={this.onPausePlayClick}>
-                    {playing ? 'Pause' : 'Play'}
-                  </Button>
                   <Button size="tiny" onClick={this.mute}>
                     {this.state.volume > 0 ? 'Mute' : 'Unmute'}
                   </Button>
@@ -325,9 +308,6 @@ class SpotifyWebPlayer extends Component {
                     onClick={() => socket.emit('next_track', this.props.roomId)}
                   >
                     Next
-                  </Button>
-                  <Button size="tiny" onClick={this.sync}>
-                    Sync
                   </Button>
                 </Card.Content>
               </div>

@@ -25,6 +25,7 @@ const RoomSingleCard = props => {
       <Image
         src={props.room.imageUrl}
         size="small"
+        fluid
         verticalAlign="middle"
         centered={true}
       />

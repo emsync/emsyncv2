@@ -5,10 +5,9 @@ module.exports = router;
 router.put('/', async (req, res, next) => {
   // console.log('REQUEST USER: ', req.user);
   // console.log('REQUEST BODY: ', req.body);
-  console.log('Request body item: ', req.body.item);
+  // console.log('Request body item: ', req.body.item);
   try {
     const newItem = await QueueItem.create(req.body.item);
-    // console.log('in queues put newItem is: ', newItem);
     res.status(201).send(newItem);
   } catch (err) {
     console.log(err);
@@ -29,7 +28,6 @@ router.get('/:roomId', async (req, res, next) => {
 });
 
 router.delete('/:itemId', async (req, res, next) => {
-  // console.log('request body', req.params);
   try {
     const queueItem = await QueueItem.findById(req.params.itemId);
     if (queueItem) {
@@ -45,9 +43,7 @@ router.delete('/:itemId', async (req, res, next) => {
 
 router.put('/:songId', async (req, res, next) => {
   try {
-    // console.log('update request is', req.body, req.params.songId);
     var queueItem = await QueueItem.findById(req.params.songId);
-    // console.log('search result is', queueItem);
     queueItem = await queueItem.update(req.body);
     res.send(queueItem);
   } catch (err) {

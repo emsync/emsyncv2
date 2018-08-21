@@ -7,7 +7,7 @@ export const RoomsList = props => {
   return (
     <Card.Group
       // doubling="true"
-      itemsPerRow="4"
+      itemsPerRow="5"
       // stackable="true"
       // centered="true"
     >

@@ -5,13 +5,14 @@ const REMOVE_QUEUE = 'REMOVE_QUEUE';
 const UPDATE_VOTES = 'UPDATE_VOTES';
 const FETCH_QUEUE = 'FETCH_QUEUE';
 const PLAY_SONG = 'PLAY_SONG';
+const SORT = SORT;
 
 //ACTION CREATORS
 const addQueue = item => {
   return {type: ADD_QUEUE, item};
 };
 
-const fetchQueue = queue => {
+export const fetchQueue = queue => {
   return {type: FETCH_QUEUE, queue};
 };
 const removeQueue = id => ({type: REMOVE_QUEUE, id});
@@ -25,24 +26,27 @@ export const playSongs = queueItem => async dispatch => {
     startTimeStamp: queueItem.startTimeStamp,
     isPlaying: true
   });
-  await res;
-  dispatch(playSong(res.data));
+  // dispatch(playSong(res.data));
 };
 export const removeFromQueue = itemId => async dispatch => {
   const res = await axios.delete(`/api/queues/${itemId}`);
-  dispatch(removeQueue(itemId));
+  await res;
+  // dispatch(removeQueue(itemId));
 };
 
 //i like the idea of a queue item being a class
 
 export const addToQueue = item => async dispatch => {
   const res = await axios.put(`/api/queues`, item);
+  await res;
   dispatch(addQueue(res.data));
 };
 
 export const updateVote = (itemId, votes) => async dispatch => {
   const res = await axios.put(`/api/queues/${itemId}`, votes);
-  dispatch(updateVotes(res.data));
+  await res;
+  console.log('update votes complete');
+  // dispatch(fetchQueue(res.data));
 };
 
 export const fetchQueues = roomId => async dispatch => {
