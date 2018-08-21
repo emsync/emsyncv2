@@ -67,7 +67,7 @@ const newRooms = [
     id: 1,
     name: 'Party Town',
     isPrivate: 'TRUE',
-    description: 'Hit the lights, lets get lit',
+    description: 'Hit the lights, lets git lit',
     imageUrl: 'https://media2.giphy.com/media/l1KcQWMydxGgfSudy/200.gif',
     createdBy: 8,
     allowAdd: 'TRUE',
