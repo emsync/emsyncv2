@@ -4,23 +4,31 @@ import {Image, Header} from 'semantic-ui-react';
 import RoomSingleCard from './roomSingleCard';
 import {RoomsList} from './RoomsList';
 import {fetchRooms} from '../store/rooms';
+import {fetchUser} from '../store/user';
 import {Icon, Label} from 'semantic-ui-react';
 class UnconnectedUserProfile extends Component {
   constructor() {
     super();
+    this.state = {
+      user: {}
+    };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.props.fetchRooms();
+    const user = await this.props.fetchUser();
+    this.setState({
+      user
+    });
   }
   render() {
     return (
       this.props.rooms && (
         <div>
           <Header as="h1" icon textAlign="center">
-            {this.props.user.name}
+            {this.state.user.name}
             <br />
-            <Image centered src={this.props.user.imageUrl} circular />
+            <Image centered src={this.state.user.imageUrl} circular />
           </Header>
           <Header as="h2" icon textAlign="center">
             <Label>
@@ -31,9 +39,11 @@ class UnconnectedUserProfile extends Component {
             </Label>
           </Header>
           <Header as="h2" textAlign="center">
-            Your rooms:
+            {this.props.user.id === this.state.user.id
+              ? 'Your rooms:'
+              : 'Created rooms:'}
           </Header>
-          <RoomsList rooms={this.props.rooms} user={this.props.user} />
+          <RoomsList rooms={this.props.rooms} user={this.state.user} />
         </div>
       )
     );
@@ -49,13 +59,14 @@ const mapState = state => {
 
   console.log(rooms);
   return {
-    user: state.user,
-    rooms
+    rooms,
+    user: state.user
   };
 };
 
-const mapDispatch = dispatch => ({
-  fetchRooms: () => dispatch(fetchRooms())
+const mapDispatch = (dispatch, ownProps) => ({
+  fetchRooms: () => dispatch(fetchRooms()),
+  fetchUser: () => dispatch(fetchUser(ownProps.match.params.id))
 });
 
 export const UserProfile = connect(mapState, mapDispatch)(

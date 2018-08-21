@@ -27,7 +27,7 @@ class RoomView extends Component {
       if (room == this.props.room.id) {
         const userNames = [];
         for (let i = 0; i < listenerList.length; i++) {
-          userNames.push(listenerList[i].name);
+          userNames.push(listenerList[i]);
         }
         this.setState({listeners: userNames});
       }
