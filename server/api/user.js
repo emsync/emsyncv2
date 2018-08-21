@@ -25,12 +25,13 @@ router.get('/users', async (req, res, next) => {
 
 //GET user by id
 router.get('/elapsedtime/:userId', async (req, res, next) => {
-  const user = await User.findById(req.params.userId);
-  if (user === undefined) {
-    res.send('No data found');
-  } else {
+  try {
+    const user = await User.findById(req.params.userId);
     let now = new Date();
     let elapsedTimeSinceUpdate = Math.floor((now - user.updatedAt) / 36000);
-    res.send(elapsedTimeSinceUpdate.toString());
+    //console.log('in user/elapsedtime: ', elapsedTimeSinceUpdate.toString());
+    res.json({time: elapsedTimeSinceUpdate});
+  } catch (err) {
+    console.log(err);
   }
 });

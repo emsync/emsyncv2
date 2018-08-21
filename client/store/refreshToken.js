@@ -8,10 +8,14 @@ export const refreshToken = timeSinceRefresh => ({
 
 export const goRefreshToken = userId => async dispatch => {
   try {
-    const timeSinceRefresh = await axios.get(`/api/user/elapsedtime/${userId}`);
-    let rtoken = await axios.put(`/api/spotify/refreshToken/${userId}`);
-    console.log(`timeSinceRefresh is ${timeSinceRefresh}`);
-    dispatch(refreshToken(timeSinceRefresh));
+    const response = await axios.get(`/api/user/elapsedtime/${userId}`);
+    // console.log(response.data.time);
+    let timeSinceRefresh = Number(response.data.time);
+    if (timeSinceRefresh > 30) {
+      // console.log('getting a new token');
+      await axios.put(`/api/spotify/refreshToken/${userId}`);
+      dispatch(refreshToken(timeSinceRefresh));
+    }
   } catch (err) {
     console.log(err);
   }
