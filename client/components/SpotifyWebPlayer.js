@@ -184,8 +184,9 @@ class SpotifyWebPlayer extends Component {
 
   nextTrack = async () => {
     if (this.props.queue[1]) {
-      await this.props.nextSong(this.props.queue[0].id);
-      await this.playTrack(this.props.queue[1]);
+      this.playTrack(this.props.queue[1]);
+      this.props.nextSong(this.props.queue[0].id);
+      // await socket.emit('new_queue');
       this.setState({lastSong: false});
     } else {
       // await this.playTrack(this.props.queue[0]);

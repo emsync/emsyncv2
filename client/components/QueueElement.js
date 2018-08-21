@@ -12,8 +12,10 @@ class UnconnectedQueueElement extends Component {
     super(props);
     this.state = {
       likes: this.props.comingFrom ? 0 : this.props.item.upVotes || 0,
-      dislikes: this.props.comingFrom ? 0 : this.props.item.upVotes || 0,
-      // votes: 0,
+      dislikes: this.props.comingFrom ? 0 : this.props.item.downVotes || 0,
+      votes: this.props.comingFrom
+        ? 0
+        : this.props.item.upVotes - this.props.item.downVotes || 0,
       disabled: false,
       addedBy: this.props.comingFrom ? 'search' : this.props.item.userId,
       imageUrl: this.props.imageUrl || this.props.item.imageUrl,
@@ -29,10 +31,16 @@ class UnconnectedQueueElement extends Component {
   }
 
   componentDidMount() {
-    if (this.props.sortFunc) {
-      this.props.sortFunc();
-    }
+    // if (this.props.sortFunc) {
+    //   this.props.sortFunc();
+    // }
   }
+
+  // componentDidUpdate(prevProps, prevState, snapshot) {
+  //   if (this.state.disabled !== prevState.disabled) {
+  //     this.setState({disabled: prevState.disabled});
+  //   }
+  // }
 
   handleClick = () => {
     console.log(
@@ -53,6 +61,7 @@ class UnconnectedQueueElement extends Component {
       duration: this.props.duration
     });
     this.setState({active: !this.state.active});
+    // this.props.sortFunc();
     socket.emit('new_queue');
   };
 
@@ -62,13 +71,14 @@ class UnconnectedQueueElement extends Component {
     this.setState({
       likes: newLikes,
       votes: newVotes,
-      disabled: true
+      disabled: !this.state.disabled
     });
     await this.props.vote(this.props.item.id, {
       upVotes: newLikes,
       votes: newVotes
     });
-    this.props.sortFunc();
+    // await this.props.sortFunc();
+    socket.emit('new_queue');
   }
 
   async handleDislike() {
@@ -77,13 +87,14 @@ class UnconnectedQueueElement extends Component {
     this.setState({
       dislikes: newDislikes,
       votes: newVotes,
-      disabled: true
+      disabled: !this.state.disabled
     });
     await this.props.vote(this.props.item.id, {
       downVotes: newDislikes,
       votes: newVotes
     });
-    this.props.sortFunc();
+    // await this.props.sortFunc();
+    socket.emit('new_queue');
   }
   render() {
     // console.log('In QueueElement: ', this.props.room.id);
@@ -104,22 +115,31 @@ class UnconnectedQueueElement extends Component {
             <Card.Content extra>
               <Button
                 as="div"
-                disabled={this.state.disabled ? true : false}
+                disabled={this.state.disabled}
                 labelPosition="right"
               >
-                <Button icon onClick={this.handleLike}>
+                <Button
+                  icon
+                  onClick={this.handleLike}
+                  disabled={this.state.disabled}
+                >
                   <Icon name="thumbs up outline" />
                 </Button>
                 <Label as="a" basic pointing="left">
                   {this.state.likes}
                 </Label>
               </Button>
+
               <Button
                 as="div"
-                disabled={this.state.disabled ? true : false}
+                disabled={this.state.disabled}
                 labelPosition="right"
               >
-                <Button icon onClick={this.handleDislike}>
+                <Button
+                  icon
+                  onClick={this.handleDislike}
+                  disabled={this.state.disabled}
+                >
                   <Icon name="thumbs down outline" />
                 </Button>
                 <Label as="a" basic pointing="left">
