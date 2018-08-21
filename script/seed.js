@@ -64,32 +64,112 @@ const newUsers = [
 
 const newRooms = [
   {
-    name: 'Funky Room',
-    description: 'Best funky room on earth!',
-    imageUrl: 'https://static.thenounproject.com/png/87940-200.png',
-    createdBy: 8
+    id: 1,
+    name: 'Party Town',
+    isPrivate: 'TRUE',
+    description: 'Hit the lights, lets get lit',
+    imageUrl: 'https://media2.giphy.com/media/l1KcQWMydxGgfSudy/200.gif',
+    createdBy: 8,
+    allowAdd: 'TRUE',
+    isDemocratic: 'TRUE',
+    createdAt: '2018-08-21 14:56:49.227-04',
+    updatedAt: '2018-08-21 14:56:49.227-04'
   },
   {
-    name: 'No So Funky Room',
-    description: 'Meh funky room on earth!',
-    imageUrl:
-      'https://vignette.wikia.nocookie.net/nintendo/images/3/3f/Funky_Kong_portal_icon.png/revision/latest?cb=20120822060521&path-prefix=en',
-    createdBy: 8
+    id: 2,
+    name: 'SAD!',
+    isPrivate: 'FALSE',
+    description: "I'm sad, don't bother me",
+    imageUrl: 'https://media0.giphy.com/media/MuztdWJQ4PR7i/200.gif',
+    createdBy: 8,
+    allowAdd: 'TRUE',
+    isDemocratic: 'TRUE',
+    createdAt: '2018-08-21 15:00:44.39-04',
+    updatedAt: '2018-08-21 15:00:44.39-04'
   },
   {
-    name: 'Rap Room',
-    description: 'RAP-it up!!',
-    imageUrl:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhmqfO9vZ9bsnow6PfUdDdPLEeddLYF9bPmTHvcA5dorZ-fnYM',
-    createdBy: 8
+    id: 3,
+    name: 'Running',
+    isPrivate: 'FALSE',
+    description: 'Running tracks',
+    imageUrl: 'https://media1.giphy.com/media/vF25I06jdODgA/200.gif',
+    createdBy: 8,
+    allowAdd: 'FALSE',
+    isDemocratic: 'FALSE',
+    createdAt: '2018-08-21 15:03:36.638-04',
+    updatedAt: '2018-08-21 15:03:36.638-04'
   },
   {
-    name: 'Pop Room',
-    description: 'So pop-ish!!'
+    id: 10,
+    name: 'SUmMeR',
+    isPrivate: 'FALSE',
+    description: "Soakin' up the sun",
+    imageUrl: 'https://media0.giphy.com/media/3o6gDUsnPH5wwhdASQ/200.gif',
+    createdBy: 8,
+    allowAdd: 'FALSE',
+    isDemocratic: 'FALSE',
+    createdAt: '2018-08-21 15:05:10.598-04',
+    updatedAt: '2018-08-21 15:05:10.598-04'
   },
   {
-    name: 'Classical Room',
-    description: 'Room for the classic'
+    id: 11,
+    name: 'EMO',
+    isPrivate: 'FALSE',
+    description: 'Its not a phase, mom!!!!',
+    imageUrl: 'https://media3.giphy.com/media/QTqpJTLjQLFjq/200.gif',
+    createdBy: 8,
+    allowAdd: 'FALSE',
+    isDemocratic: 'FALSE',
+    createdAt: '2018-08-21 15:06:21.723-04',
+    updatedAt: '2018-08-21 15:06:21.723-04'
+  },
+  {
+    id: 12,
+    name: 'Beers n Footy',
+    isPrivate: 'FALSE',
+    description: 'Sunday with the boys',
+    imageUrl: 'https://media0.giphy.com/media/mOOuUUIEEgq6A/200.gif',
+    createdBy: 8,
+    allowAdd: 'FALSE',
+    isDemocratic: 'FALSE',
+    createdAt: '2018-08-21 15:07:26.674-04',
+    updatedAt: '2018-08-21 15:07:26.674-04'
+  },
+  {
+    id: 13,
+    name: 'Late night working',
+    isPrivate: 'FALSE',
+    description: 'Songs to keep you going',
+    imageUrl: 'https://media3.giphy.com/media/11BbGyhVmk4iLS/200.gif',
+    createdBy: 8,
+    allowAdd: 'FALSE',
+    isDemocratic: 'FALSE',
+    createdAt: '2018-08-21 15:08:39.484-04',
+    updatedAt: '2018-08-21 15:08:39.484-04'
+  },
+  {
+    id: 14,
+    name: 'XXX',
+    isPrivate: 'FALSE',
+    description: "Xanthe's room",
+    imageUrl: 'https://media2.giphy.com/media/l4FB6rJP7S6wxJvKU/200.gif',
+    createdBy: 8,
+    allowAdd: 'FALSE',
+    isDemocratic: 'FALSE',
+    createdAt: '2018-08-21 15:09:21.706-04',
+    updatedAt: '2018-08-21 15:09:21.706-04'
+  },
+  {
+    id: 15,
+    name: 'GYM',
+    isPrivate: 'FALSE',
+    description: 'Pump it',
+    imageUrl: 'https://media3.giphy.com/media/3o7TKR1b2X2JqJ6JDW/200.gif',
+    createdBy: 8,
+    allowAdd: 'FALSE',
+    isDemocratic: 'FALSE',
+    createdAt: '2018-08-21 15:10:48.145-04',
+    updatedAt: '2018-08-21 15:10:48.145-04'
   }
 ];
 
