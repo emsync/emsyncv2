@@ -86,7 +86,6 @@ class UnconnectedQueueElement extends Component {
     this.props.sortFunc();
   }
   render() {
-    // console.log('In QueueElement: ', this.props.room.id);
     return (
       <div>
         <Card>

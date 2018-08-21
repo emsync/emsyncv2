@@ -20,7 +20,6 @@ const playSong = queueItem => ({type: PLAY_SONG, queueItem});
 
 //THUNK CREATORS
 export const playSongs = queueItem => async dispatch => {
-  // console.log('inside playSings thunk');
   const res = await axios.put(`/api/queues/${queueItem.id}`, {
     duration: queueItem.duration,
     startTimeStamp: queueItem.startTimeStamp,
@@ -70,7 +69,6 @@ export default function(state = [], action) {
       finaleQueue.push(action.queueItem);
       return finaleQueue;
     case PLAY_SONG:
-      console.log('action.data', action.queueItem);
       let cQueue = [...state];
       let fQueue = cQueue.filter(item => {
         return item.id !== action.queueItem.id;

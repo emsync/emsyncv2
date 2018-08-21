@@ -105,7 +105,6 @@ export class UnconnectedRoomForm extends Component {
   };
 
   handleClick = (event, data) => {
-    console.log(data);
     this.setState({[data.name]: data.value});
   };
 
@@ -119,7 +118,6 @@ export class UnconnectedRoomForm extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <Segment.Group>
         <Segment>Create a room!</Segment>

@@ -33,7 +33,7 @@ class Routes extends Component {
         <Route path="/search" component={SearchForm} />
         <Route exact path="/" component={UserHome} />
         <Route exact path="/add-room" component={RoomForm} />
-        <Route exact path="/me" component={UserProfile} />
+        <Route exact path="/user/:id" component={UserProfile} />
         <Route exact path="/gifs" component={GiphySearch} />
 
         {/* Displays our Login component as a fallback */}

@@ -15,10 +15,8 @@ const gotSearchResults = spotifyResults => ({
 //THUNKS
 
 export const goSearch = searchParams => async dispatch => {
-  // console.log('hit goSearch. searchParams => ', searchParams);
   try {
     const {data} = await axios.post('/api/spotify', searchParams);
-    // console.log('response => ',data.tracks.items)
     dispatch(gotSearchResults(data));
     return data.tracks.items;
   } catch (err) {
