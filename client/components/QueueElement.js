@@ -137,7 +137,7 @@ class UnconnectedQueueElement extends Component {
                   <Icon name="thumbs up outline" />
                 </Button>
                 <Label as="a" basic pointing="left">
-                  {this.state.likes}
+                  {this.props.item.upVotes || 0}
                 </Label>
               </Button>
 
@@ -154,7 +154,7 @@ class UnconnectedQueueElement extends Component {
                   <Icon name="thumbs down outline" />
                 </Button>
                 <Label as="a" basic pointing="left">
-                  {this.state.dislikes}
+                  {this.props.item.downVotes || 0}
                 </Label>
               </Button>
             </Card.Content>

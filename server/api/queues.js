@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {Rooms, QueueItem} = require('../db/models');
+const {Room, QueueItem} = require('../db/models');
 module.exports = router;
 
 router.put('/', async (req, res, next) => {
@@ -15,17 +15,57 @@ router.put('/', async (req, res, next) => {
 });
 
 router.get('/:roomId', async (req, res, next) => {
+  let queue;
+  let room;
   try {
-    const queue = await QueueItem.findAll({
+    queue = await QueueItem.findAll({
       where: {
         roomId: req.params.roomId
       }
     });
-    res.send(queue);
+    // console.log('just rceated', queue);
+    // console.log('unsorted queue is', queue);
+    room = await Room.findOne({where: {id: req.params.roomId}});
+
+    let playingIndex = queue.findIndex(element => {
+      return element.isPlaying === true;
+    });
+
+    // console.log('playingIndex is', playingIndex);
+    if (playingIndex !== -1) {
+      let nowPlaying = await queue.splice(playingIndex, 1);
+      // console.log('after splice', queue);
+      sortArray(queue);
+      queue.unshift(nowPlaying[0]);
+    }
+    // console.log('sorted queue is', queue);
+    res.json(queue);
+  } catch (err) {
+    next(err);
+  }
+
+  try {
   } catch (err) {
     next(err);
   }
 });
+
+const sortArray = arr => {
+  // console.log('array in sort method', arr);
+  arr.sort((a, b) => {
+    // if (room.isDemocratic) {
+    // console.log('a and b', a.id, b.id, a.votes, b.votes);
+    return b.votes - a.votes;
+    // }
+    // else {
+    //   const dB = await new Date(b.createdAt);
+    //   const dA = await new Date(a.createdAt);
+    //   const timeB = dB.getTime();
+    //   const timeA = dA.getTime();
+    //   return timeB - timeA;
+    // }
+  });
+};
 
 router.delete('/:itemId', async (req, res, next) => {
   try {
