@@ -4,6 +4,7 @@ import {Button, Icon, Label, Card} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 import {fetchUser} from '../store/user';
 import {updateVote, addToQueue} from '../store/queue';
+import socket from '../socket';
 
 //props being passed here should just be a single listener (user) object
 class UnconnectedQueueElement extends Component {
@@ -52,6 +53,7 @@ class UnconnectedQueueElement extends Component {
       duration: this.props.duration
     });
     this.setState({active: !this.state.active});
+    socket.emit('new_queue');
   };
 
   async handleLike() {
