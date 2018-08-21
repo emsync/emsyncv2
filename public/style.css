@@ -15,6 +15,11 @@ body {
   font-family: sans-serif;
 }
 
+.card {
+  background-color: black;
+  color: white;
+}
+
 a {
   text-decoration: none;
 }

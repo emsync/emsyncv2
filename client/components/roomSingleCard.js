@@ -21,7 +21,7 @@ const Extra = props => {
 
 const RoomSingleCard = props => {
   return props.room ? (
-    <Card centered="true" raised={true}>
+    <Card className="card" color="grey" centered="true" raised={true}>
       <Image
         src={props.room.imageUrl}
         size="small"
