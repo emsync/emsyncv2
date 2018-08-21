@@ -114,23 +114,26 @@ class RoomView extends Component {
               ) : null}{' '}
             </Grid.Column>
             <Grid.Column>
-              {/* <Card>
-                <Card.Content>
-                  <Card.Header>Hot or Not</Card.Header>
-                </Card.Content> */}
-              {/* <Card.Content>
-                  <ReactSpeedometer
-                    maxValue={this.state.listeners.length}
-                    minValue={-this.state.listeners.length}
-                    value={0}
-                    //itll be this.nowplaying.votes
-                    needleColor="red"
-                    segments={5}
-                    needleTransitionDuration={4000}
-                    needleTransition="easeElastic"
-                  />
-                </Card.Content> */}
-              {/* </Card> */}
+              {this.props.nowPlaying && (
+                <Card>
+                  <Card.Content>
+                    <Card.Header>Hot or Not</Card.Header>
+                  </Card.Content>{' '}
+                  }
+                  <Card.Content>
+                    <ReactSpeedometer
+                      maxValue={10}
+                      minValue={-10}
+                      value={this.props.nowPlaying.votes}
+                      //itll be this.nowplaying.votes
+                      needleColor="red"
+                      segments={5}
+                      needleTransitionDuration={4000}
+                      needleTransition="easeElastic"
+                    />
+                  </Card.Content>
+                </Card>
+              )}
             </Grid.Column>
             <Grid.Column>
               <SearchForm />
@@ -155,7 +158,8 @@ const mapDispatch = (dispatch, ownProps) => ({
 const mapState = (state, ownProps) => {
   return {
     room: state.room,
-    user: state.user
+    user: state.user,
+    nowPlaying: state.queue[0]
   };
 };
 
