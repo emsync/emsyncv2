@@ -185,11 +185,9 @@ class SpotifyWebPlayer extends Component {
 
   nextTrack = async () => {
     if (this.props.queue[1]) {
-      await this.playTrack(this.props.queue[1]);
       await this.props.nextSong(this.props.queue[0].id);
-      socket.emit('new_queue');
+      await this.playTrack(this.props.queue[1]);
       this.setState({lastSong: false});
-      console.log('state already updated');
     } else {
       // await this.playTrack(this.props.queue[0]);
       this.setState({lastSong: true});
@@ -287,7 +285,7 @@ class SpotifyWebPlayer extends Component {
                     onError={i => (i.target.style.display = 'none')}
                   />
                   <List>
-                  <List.Item>
+                    <List.Item>
                       {trackName !== '' ? trackName : 'n/a'}{' '}
                     </List.Item>
                     <List.Item>
@@ -298,7 +296,6 @@ class SpotifyWebPlayer extends Component {
                     </List.Item>
                     {playing ? 'Now playing' : 'Paused'}
                   </List>
-
                   {this.state.lastSong ? <div>Error: Last Song</div> : null}
                   <Button size="tiny" onClick={this.mute}>
                     {this.state.volume > 0 ? 'Mute' : 'Unmute'}
@@ -309,7 +306,9 @@ class SpotifyWebPlayer extends Component {
                     icon="right arrow"
                     labelPosition="right"
                     onClick={() => socket.emit('next_track', this.props.roomId)}
-                  >Next</Button>
+                  >
+                    Next
+                  </Button>
                 </Card.Content>
               </div>
             ) : (
@@ -339,9 +338,6 @@ const mapDispatch = dispatch => {
     },
     playSong: item => {
       dispatch(playSongs(item));
-    },
-    getQueues: roomId => {
-      dispatch(fetchQueues(roomId));
     }
   };
 };
