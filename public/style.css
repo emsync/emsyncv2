@@ -11,6 +11,10 @@
   display: flex;
 } */
 
+.ui.icon.button:hover {
+  background-color: red;
+}
+
 .ui.labeled.button:not([class*='left labeled']) > .button {
   background-color: #d54363 !important;
 }

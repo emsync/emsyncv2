@@ -3,7 +3,7 @@ import CardContent, {List, Image} from 'semantic-ui-react';
 import {Button, Icon, Label, Card} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 import {fetchUser} from '../store/user';
-import {updateVote, addToQueue} from '../store/queue';
+import {updateVote, addToQueue, removeFromQueue} from '../store/queue';
 import socket from '../socket';
 
 //props being passed here should just be a single listener (user) object
@@ -115,6 +115,16 @@ class UnconnectedQueueElement extends Component {
             <Card.Content extra>
               <Button
                 as="div"
+                onClick={() => {
+                  this.props.removeFromQueue(this.props.item.id);
+                  socket.emit('new_queue');
+                }}
+                icon
+              >
+                <Icon name="delete" />
+              </Button>
+              <Button
+                as="div"
                 disabled={this.state.disabled}
                 labelPosition="right"
                 onClick={this.handleLike}
@@ -180,7 +190,8 @@ const mapDispatch = (dispatch, ownProps) => ({
   },
   addQueue: item => {
     dispatch(addToQueue({item}));
-  }
+  },
+  removeFromQueue: id => dispatch(removeFromQueue(id))
 });
 
 export const QueueElement = connect(mapState, mapDispatch)(
