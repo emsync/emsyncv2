@@ -45,7 +45,7 @@ class NavBar extends Component {
                   position="right"
                   name="welcomeUser"
                   key={key++}
-                  to="/me"
+                  to={`/user/${this.props.user.id}`}
                 >
                   Welcome {this.props.user.name}
                 </Menu.Item>,
