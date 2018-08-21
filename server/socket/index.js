@@ -73,9 +73,10 @@ module.exports = io => {
     removeUser = (socketId, room) => {
       console.log('this is the room', room);
       if (room) {
-        if (rooms[room][socketId]) {
-          rooms[room][socketId] = undefined;
-        }
+        if (rooms.hasOwnProperty(room))
+          if (rooms[room][socketId]) {
+            rooms[room][socketId] = undefined;
+          }
       }
       updateListeners(room);
     };

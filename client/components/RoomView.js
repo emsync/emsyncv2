@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import ListenersList from './ListenersList';
 import {fetchRoom} from '../store/room';
+import {goRefreshToken} from '../store/refreshToken';
 import {addToQueue, fetchQueues} from '../store/queue';
 import {fetchUser} from '../store/user';
 import {Queue} from './Queue';
@@ -44,6 +45,9 @@ class RoomView extends Component {
     await this.props.fetchRoom();
     await this.props.fetchQueues(this.props.room.id);
     await this.getDj();
+    if (this.props.user.id) {
+      await this.props.goRefreshToken(this.props.user.id);
+    }
   }
 
   componentWillUnmount() {
@@ -141,6 +145,7 @@ const mapDispatch = (dispatch, ownProps) => ({
   addToQueue: song => dispatch(addToQueue(song, ownProps.match.params.id)),
   fetchQueues: roomId => dispatch(fetchQueues(roomId)),
   getDJ: () => dispatch(fetchUser(ownProps.match.params.id))
+  goRefreshToken: userId => dispatch(goRefreshToken(userId))
 });
 
 const mapState = (state, ownProps) => {
