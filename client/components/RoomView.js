@@ -77,6 +77,7 @@ class RoomView extends Component {
           <Header
             as="h1"
             textAlign="center"
+            color="white"
             style={{marginTop: 30, fontSize: 45}}
           >
             <Image circular src={this.props.room.imageUrl} size="small" />

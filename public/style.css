@@ -11,6 +11,10 @@
   display: flex;
 } */
 
+.title {
+  color: white;
+}
+
 .background {
   background-image: linear-gradient(
     to left top,

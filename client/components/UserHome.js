@@ -19,6 +19,7 @@ export class UserHome extends Component {
           <Header
             as="h1"
             textAlign="center"
+            className="title"
             style={{marginTop: 30, fontSize: 45}}
           >
             Active Rooms
