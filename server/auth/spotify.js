@@ -73,18 +73,6 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
         });
         done(null, user);
       }
-
-      // User.findOrCreate({
-      //   where: {
-      //     name: userName,
-      //     email: email,
-      //     spotifyDisplayName: userName,
-      //     accessToken: accessToken,
-      //     refreshToken: refreshToken
-      //   }
-      // })
-      //   .then(([user]) => done(null, user))
-      //   .catch(done);
     }
   );
 
@@ -93,18 +81,29 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
   router.get(
     '/',
     passport.authenticate('spotify', {
-      scope: 'user-read-private user-read-email'
-      // scope: ['user-read-private', 'user-read-email'],
+      scope: [
+        'streaming',
+        'user-read-currently-playing',
+        'user-read-birthdate',
+        'user-read-email',
+        'user-read-private',
+        'user-modify-playback-state'
+      ]
     })
   );
 
   router.get(
     '/callback',
     passport.authenticate('spotify', {
-      scope: 'user-read-private user-read-email',
-      // scope: ['user-read-private', 'user-read-email'],
+      scope: [
+        'streaming',
+        'user-read-birthdate',
+        'user-read-email',
+        'user-read-private',
+        'user-modify-playback-state'
+      ],
       successRedirect: '/',
-      failureRedirect: '/login'
+      failureRedirect: '/'
     })
   );
 

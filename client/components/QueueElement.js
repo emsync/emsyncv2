@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {List, Image} from 'semantic-ui-react';
-import {Button, Icon, Label} from 'semantic-ui-react';
+import CardContent, {List, Image} from 'semantic-ui-react';
+import {Button, Icon, Label, Card} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 import {fetchUser} from '../store/user';
 import {updateVote, addToQueue} from '../store/queue';
+import socket from '../socket';
 
 //props being passed here should just be a single listener (user) object
 class UnconnectedQueueElement extends Component {
@@ -16,25 +17,28 @@ class UnconnectedQueueElement extends Component {
       disabled: false,
       addedBy: this.props.comingFrom ? 'search' : this.props.item.userId,
       imageUrl: this.props.imageUrl || this.props.item.imageUrl,
+      imagePlayerURL:
+        this.props.imagePlayerURL || this.props.item.imagePlayerURL,
       spotifyLink: this.props.spotifyLink || this.props.item.spotifyLink,
-      trackName:
-        this.props.trackName || this.props.item.trackName || 'Hallelujah',
-      artistName: this.props.artistName || this.props.item.artistName
+      trackName: this.props.trackName || this.props.item.trackName,
+      artistName: this.props.artistName || this.props.item.artistName,
+      active: true
     };
     this.handleDislike = this.handleDislike.bind(this);
     this.handleLike = this.handleLike.bind(this);
   }
 
-  // componentDidMount() {
-  //   this.setState({
-  //     imageUrl: this.props.item.imageUrl || this.props.imageUrl,
-  //     spotifyLink: this.props.item.spotifyLink || this.props.spotifyLink
-  //     trackName: this.props.item.sp
-  //   });
-  // }
+  componentDidMount() {
+    if (this.props.sortFunc) {
+      this.props.sortFunc();
+    }
+  }
 
   handleClick = () => {
-    console.log('In QueueElement handleClick: ', this.props.room.id);
+    console.log(
+      'In QueueElement this.state.imagePlayerURL: ',
+      this.state.imagePlayerURL
+    );
     this.props.addQueue({
       // votes: this.state.likes - this.state.disklikes,
       addedBy: this.props.user.id,
@@ -42,10 +46,14 @@ class UnconnectedQueueElement extends Component {
       currentPlayingTime: 0,
       isPlaying: false,
       imageUrl: this.state.imageUrl,
+      imagePlayerURL: this.state.imagePlayerURL,
       roomId: this.props.room.id,
       trackName: this.state.trackName,
-      artistName: this.state.artistName
+      artistName: this.state.artistName,
+      duration: this.props.duration
     });
+    this.setState({active: !this.state.active});
+    socket.emit('new_queue');
   };
 
   async handleLike() {
@@ -81,13 +89,19 @@ class UnconnectedQueueElement extends Component {
     // console.log('In QueueElement: ', this.props.room.id);
     return (
       <div>
-        <List.Content>
-          <Image avatar src={this.state.imageUrl} />
-          <List.Header>{this.state.artistName}</List.Header>
-          <List.Header as="a">{this.state.trackName}</List.Header>
-
+        <Card>
+          <Card.Content>
+            <Image
+              floated="left"
+              circular
+              size="mini"
+              src={this.state.imageUrl}
+            />
+            <Card.Header>{this.state.trackName}</Card.Header>
+            <Card.Description>{this.state.artistName}</Card.Description>
+          </Card.Content>
           {this.state.addedBy !== 'search' ? (
-            <div>
+            <Card.Content extra>
               <Button
                 as="div"
                 disabled={this.state.disabled ? true : false}
@@ -112,13 +126,20 @@ class UnconnectedQueueElement extends Component {
                   {this.state.dislikes}
                 </Label>
               </Button>
-            </div>
+            </Card.Content>
           ) : (
-            <Button onClick={this.handleClick}>
-              <Icon name="add circle" />
-            </Button>
+            <Card.Content extra>
+              <Button
+                onClick={this.handleClick}
+                toggle
+                active={this.state.active}
+                disabled={!this.state.active}
+              >
+                <Icon name="add circle" />
+              </Button>
+            </Card.Content>
           )}
-        </List.Content>
+        </Card>
       </div>
     );
   }

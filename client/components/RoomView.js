@@ -1,13 +1,16 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import ListenersList from './ListenersList';
 import {fetchRoom} from '../store/room';
+import {goRefreshToken} from '../store/refreshToken';
 import {addToQueue, fetchQueues} from '../store/queue';
 import {Queue} from './Queue';
 import socket from '../socket';
-import {List, Image} from 'semantic-ui-react';
+import {Card, Image, Header} from 'semantic-ui-react';
 import {ListenerElement} from './ListenerElement';
+import {Player} from './index';
+import ReactSpeedometer from 'react-d3-speedometer';
+import SpotifyWebPlayer from './SpotifyWebPlayer';
 import SearchForm from './SearchForm';
 
 class RoomView extends Component {
@@ -18,13 +21,11 @@ class RoomView extends Component {
       listeners: []
     };
     socket.on('update-listeners', (room, listenerList) => {
-      // console.log('we have an update', room, this.props.room.id);
       if (room == this.props.room.id) {
         const userNames = [];
         for (let i = 0; i < listenerList.length; i++) {
           userNames.push(listenerList[i].name);
         }
-        // console.log('we have a match!', listenerList);
         this.setState({listeners: userNames});
       }
     });
@@ -33,10 +34,13 @@ class RoomView extends Component {
   async componentDidMount() {
     await this.props.fetchRoom();
     await this.props.fetchQueues(this.props.room.id);
+    if (this.props.user.id) {
+      await this.props.goRefreshToken(this.props.user.id);
+    }
   }
 
   componentWillUnmount() {
-    socket.emit('left', this.props.user, this.props.match.params.id);
+    socket.emit('left', socket.id, this.props.match.params.id);
   }
 
   handleClick() {
@@ -44,9 +48,12 @@ class RoomView extends Component {
     this.props.addToQueue({name: 'Baby', artist: 'Justin Biebser'});
   }
 
-  render() {
-    let present = false;
+  // Bound Functions
+  nextQueue = () => {};
 
+  render() {
+    // Listener stuff
+    let present = false;
     if (this.props.user) {
       for (let i = 0; i < this.state.listeners.length; i++) {
         if (this.state.listeners[i] === this.props.user.name) {
@@ -54,17 +61,28 @@ class RoomView extends Component {
         }
       }
     }
-
     if (this.props.user.name && !present) {
       // console.log('emitting joined command');
       socket.emit('joined', this.props.user, this.props.match.params.id);
     }
+    // End of Listener Stuff
+
     return this.props.room.name ? (
       <div>
-        <h1 style={{textAlign: 'center'}}>{this.props.room.name}</h1>
+        <div>
+          <Header
+            as="h1"
+            textAlign="center"
+            style={{marginTop: 30, fontSize: 45}}
+          >
+            <Image circular src={this.props.room.imageUrl} size="small" />
+            {this.props.room.name}
+          </Header>
+        </div>
+        <br />
         <div className="room">
           <div className="leftRoom">
-            {this.props.room.queueItems.length ? (
+            {this.props.room.queueItems ? (
               <Queue
                 queue={this.props.room.queueItems}
                 roomId={this.props.match.params.id}
@@ -73,28 +91,29 @@ class RoomView extends Component {
           </div>
           <div className="rightRoom">
             <ListenersList listeners={this.state.listeners} />
-
-            {/* <h2>Listeners:</h2> */}
-            {/* {this.state.listeners.length > 0 ? (
-                <List>
-                  <List.Item>
-                    {this.state.listeners.map(userListening => {
-                      return (
-                        <ListenerElement
-                          key={userListening.id}
-                          listener={userListening}
-                        />
-                      );
-                    })}
-                  </List.Item>
-                </List>
-              ) : (
-                <p>You're the only listener!</p>
-              )}
-            </div> */}
           </div>
           <div>
             <SearchForm />
+          </div>
+          <div>
+            <Card>
+              <Card.Content>
+                <Card.Header>Hot or Not</Card.Header>
+              </Card.Content>
+              <Card.Content>
+                <ReactSpeedometer
+                  maxValue={this.state.listeners.length}
+                  minValue={-this.state.listeners.length}
+                  value={0}
+                  //itll be this.nowplaying.votes
+                  needleColor="red"
+                  segments={5}
+                  needleTransitionDuration={4000}
+                  needleTransition="easeElastic"
+                />
+              </Card.Content>
+            </Card>
+            <SpotifyWebPlayer roomId={this.props.room.id} />
           </div>
         </div>
       </div>
@@ -107,7 +126,8 @@ class RoomView extends Component {
 const mapDispatch = (dispatch, ownProps) => ({
   fetchRoom: () => dispatch(fetchRoom(ownProps.match.params.id)),
   addToQueue: song => dispatch(addToQueue(song, ownProps.match.params.id)),
-  fetchQueues: roomId => dispatch(fetchQueues(roomId))
+  fetchQueues: roomId => dispatch(fetchQueues(roomId)),
+  goRefreshToken: userId => dispatch(goRefreshToken(userId))
 });
 
 const mapState = (state, ownProps) => {

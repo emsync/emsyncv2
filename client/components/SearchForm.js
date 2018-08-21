@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Icon} from 'semantic-ui-react';
+import {Icon, Feed, Card, Input} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 import {SearchResultList} from './SearchResultList';
 import {goSearch} from '../store/searchReducer';
@@ -10,7 +10,8 @@ class SearchForm extends Component {
     super(props);
     this.state = {
       searchParams: '',
-      showResults: false
+      showResults: false,
+      disabled: false
     };
   }
   handleClick = async e => {
@@ -23,6 +24,17 @@ class SearchForm extends Component {
     this.setState({searchParams: '', showResults: true, music: music});
   };
 
+  componentDidMount() {
+    if (
+      !this.props.room.allowAdd &&
+      this.props.room.createdBy !== this.props.user.id
+    ) {
+      console.log('disabling');
+      this.setState({
+        disabled: true
+      });
+    }
+  }
   keyPress = async e => {
     if (e.keyCode == 13) {
       const searchParams = {
@@ -38,33 +50,60 @@ class SearchForm extends Component {
     this.setState({searchParams: e.target.value});
   };
   render() {
+    // console.log('SearchForm music is: ', this.state.music);
     return (
-      <div>
-        <div className="ui icon input">
-          <input
-            type="text"
-            placeholder="track/artist..."
-            value={this.state.searchParams}
-            onChange={this.handleChange}
-            onKeyDown={this.keyPress}
-          />
-          <i
-            className="inverted circular search link icon"
-            onClick={this.handleClick}
-          />
-        </div>
-        {this.state.showResults ? (
-          <SearchResultList spotifyResult={this.state.music} />
-        ) : (
-          <p>Search track/artist</p>
-        )}
-      </div>
+      <Card>
+        <Card.Content>
+          <Card.Header>Search</Card.Header>
+        </Card.Content>
+        <Card.Content>
+          <Feed>
+            <Card.Content>
+              <Feed.Event>
+                <Feed.Content>
+                  <div className="ui icon input">
+                    <Input
+                      type="text"
+                      placeholder="track/artist..."
+                      value={this.state.searchParams}
+                      onChange={this.handleChange}
+                      onKeyDown={this.keyPress}
+                      disabled={this.state.disabled}
+                    />
+                    <i
+                      className="inverted circular search link icon"
+                      onClick={this.handleClick}
+                    />
+                  </div>
+                </Feed.Content>
+              </Feed.Event>
+            </Card.Content>
+            {this.state.showResults ? (
+              <Card.Content>
+                <Feed.Event>
+                  <Feed.Content>
+                    <SearchResultList spotifyResult={this.state.music} />
+                  </Feed.Content>
+                </Feed.Event>
+              </Card.Content>
+            ) : (
+              <p>
+                {this.state.disabled
+                  ? 'Adding to queue is disabled for this room'
+                  : 'Search track/artist'}
+              </p>
+            )}
+          </Feed>
+        </Card.Content>
+      </Card>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  accessToken: state.user.accessToken
+  accessToken: state.user.accessToken,
+  room: state.room,
+  user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({

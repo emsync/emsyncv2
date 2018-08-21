@@ -10,7 +10,7 @@ const QueueItem = db.define('queueItem', {
     defaultValue: 0
   },
   addedBy: Sequelize.INTEGER,
-  startTimeStamp: Sequelize.DATE,
+  startTimeStamp: Sequelize.BIGINT,
   spotifyLink: {
     type: Sequelize.STRING,
     allowNull: false
@@ -25,7 +25,11 @@ const QueueItem = db.define('queueItem', {
   },
   imageUrl: {
     type: Sequelize.STRING,
-    defaultValue: 'http://icons-for-free.com/free-icons/png/512/1871847.png'
+    defaultValue: '/img/queueItemDefault.png'
+  },
+  imagePlayerURL: {
+    type: Sequelize.STRING,
+    defaultValue: '/img/queueItemDefault.png'
   },
   trackName: {
     type: Sequelize.STRING,
@@ -40,6 +44,10 @@ const QueueItem = db.define('queueItem', {
     defaultValue: 0
   },
   downVotes: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
+  duration: {
     type: Sequelize.INTEGER,
     defaultValue: 0
   }

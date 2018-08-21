@@ -21,6 +21,17 @@ const Room = db.define('room', {
     type: Sequelize.STRING,
     defaultValue:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR8tcZONgfXI3h4m9BuCi6hg3K84kk7TU_lI6YqgsaoJFhGztOZg'
+  },
+  createdBy: {
+    type: Sequelize.INTEGER
+  },
+  allowAdd: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: true
+  },
+  isDemocratic: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: true
   }
 });
 

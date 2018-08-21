@@ -4,6 +4,7 @@ const ADD_QUEUE = 'ADD_QUEUE';
 const REMOVE_QUEUE = 'REMOVE_QUEUE';
 const UPDATE_VOTES = 'UPDATE_VOTES';
 const FETCH_QUEUE = 'FETCH_QUEUE';
+const PLAY_SONG = 'PLAY_SONG';
 
 //ACTION CREATORS
 const addQueue = item => {
@@ -13,29 +14,35 @@ const addQueue = item => {
 const fetchQueue = queue => {
   return {type: FETCH_QUEUE, queue};
 };
-
 const removeQueue = id => ({type: REMOVE_QUEUE, id});
-
 const updateVotes = queueItem => ({type: UPDATE_VOTES, queueItem});
+const playSong = queueItem => ({type: PLAY_SONG, queueItem});
 
 //THUNK CREATORS
-export const removeFromQueue = (item, itemId) => async dispatch => {
-  const res = await axios.delete(`/api/queues/${itemId}`, {item});
+export const playSongs = queueItem => async dispatch => {
+  // console.log('inside playSings thunk');
+  const res = await axios.put(`/api/queues/${queueItem.id}`, {
+    duration: queueItem.duration,
+    startTimeStamp: queueItem.startTimeStamp,
+    isPlaying: true
+  });
+  await res;
+  dispatch(playSong(res.data));
+};
+export const removeFromQueue = itemId => async dispatch => {
+  const res = await axios.delete(`/api/queues/${itemId}`);
   dispatch(removeQueue(itemId));
 };
 
 //i like the idea of a queue item being a class
 
 export const addToQueue = item => async dispatch => {
-  // console.log('addToQueue DISPATCH ITEM: ', item);
   const res = await axios.put(`/api/queues`, item);
   dispatch(addQueue(res.data));
 };
 
 export const updateVote = (itemId, votes) => async dispatch => {
-  // console.log('item: ', votes);
   const res = await axios.put(`/api/queues/${itemId}`, votes);
-  // console.log('RESPONSE: ', res);
   dispatch(updateVotes(res.data));
 };
 
@@ -62,6 +69,14 @@ export default function(state = [], action) {
       });
       finaleQueue.push(action.queueItem);
       return finaleQueue;
+    case PLAY_SONG:
+      console.log('action.data', action.queueItem);
+      let cQueue = [...state];
+      let fQueue = cQueue.filter(item => {
+        return item.id !== action.queueItem.id;
+      });
+      fQueue.push(action.queueItem);
+      return fQueue;
     case FETCH_QUEUE:
       return action.queue;
     default:

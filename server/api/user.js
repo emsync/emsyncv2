@@ -13,10 +13,6 @@ const redirect_uri = process.env.SPOTIFY_REDIRECT_URI;
 router.use(cors());
 router.use(cookieParser());
 
-router.get('/', async (req, res, next) => {
-  // console.log('User: ', req.user);
-});
-
 //GET all users
 router.get('/users', async (req, res, next) => {
   const users = await User.findAll();
@@ -27,12 +23,15 @@ router.get('/users', async (req, res, next) => {
   }
 });
 
-//GET user by name
-router.get('/user', async (req, res, next) => {
-  const user = await User.findById(1);
-  if (user === undefined) {
-    res.send('No data found');
-  } else {
-    res.send(user);
+//GET user by id
+router.get('/elapsedtime/:userId', async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    let now = new Date();
+    let elapsedTimeSinceUpdate = Math.floor((now - user.updatedAt) / 36000);
+    //console.log('in user/elapsedtime: ', elapsedTimeSinceUpdate.toString());
+    res.json({time: elapsedTimeSinceUpdate});
+  } catch (err) {
+    console.log(err);
   }
 });

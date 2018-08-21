@@ -7,8 +7,8 @@ let socket;
 
 if (process.env.NODE_ENV !== 'test'){
   socket = io(window.location.origin);
-  socket.on('connect', () => {
-    console.log('Connected!');
+    socket.on('connect', () => {
+      console.log(`Connected with ID ${socket.id}!`);
   });
 } else {
   socket = {};
