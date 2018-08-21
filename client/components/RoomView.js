@@ -34,9 +34,7 @@ class RoomView extends Component {
   async componentDidMount() {
     await this.props.fetchRoom();
     await this.props.fetchQueues(this.props.room.id);
-    // console.log(`in Roomview, user id is: ${this.props.user.id}`);
     if (this.props.user.id) {
-      // console.log('component did mount - refreshing token');
       await this.props.goRefreshToken(this.props.user.id);
     }
   }
