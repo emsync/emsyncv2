@@ -11,43 +11,56 @@ const spotifyApi = new SpotifyWebApi({
   redirectUri: AuthConfig.clientRedirectURI
 });
 
-/*"https://api.spotify.com/v1/search?q=Muse&type=track%2Cartist&market=US&limit=10&offset=5"-H
-   -H "Authorization: Bearer BQAoZNbnvxmBFe8qbcSWYlGFevTljalp1HgqbD-o7xO-xOfjnlUCVD1J30NlZ7F0rNKPDsv1C8AXlDpLh3uIU8DfyR-S6euNIAneZODj1aebqGLBvIrVigMHf8DKzWU6gW_QdRwfATQib_L4"*/
+router.put('/refreshToken/:userId', async (req, res, next) => {
+  // console.log('in api/spotify/refreshToken');
+  // console.log('old access token is: ', req.user.accessToken);
+  // console.log('old refreshToken is: ', req.user.refreshToken);
 
-//   router.post('/', async (req, res, next) => {
-//       console.log('Hi from spotify!')
-//       console.log('query params =>',req.body)
+  try {
+    const params = new URLSearchParams();
+    params.append('grant_type', 'refresh_token');
+    params.append('refresh_token', req.user.refreshToken);
 
-//   const accessToken = req.body.accessToken;
-//   const options = {
-//       url: `https://api.spotify.com/v1/ search?q=${ req.query.q }&type=track%2Cartist&market=${req.body.market || 'US' }&limit=${ req.body.limit || '10' }&offset=${ req.body.offset || '5' }`,
-//     headers: {
-//       Authorization: `Bearer ${accessToken}`,
-//       'Content-Type':  `application/x-www-form-urlencoded`
-//   }
-//   };
+    const refreshedToken = await axios.post(
+      'https://accounts.spotify.com/api/token',
+      params,
+      {
+        headers: {
+          Authorization:
+            'Basic YmRkZDExMDFkOTc1NDRmMjkzMDkyOTEwNWEwYzBmMDA6ZWY3NGYyYWRhNTQxNGQ3N2JjNzY2NTU0YTg4NWQwNDc='
+        }
+      }
+    );
+    // console.log('new refreshedToken:', refreshedToken.data.access_token);
 
-//   const spotifyResult = (error,response,body) => {
-//     if (!error && response.status === 200) {
-//       res.send(response.body);
-//     } else {
-//       res.send(response);
-//     }
-//   }
-//   request.get(options,spotifyResult)
-
-// });
+    const user = await User.findById(req.user.id);
+    await user.update({accessToken: refreshedToken.data.access_token});
+    res.status(201);
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 router.post('/', async (req, res, next) => {
   spotifyApi.setAccessToken(req.user.accessToken);
-
-  // console.log('hello from spotify route');
+  spotifyApi.setRefreshToken(req.user.refreshToken);
 
   try {
     const response = await spotifyApi.searchTracks(req.body.q);
     res.send(response.body);
   } catch (err) {
-    console.log(err);
+    if (err.statusCode === 401) {
+      const refreshedToken = await spotifyApi.refreshAccessToken();
+      spotifyApi.setAccessToken(refreshedToken.body.access_token);
+
+      try {
+        const response = await spotifyApi.searchTracks(req.body.q);
+        res.send(response.body);
+      } catch (err) {
+        console.log('Error refreshing token :', err);
+      }
+    }
+    // console.log(err);
   }
 });
 module.exports = router;
