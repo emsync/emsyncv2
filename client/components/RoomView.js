@@ -110,11 +110,11 @@ class RoomView extends Component {
               ) : null}{' '}
             </Grid.Column>
             <Grid.Column>
-              <Card>
+              {/* <Card>
                 <Card.Content>
                   <Card.Header>Hot or Not</Card.Header>
-                </Card.Content>
-                <Card.Content>
+                </Card.Content> */}
+              {/* <Card.Content>
                   <ReactSpeedometer
                     maxValue={this.state.listeners.length}
                     minValue={-this.state.listeners.length}
@@ -125,8 +125,8 @@ class RoomView extends Component {
                     needleTransitionDuration={4000}
                     needleTransition="easeElastic"
                   />
-                </Card.Content>
-              </Card>
+                </Card.Content> */}
+              {/* </Card> */}
             </Grid.Column>
             <Grid.Column>
               <SearchForm />
@@ -144,7 +144,7 @@ const mapDispatch = (dispatch, ownProps) => ({
   fetchRoom: () => dispatch(fetchRoom(ownProps.match.params.id)),
   addToQueue: song => dispatch(addToQueue(song, ownProps.match.params.id)),
   fetchQueues: roomId => dispatch(fetchQueues(roomId)),
-  getDJ: () => dispatch(fetchUser(ownProps.match.params.id))
+  getDJ: () => dispatch(fetchUser(ownProps.match.params.id)),
   goRefreshToken: userId => dispatch(goRefreshToken(userId))
 });
 
