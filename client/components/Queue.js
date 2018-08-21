@@ -11,46 +11,11 @@ class UnconnectedQueue extends Component {
     super();
     socket.on('new_queue', async roomId => {
       if ((roomId = this.props.room.id)) {
+        console.log('fetching new queue');
         await this.props.getQueues(this.props.roomId);
       }
     });
   }
-  sortArray = async () => {
-    const copyArray = await this.props.queue.slice();
-    console.log('copy array', copyArray);
-    // if (this.props.room.isDemocratic) {
-    const nowPlaying = await copyArray.shift();
-    console.log('copy array', nowPlaying, copyArray);
-    const savedArray = await copyArray.sort(async (a, b) => {
-      if (this.props.room.isDemocratic) {
-        if (b.votes !== a.votes) {
-          return b.votes - a.votes;
-        } else {
-          const dB = await new Date(b.createdAt);
-          const dA = await new Date(a.createdAt);
-          const timeB = dB.getTime();
-          const timeA = dA.getTime();
-          return timeB - timeA;
-        }
-      } else {
-        const dB = await new Date(b.createdAt);
-        const dA = await new Date(a.createdAt);
-        const timeB = dB.getTime();
-        const timeA = dA.getTime();
-        return timeB - timeA;
-      }
-    });
-    console.log('saved array', savedArray);
-    await savedArray.unshift(nowPlaying);
-    console.log('saved array', savedArray);
-    await this.props.fetchQueues(savedArray);
-
-    socket.on('new_queue', async roomId => {
-      if ((roomId = this.props.room.id)) {
-        await this.props.getQueues(this.props.roomId);
-      }
-    });
-  };
 
   async componentDidMount() {
     await this.props.getQueues(this.props.roomId);
@@ -107,9 +72,6 @@ function mapDispatch(dispatch, ownProps) {
   return {
     getQueues: roomId => {
       dispatch(fetchQueues(roomId));
-    },
-    fetchQueues: queue => {
-      dispatch(fetchQueue(queue));
     }
   };
 }

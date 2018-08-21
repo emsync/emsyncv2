@@ -50,7 +50,7 @@ module.exports = io => {
 
     // queue update
     socket.on('new_queue', roomId => {
-      socket.broadcast.emit('new_queue', roomId);
+      io.sockets.emit('new_queue', roomId);
     });
     // error handling
     socket.on('error', function(err) {

@@ -28,18 +28,22 @@ class UnconnectedQueueElement extends Component {
     };
     this.handleDislike = this.handleDislike.bind(this);
     this.handleLike = this.handleLike.bind(this);
+    socket.on('new_queue', async queueId => {
+      console.log(
+        'should have updated',
+        this.props.item.upVotes,
+        this.props.item.downVotes
+      );
+      await this.setState({
+        likes: this.props.item.upVotes,
+        dislikes: this.props.item.downVotes
+      });
+      this.forceUpdate();
+    });
   }
 
-  componentDidMount() {
-    // if (this.props.sortFunc) {
-    //   this.props.sortFunc();
-    // }
-  }
-
-  // componentDidUpdate(prevProps, prevState, snapshot) {
-  //   if (this.state.disabled !== prevState.disabled) {
-  //     this.setState({disabled: prevState.disabled});
-  //   }
+  // componentWillUpdate() {
+  //   this.forceUpdate();
   // }
 
   handleClick = () => {
@@ -69,14 +73,13 @@ class UnconnectedQueueElement extends Component {
     const newLikes = this.state.likes + 1;
     const newVotes = this.state.likes + 1 - this.state.dislikes;
     this.setState({
-      likes: newLikes,
-      votes: newVotes,
       disabled: !this.state.disabled
     });
     await this.props.vote(this.props.item.id, {
       upVotes: newLikes,
       votes: newVotes
     });
+    console.log('have not sent fetch yet');
     // await this.props.sortFunc();
     socket.emit('new_queue');
   }
@@ -85,8 +88,6 @@ class UnconnectedQueueElement extends Component {
     const newDislikes = this.state.dislikes + 1;
     const newVotes = this.state.likes - 1 - this.state.dislikes;
     this.setState({
-      dislikes: newDislikes,
-      votes: newVotes,
       disabled: !this.state.disabled
     });
     await this.props.vote(this.props.item.id, {
@@ -117,11 +118,12 @@ class UnconnectedQueueElement extends Component {
                 as="div"
                 disabled={this.state.disabled}
                 labelPosition="right"
+                onClick={this.handleLike}
               >
                 <Button
                   icon
                   onClick={this.handleLike}
-                  disabled={this.state.disabled}
+                  // disabled={this.state.disabled}
                 >
                   <Icon name="thumbs up outline" />
                 </Button>
@@ -138,7 +140,7 @@ class UnconnectedQueueElement extends Component {
                 <Button
                   icon
                   onClick={this.handleDislike}
-                  disabled={this.state.disabled}
+                  // disabled={this.state.disabled}
                 >
                   <Icon name="thumbs down outline" />
                 </Button>

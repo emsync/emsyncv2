@@ -184,10 +184,11 @@ class SpotifyWebPlayer extends Component {
 
   nextTrack = async () => {
     if (this.props.queue[1]) {
-      this.playTrack(this.props.queue[1]);
-      this.props.nextSong(this.props.queue[0].id);
-      // await socket.emit('new_queue');
+      await this.playTrack(this.props.queue[1]);
+      await this.props.nextSong(this.props.queue[0].id);
+      socket.emit('new_queue');
       this.setState({lastSong: false});
+      console.log('state already updated');
     } else {
       // await this.playTrack(this.props.queue[0]);
       this.setState({lastSong: true});
@@ -328,6 +329,9 @@ const mapDispatch = dispatch => {
     },
     playSong: item => {
       dispatch(playSongs(item));
+    },
+    getQueues: roomId => {
+      dispatch(fetchQueues(roomId));
     }
   };
 };
