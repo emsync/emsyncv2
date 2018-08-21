@@ -5,7 +5,7 @@ import RoomSingleCard from './roomSingleCard';
 import {RoomsList} from './RoomsList';
 import {fetchRooms} from '../store/rooms';
 import {fetchUser} from '../store/user';
-import {Icon, Label} from 'semantic-ui-react';
+import {Icon, Label, Container} from 'semantic-ui-react';
 class UnconnectedUserProfile extends Component {
   constructor() {
     super();
@@ -30,14 +30,10 @@ class UnconnectedUserProfile extends Component {
             <br />
             <Image centered src={this.state.user.imageUrl} circular />
           </Header>
-          <Header as="h2" icon textAlign="center">
-            <Label>
-              <Icon name="thumbs up outline" /> 23
-            </Label>
-            <Label>
-              <Icon name="thumbs down outline" /> 23
-            </Label>
-          </Header>
+          <Container centered>
+            <Icon name="thumbs up outline" /> 23
+            <Icon name="thumbs down outline" /> 23
+          </Container>
           <Header as="h2" textAlign="center">
             {this.props.user.id === this.state.user.id
               ? 'Your rooms:'
