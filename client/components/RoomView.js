@@ -144,7 +144,7 @@ const mapDispatch = (dispatch, ownProps) => ({
   fetchRoom: () => dispatch(fetchRoom(ownProps.match.params.id)),
   addToQueue: song => dispatch(addToQueue(song, ownProps.match.params.id)),
   fetchQueues: roomId => dispatch(fetchQueues(roomId)),
-  getDJ: () => dispatch(fetchUser(ownProps.match.params.id))
+  getDJ: () => dispatch(fetchUser(ownProps.match.params.id)),
   goRefreshToken: userId => dispatch(goRefreshToken(userId))
 });
 
