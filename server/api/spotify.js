@@ -35,7 +35,7 @@ router.put('/refreshToken/:userId', async (req, res, next) => {
 
     const user = await User.findById(req.user.id);
     await user.update({accessToken: refreshedToken.data.access_token});
-    res.status(201);
+    res.status(201).send();
   } catch (err) {
     console.log(err);
   }
@@ -64,6 +64,5 @@ router.post('/', async (req, res, next) => {
   }
 });
 module.exports = router;
-
 
 // { [WebapiError: Unauthorized] name: 'WebapiError', message: 'Unauthorized', statusCode: 401 }
