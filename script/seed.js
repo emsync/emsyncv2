@@ -100,7 +100,7 @@ const newRooms = [
     updatedAt: '2018-08-21 15:03:36.638-04'
   },
   {
-    id: 10,
+    id: 4,
     name: 'SUmMeR',
     isPrivate: 'FALSE',
     description: "Soakin' up the sun",
@@ -112,7 +112,7 @@ const newRooms = [
     updatedAt: '2018-08-21 15:05:10.598-04'
   },
   {
-    id: 11,
+    id: 5,
     name: 'EMO',
     isPrivate: 'FALSE',
     description: 'Its not a phase, mom!!!!',
@@ -124,7 +124,7 @@ const newRooms = [
     updatedAt: '2018-08-21 15:06:21.723-04'
   },
   {
-    id: 12,
+    id: 6,
     name: 'Beers n Footy',
     isPrivate: 'FALSE',
     description: 'Sunday with the boys',
@@ -136,7 +136,7 @@ const newRooms = [
     updatedAt: '2018-08-21 15:07:26.674-04'
   },
   {
-    id: 13,
+    id: 7,
     name: 'Late night working',
     isPrivate: 'FALSE',
     description: 'Songs to keep you going',
@@ -148,7 +148,7 @@ const newRooms = [
     updatedAt: '2018-08-21 15:08:39.484-04'
   },
   {
-    id: 14,
+    id: 8,
     name: 'XXX',
     isPrivate: 'FALSE',
     description: "Xanthe's room",
@@ -160,7 +160,7 @@ const newRooms = [
     updatedAt: '2018-08-21 15:09:21.706-04'
   },
   {
-    id: 15,
+    id: 9,
     name: 'GYM',
     isPrivate: 'FALSE',
     description: 'Pump it',
