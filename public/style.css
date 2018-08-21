@@ -15,8 +15,9 @@ body {
   font-family: sans-serif;
 }
 
-.card {
-  background-color: black;
+.ui.card > .content,
+.ui.cards > .card > .content {
+  background-color: #1b1c1d;
   color: white;
 }
 
