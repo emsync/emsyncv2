@@ -46,7 +46,6 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
         rToken
       };
 
-      // console.log('BODY: ', data);
 
       const user = await User.findOne({
         where: {
@@ -54,14 +53,12 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
         }
       });
 
-      // console.log('SPOTIFY USER: ', user);
 
       if (user) {
         await user.update({
           accessToken: accessToken,
           refreshToken: refreshToken
         });
-        // console.log('USER UPDATED');
         done(null, user);
       } else {
         User.create({

@@ -34,7 +34,6 @@ export class UserHome extends Component {
  * CONTAINER
  */
 const mapState = state => {
-  // console.log('STORED STATE: ', state);
   return {
     user: state.user,
     email: state.user.email,

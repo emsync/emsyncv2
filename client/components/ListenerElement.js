@@ -6,7 +6,6 @@ import {Link} from 'react-router-dom';
 
 //props being passed here should just be a single listener (user) object
 export const ListenerElement = props => {
-  console.log('listener is', props.listener);
   return (
     <div>
       <Image avatar src={props.listener.imageUrl} />

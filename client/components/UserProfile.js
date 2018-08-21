@@ -52,12 +52,9 @@ class UnconnectedUserProfile extends Component {
 
 const mapState = state => {
   const rooms = state.rooms.filter(room => {
-    console.log(room.createdBy);
-    console.log(state.user.id);
     return room.createdBy === state.user.id;
   });
 
-  console.log(rooms);
   return {
     rooms,
     user: state.user

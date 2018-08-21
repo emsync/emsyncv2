@@ -20,7 +20,6 @@ class NavBar extends Component {
   }
 
   render() {
-    // console.log('USER: ', this.props.user.name);
     let key = 0;
     return (
       //if logged in show username

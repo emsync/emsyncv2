@@ -14,7 +14,6 @@ router.use(cors());
 router.use(cookieParser());
 
 router.get('/', async (req, res, next) => {
-  // console.log('User: ', req.user);
 });
 
 //GET all users
@@ -30,7 +29,6 @@ router.get('/users', async (req, res, next) => {
 //GET user by name
 router.get('/:id', async (req, res, next) => {
   const user = await User.findById(req.params.id);
-  console.log('USER IS', user);
   if (user === undefined) {
     res.send('No data found');
   } else {

@@ -42,7 +42,6 @@ class RoomView extends Component {
   }
   async componentDidMount() {
     await this.props.fetchRoom();
-    console.log(this.props.room.id);
     await this.props.fetchQueues(this.props.room.id);
     await this.getDj();
   }
@@ -52,7 +51,6 @@ class RoomView extends Component {
   }
 
   handleClick() {
-    // console.log('clicked!');
     this.props.addToQueue({name: 'Baby', artist: 'Justin Biebser'});
   }
 
@@ -70,11 +68,9 @@ class RoomView extends Component {
       }
     }
     if (this.props.user.name && !present) {
-      // console.log('emitting joined command');
       socket.emit('joined', this.props.user, this.props.match.params.id);
     }
     // End of Listener Stuff
-    console.log(this.state);
     return this.props.room.name ? (
       <div>
         <div>

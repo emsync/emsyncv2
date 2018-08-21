@@ -15,8 +15,6 @@ const spotifyApi = new SpotifyWebApi({
    -H "Authorization: Bearer BQAoZNbnvxmBFe8qbcSWYlGFevTljalp1HgqbD-o7xO-xOfjnlUCVD1J30NlZ7F0rNKPDsv1C8AXlDpLh3uIU8DfyR-S6euNIAneZODj1aebqGLBvIrVigMHf8DKzWU6gW_QdRwfATQib_L4"*/
 
 //   router.post('/', async (req, res, next) => {
-//       console.log('Hi from spotify!')
-//       console.log('query params =>',req.body)
 
 //   const accessToken = req.body.accessToken;
 //   const options = {
@@ -41,7 +39,6 @@ const spotifyApi = new SpotifyWebApi({
 router.post('/', async (req, res, next) => {
   spotifyApi.setAccessToken(req.user.accessToken);
 
-  // console.log('hello from spotify route');
 
   try {
     const response = await spotifyApi.searchTracks(req.body.q);
