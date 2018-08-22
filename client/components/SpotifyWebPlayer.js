@@ -1,6 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {removeFromQueue, playSongs, addToQueue} from '../store/queue';
+import {
+  removeFromQueue,
+  playSongs,
+  addToQueue,
+  fetchQueues
+} from '../store/queue';
 import socket from '../socket';
 import {List, Card, Feed, Image, Label, Button} from 'semantic-ui-react';
 
@@ -70,6 +75,7 @@ class SpotifyWebPlayer extends Component {
   };
 
   onStateChange = state => {
+    // console.log('new spotify state', state);
     if (state !== null) {
       const {
         current_track: currentTrack,
@@ -185,12 +191,16 @@ class SpotifyWebPlayer extends Component {
 
   nextTrack = async () => {
     if (this.props.queue[1]) {
+      console.log('there is next song', this.props.queue);
       await this.props.nextSong(this.props.queue[0].id);
+      // socket.emit('new_queue');
       await this.playTrack(this.props.queue[1]);
+      // socket.emit('new_queue');
       // this.setState({lastSong: false});
+      console.log('emittimg new_queue');
+      socket.emit('new_queue');
     } else {
-      console.log('should be adding Hallelujah');
-      await this.props.nextSong(this.props.queue[0].id);
+      console.log('there is no next song');
       await this.props.addToQueue({
         item: {
           addedBy: 8,
@@ -201,21 +211,17 @@ class SpotifyWebPlayer extends Component {
             'https://i.scdn.co/image/129985fcd954a66366236c757eba802bf9ac9a09',
           imageUrl:
             'https://i.scdn.co/image/5ea35e3f68bc0b585783573a21f822881190512a',
-          isPlaying: false,
+          isPlaying: true,
           roomId: this.props.roomId,
           spotifyLink: 'spotify:track:0nIOdc64Sa3fZeAdtsCwiA',
           trackName: 'Hallelujah - (Frederick Approved)'
         }
       });
-      console.log('what is state now?', this.state.playing);
-      if (!this.state.playing) {
-        // await this.props.nextSong(this.props.queue[0].id);
-        await this.playTrack(this.props.queue[0]);
-      }
+      // await this.props.fetchQueues(this.props.roomId);
+      await this.props.nextSong(this.props.queue[0].id);
+      socket.emit('new_queue');
+      socket.emit('next_track');
     }
-    console.log('emittimg new_queue');
-    socket.emit('new_queue');
-    // socket.emit('next_track');
   };
 
   transferPlayback = async () => {
@@ -240,7 +246,7 @@ class SpotifyWebPlayer extends Component {
 
   syncOnJoin = async () => {
     if (!this.props.queue[0]) {
-      console.log('should be adding Hallelujah');
+      // console.log('should be adding Hallelujah');
       await this.props.addToQueue({
         item: {
           addedBy: 8,
@@ -374,7 +380,7 @@ class SpotifyWebPlayer extends Component {
 }
 
 const mapState = state => {
-  console.log('state updated');
+  // console.log('state updated');
   return {
     user: state.user,
     queue: state.queue
@@ -391,6 +397,9 @@ const mapDispatch = dispatch => {
     },
     addToQueue: item => {
       dispatch(addToQueue(item));
+    },
+    getQueues: async roomId => {
+      dispatch(fetchQueues(roomId));
     }
   };
 };

@@ -37,10 +37,13 @@ export const removeFromQueue = itemId => async dispatch => {
 //i like the idea of a queue item being a class
 
 export const addToQueue = item => async dispatch => {
-  console.log('add to queue item should be', item);
+  console.log('add to queue item should be', item.item.roomId);
   const res = await axios.put(`/api/queues`, item);
-  await res;
-  // dispatch(addQueue(res.data));
+  // const res2 = await axios.get(`/api/queues/${roomId}`);
+  // const queue = res2.data;
+  console.log('new queue should be', queue);
+  // dispatch(fetchQueue(queue));
+  // dispatch(fetchQueues(item.item.roomId));
 };
 
 export const updateVote = (itemId, votes) => async dispatch => {
@@ -51,6 +54,7 @@ export const updateVote = (itemId, votes) => async dispatch => {
 };
 
 export const fetchQueues = roomId => async dispatch => {
+  console.log('fetch queue requested for room', roomId);
   const res = await axios.get(`/api/queues/${roomId}`);
   const queue = res.data;
   dispatch(fetchQueue(queue));
@@ -74,12 +78,7 @@ export default function(state = [], action) {
     // finaleQueue.push(action.queueItem);
     // return finaleQueue;
     case PLAY_SONG:
-    // let cQueue = [...state];
-    // let fQueue = cQueue.filter(item => {
-    //   return item.id !== action.queueItem.id;
-    // });
-    // fQueue.push(action.queueItem);
-    // return fQueue;
+    // return [...state];
     case FETCH_QUEUE:
       return action.queue;
     default:

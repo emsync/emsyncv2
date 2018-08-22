@@ -15,6 +15,7 @@ router.put('/', async (req, res, next) => {
 });
 
 router.get('/:roomId', async (req, res, next) => {
+  console.log('request param is', req.params.roomId);
   let queue;
   let room;
   try {
