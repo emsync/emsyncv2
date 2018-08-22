@@ -120,10 +120,10 @@ export class UnconnectedRoomForm extends Component {
   render() {
     return (
       <Segment.Group>
-        <Segment>Create a room!</Segment>
+        <Segment inverted>Create a room!</Segment>
         <Segment.Group horizontal={true}>
-          <Form>
-            <Segment>
+          <Form inverted onSubmit={this.handleSubmit}>
+            <Segment inverted>
               <Form.Group widths="equal">
                 <Form.Field
                   control={Input}
@@ -143,7 +143,7 @@ export class UnconnectedRoomForm extends Component {
                 />
               </Form.Group>
               <Form.Group>
-                <Segment>
+                <Segment inverted>
                   <Form.Field
                     control={Input}
                     required
@@ -156,7 +156,7 @@ export class UnconnectedRoomForm extends Component {
                 </Segment>
               </Form.Group>
             </Segment>
-            <Segment>
+            <Segment inverted>
               <Form.Group inline>
                 <Form.Select
                   fluid
@@ -184,9 +184,9 @@ export class UnconnectedRoomForm extends Component {
                 />
               </Form.Group>
             </Segment>
-            <Form.Field onClick={this.handleSubmit} control={Button}>
+            <Button control={Button} type="submit">
               Submit
-            </Form.Field>
+            </Button>
           </Form>
         </Segment.Group>
       </Segment.Group>
