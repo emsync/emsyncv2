@@ -32,7 +32,7 @@ describe(' +++++++++++++++++++++ BACK-END ROUTES  +++++++++++++++++++++', () => 
     });
   });
 
-  describe('PUT /rooms', () => {
+  describe('POST /rooms', () => {
     let wrongData = {
       // name:'',
       description: 'dummy',
@@ -45,7 +45,7 @@ describe(' +++++++++++++++++++++ BACK-END ROUTES  +++++++++++++++++++++', () => 
     };
     it('respond with 400 and `Room not created ` when request is sent with the wrong data', done => {
       request(app)
-        .put('/api/rooms')
+        .post('/api/rooms')
         .send(wrongData)
         .set('Accept', 'application/json')
         .expect('"Room not created"')
@@ -53,7 +53,7 @@ describe(' +++++++++++++++++++++ BACK-END ROUTES  +++++++++++++++++++++', () => 
     });
     xit('respond with 201  when request is sent with the correct data', done => {
       request(app)
-        .put('/api/rooms')
+        .post('/api/rooms')
         .send(goodData)
         .set('Accept', 'application/json')
         .expect(201, done);
