@@ -34,7 +34,7 @@ class UnconnectedQueueElement extends Component {
   }
 
   handleClick = () => {
-    console.log(
+    // console.log(
       'In QueueElement this.state.imagePlayerURL: ',
       this.state.imagePlayerURL
     );

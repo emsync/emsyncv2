@@ -29,7 +29,7 @@ class SearchForm extends Component {
       !this.props.room.allowAdd &&
       this.props.room.createdBy !== this.props.user.id
     ) {
-      console.log('HEEREREHRHEHRE!');
+      // console.log('HEEREREHRHEHRE!');
       this.setState({
         disabled: true
       });
@@ -50,7 +50,7 @@ class SearchForm extends Component {
     this.setState({searchParams: e.target.value});
   };
   render() {
-    console.log('STAAATE', this.state);
+    // console.log('STAAATE', this.state);
     return (
       <Card>
         <Card.Content>

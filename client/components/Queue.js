@@ -11,7 +11,7 @@ class UnconnectedQueue extends Component {
     super(props);
     socket.on('new_queue', async roomId => {
       if ((roomId = this.props.room.id)) {
-        console.log('fetching new queue');
+        // console.log('fetching new queue');
         await this.props.getQueues(this.props.roomId);
       }
     });
@@ -19,7 +19,7 @@ class UnconnectedQueue extends Component {
 
   async componentDidMount() {
     await this.props.getQueues(this.props.roomId);
-    console.log('props in cdm?', this.props);
+    // console.log('props in cdm?', this.props);
   }
 
   render() {

@@ -21,10 +21,10 @@ router.get('/:id', async (req, res, next) => {
 });
 
 router.post('/', async (req, res, next) => {
-  console.log('REQ>BODY', req.body);
+  // console.log('REQ>BODY', req.body);
   try {
     const newRoom = await Room.create(req.body);
-    console.log('created room', newRoom);
+    // console.log('created room', newRoom);
     res.status(201).json(newRoom);
   } catch (err) {
     console.log(err);
