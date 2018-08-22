@@ -124,7 +124,7 @@ export class UnconnectedRoomForm extends Component {
       <Segment.Group>
         <Segment inverted>Create a room!</Segment>
         <Segment.Group horizontal={true}>
-          <Form inverted onSubmit={this.handleSubmit}>
+          <Form inverted >
             <Segment inverted>
               <Form.Group widths="equal">
                 <Form.Field
@@ -187,7 +187,7 @@ export class UnconnectedRoomForm extends Component {
                 />
               </Form.Group>
             </Segment>
-            <Button control={Button} type="submit">
+            <Button control={Button} type="submit" onClick = {this.handleSubmit}>
               Submit
             </Button>
           </Form>
