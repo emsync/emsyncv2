@@ -64,7 +64,6 @@ const newUsers = [
 
 const newRooms = [
   {
-    id: 1,
     name: 'Party Town',
     isPrivate: 'TRUE',
     description: 'Hit the lights, lets git lit',
@@ -76,7 +75,6 @@ const newRooms = [
     updatedAt: '2018-08-21 14:56:49.227-04'
   },
   {
-    id: 2,
     name: 'SAD!',
     isPrivate: 'FALSE',
     description: "I'm sad, don't bother me",
@@ -88,7 +86,6 @@ const newRooms = [
     updatedAt: '2018-08-21 15:00:44.39-04'
   },
   {
-    id: 3,
     name: 'Running',
     isPrivate: 'FALSE',
     description: 'Running tracks',
@@ -100,7 +97,6 @@ const newRooms = [
     updatedAt: '2018-08-21 15:03:36.638-04'
   },
   {
-    id: 4,
     name: 'SUmMeR',
     isPrivate: 'FALSE',
     description: "Soakin' up the sun",
@@ -112,7 +108,6 @@ const newRooms = [
     updatedAt: '2018-08-21 15:05:10.598-04'
   },
   {
-    id: 5,
     name: 'EMO',
     isPrivate: 'FALSE',
     description: 'Its not a phase, mom!!!!',
@@ -124,7 +119,6 @@ const newRooms = [
     updatedAt: '2018-08-21 15:06:21.723-04'
   },
   {
-    id: 6,
     name: 'Beers n Footy',
     isPrivate: 'FALSE',
     description: 'Sunday with the boys',
@@ -136,7 +130,6 @@ const newRooms = [
     updatedAt: '2018-08-21 15:07:26.674-04'
   },
   {
-    id: 7,
     name: 'Late night working',
     isPrivate: 'FALSE',
     description: 'Songs to keep you going',
@@ -148,7 +141,6 @@ const newRooms = [
     updatedAt: '2018-08-21 15:08:39.484-04'
   },
   {
-    id: 8,
     name: 'XXX',
     isPrivate: 'FALSE',
     description: "Xanthe's room",
@@ -160,7 +152,6 @@ const newRooms = [
     updatedAt: '2018-08-21 15:09:21.706-04'
   },
   {
-    id: 9,
     name: 'GYM',
     isPrivate: 'FALSE',
     description: 'Pump it',

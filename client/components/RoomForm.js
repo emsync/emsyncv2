@@ -29,7 +29,7 @@ export class UnconnectedRoomForm extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.onClick = this.onClick.bind(this);
+    this.clicker = this.clicker.bind(this);
   }
 
   allowAdd() {
@@ -96,12 +96,13 @@ export class UnconnectedRoomForm extends Component {
         content: <Label color="red" content="Search using GIPHY" />
       },
       content: {
-        content: <GiphySearch clicker={this.onClick} />
+        content: <GiphySearch clicker={this.clicker} />
       }
     }));
   };
-  onClick = (event, data) => {
-    this.setState({imageUrl: data.content});
+  clicker = (url) => {
+    this.setState({imageUrl: url});
+
   };
 
   handleClick = (event, data) => {
@@ -118,11 +119,12 @@ export class UnconnectedRoomForm extends Component {
   }
 
   render() {
+    console.log(this.state)
     return (
       <Segment.Group>
         <Segment inverted>Create a room!</Segment>
         <Segment.Group horizontal={true}>
-          <Form inverted onSubmit={this.handleSubmit}>
+          <Form inverted >
             <Segment inverted>
               <Form.Group widths="equal">
                 <Form.Field
@@ -146,6 +148,7 @@ export class UnconnectedRoomForm extends Component {
                 <Segment inverted>
                   <Form.Field
                     control={Input}
+                    value={this.state.imageUrl}
                     required
                     label="Image Url"
                     name="imageUrl"
@@ -184,7 +187,8 @@ export class UnconnectedRoomForm extends Component {
                 />
               </Form.Group>
             </Segment>
-            <Button control={Button} type="submit">
+
+            <Button control={Button} type="submit" onClick = {this.handleSubmit}>
               Submit
             </Button>
           </Form>

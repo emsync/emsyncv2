@@ -10,13 +10,15 @@ export const GiphyResultsList = props => {
     <Card.Group itemsPerRow={5}>
       {props.results.map(gif => {
         return (
+
           <Card
             color="pink"
             key={gif.id}
-            onClick={props.clicker}
-            content={gif.images.fixed_height.url}
+            onClick={() =>
+              { props.clicker(gif.images.fixed_height.url)}}
             raised={true}
           >
+
             <Image src={gif.images.fixed_height.url} />
           </Card>
         );
