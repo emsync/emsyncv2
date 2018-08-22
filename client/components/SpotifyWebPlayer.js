@@ -1,6 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {removeFromQueue, playSongs} from '../store/queue';
+import {
+  removeFromQueue,
+  playSongs,
+  addToQueue,
+  fetchQueues
+} from '../store/queue';
 import socket from '../socket';
 import {List, Card, Feed, Image, Label, Button} from 'semantic-ui-react';
 
@@ -70,6 +75,7 @@ class SpotifyWebPlayer extends Component {
   };
 
   onStateChange = state => {
+    // console.log('new spotify state', state);
     if (state !== null) {
       const {
         current_track: currentTrack,
@@ -185,19 +191,33 @@ class SpotifyWebPlayer extends Component {
 
   nextTrack = async () => {
     if (this.props.queue[1]) {
+      console.log('there is next song', this.props.queue);
       await this.props.nextSong(this.props.queue[0].id);
       await this.playTrack(this.props.queue[1]);
-      this.setState({lastSong: false});
+      console.log('emittimg new_queue');
+      socket.emit('new_queue');
     } else {
-      // await this.playTrack(this.props.queue[0]);
-      this.setState({lastSong: true});
-      if (!this.state.playing) {
-        // await this.props.nextSong(this.props.queue[0].id);
-        await this.playTrack(this.props.queue[0]);
-      }
+      console.log('there is no next song');
+      await this.props.addToQueue({
+        item: {
+          addedBy: 8,
+          artistName: 'Kurt Nilsen',
+          currentPlayingTime: 0,
+          duration: 299680,
+          imagePlayerURL:
+            'https://i.scdn.co/image/129985fcd954a66366236c757eba802bf9ac9a09',
+          imageUrl:
+            'https://i.scdn.co/image/5ea35e3f68bc0b585783573a21f822881190512a',
+          isPlaying: true,
+          roomId: this.props.roomId,
+          spotifyLink: 'spotify:track:0nIOdc64Sa3fZeAdtsCwiA',
+          trackName: 'Hallelujah - (Frederick Approved)'
+        }
+      });
+      await this.props.nextSong(this.props.queue[0].id);
+      socket.emit('new_queue');
+      socket.emit('next_track');
     }
-    socket.emit('new_queue');
-    // socket.emit('next_track');
   };
 
   transferPlayback = async () => {
@@ -221,6 +241,26 @@ class SpotifyWebPlayer extends Component {
   };
 
   syncOnJoin = async () => {
+    if (!this.props.queue[0]) {
+      await this.props.addToQueue({
+        item: {
+          addedBy: 8,
+          artistName: 'Kurt Nilsen',
+          currentPlayingTime: 0,
+          duration: 299680,
+          imagePlayerURL:
+            'https://i.scdn.co/image/129985fcd954a66366236c757eba802bf9ac9a09',
+          imageUrl:
+            'https://i.scdn.co/image/5ea35e3f68bc0b585783573a21f822881190512a',
+          isPlaying: false,
+          roomId: this.props.roomId,
+          spotifyLink: 'spotify:track:0nIOdc64Sa3fZeAdtsCwiA',
+          trackName: 'Hallelujah - (Frederick Approved)'
+        }
+      });
+      socket.emit('new_queue', this.props.roomId);
+      console.log('new queue is ', this.props.queue);
+    }
     if (!this.props.queue[0].isPlaying) {
       await this.playTrack(this.props.queue[0]);
     } else {
@@ -336,7 +376,7 @@ class SpotifyWebPlayer extends Component {
 }
 
 const mapState = state => {
-  console.log('state updated');
+  // console.log('state updated');
   return {
     user: state.user,
     queue: state.queue
@@ -350,6 +390,12 @@ const mapDispatch = dispatch => {
     },
     playSong: item => {
       dispatch(playSongs(item));
+    },
+    addToQueue: item => {
+      dispatch(addToQueue(item));
+    },
+    getQueues: async roomId => {
+      dispatch(fetchQueues(roomId));
     }
   };
 };

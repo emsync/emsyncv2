@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Feed, Card, Input, Button} from 'semantic-ui-react';
+import {Feed, Card, Input, Button, Segment} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 import {GiphyResultsList} from './giphyResultsList';
 import {search, getTrending} from '../store/giphy';
@@ -38,43 +38,31 @@ class GiphySearch extends Component {
   };
   render() {
     return (
-      <Feed>
-        <Card.Content>
-          <Feed.Event>
-            <Feed.Content>
-              <div className="ui icon input">
-                <Input
-                  type="text"
-                  placeholder="search GIPHY"
-                  value={this.state.searchParams}
-                  onChange={this.handleChange}
-                  onKeyDown={this.keyPress}
-                />
-                <i
-                  className="inverted circular search link icon"
-                  onClick={this.handleClick}
-                />
-              </div>
-            </Feed.Content>
-          </Feed.Event>
-        </Card.Content>
+      <Segment inverted>
+        <div className="ui icon input">
+          <Input
+            type="text"
+            placeholder="search GIPHY"
+            value={this.state.searchParams}
+            onChange={this.handleChange}
+            onKeyDown={this.keyPress}
+          />
+          <i
+            className="inverted circular search link icon"
+            onClick={this.handleClick}
+          />
+        </div>
         {this.props.gifs ? (
-          <Card.Content>
-            <Feed.Event>
-              <Feed.Content>
-                <Button>
-                  <GiphyResultsList
-                    results={this.props.gifs}
-                    clicker={this.props.clicker}
-                  />
-                </Button>
-              </Feed.Content>
-            </Feed.Event>
-          </Card.Content>
+          <Segment inverted>
+            <GiphyResultsList
+              results={this.props.gifs}
+              clicker={this.props.clicker}
+            />
+          </Segment>
         ) : (
           <p>Search GIPHY</p>
         )}
-      </Feed>
+      </Segment>
     );
   }
 }
