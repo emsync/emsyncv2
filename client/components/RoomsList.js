@@ -2,6 +2,7 @@ import React from 'react';
 import {Grid, Image, Card} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 import RoomSingleCard from './roomSingleCard';
+import {Loading} from './Loading';
 
 export const RoomsList = props => {
   return (

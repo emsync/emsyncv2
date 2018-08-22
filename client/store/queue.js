@@ -29,7 +29,7 @@ export const playSongs = queueItem => async dispatch => {
 };
 export const removeFromQueue = itemId => async dispatch => {
   const res = await axios.delete(`/api/queues/${itemId}`);
-  await res;
+  dispatch(removeQueue(itemId));
 };
 
 //i like the idea of a queue item being a class
@@ -57,11 +57,11 @@ export default function(state = [], action) {
     case ADD_QUEUE:
     // return [...state, action.item];
     case REMOVE_QUEUE:
-    // let copyQueue = state.slice();
-    // let finalQueue = copyQueue.filter(item => {
-    //   return item.id !== action.id;
-    // });
-    // return finalQueue;
+      let copyQueue = state.slice();
+      let finalQueue = copyQueue.filter(item => {
+        return item.id !== action.id;
+      });
+      return finalQueue;
     case UPDATE_VOTES:
     // let copiedQueue = [...state];
     // let finaleQueue = copiedQueue.filter(item => {

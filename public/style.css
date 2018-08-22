@@ -3,7 +3,18 @@
   justify-content: space-evenly;
 }
 
-.landing-text {
+Loading {
+  background-image: linear-gradient(
+    to left top,
+    #d10f67,
+    #f6464c,
+    #ff7e29,
+    #ffb500,
+    #e4eb12
+  );
+  height: 100vh;
+
+ .landing-text {
   /* background-color: #1b1c1d; */
   text-align: center;
   padding: 52px 52px 52px 52px;
@@ -21,11 +32,29 @@
   display: flex;
 }
 
-.rightRoom {
-  display: flex;
-} */
+.loader,
+.loader:after {
+  border-radius: 50%;
+  width: 10em;
+  height: 10em;
+}
+.loader {
+  margin: 60px auto;
+  font-size: 10px;
+  position: relative;
+  text-indent: -9999em;
+  border-top: 1.1em solid rgba(255, 255, 255, 0.2);
+  border-right: 1.1em solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1.1em solid rgba(255, 255, 255, 0.2);
+  border-left: 1.1em solid #ffffff;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: load8 1.1s infinite linear;
+  animation: load8 1.1s infinite linear;
+}
 
-.ui.icon.button:hover {
+.ui.icon.button.queueDelete:hover {
   background-color: red;
 }
 
@@ -39,7 +68,8 @@
   width: -webkit-fill-available;
 }
 
-.ui.labeled.button:not([class*='left labeled']) > .button {
+.ui.labeled.button:not([class*='left labeled']):not([class*='right labeled'])
+  > .button {
   background-color: #d54363 !important;
 }
 
@@ -168,11 +198,11 @@ form div {
   width: 100%;
 }
 
-*,
+/* *,
 :after,
 :before {
   color: black;
-}
+} */
 
 .ui.card > .content > .header + .description,
 .ui.card > .content > .meta + .description,

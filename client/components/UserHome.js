@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {RoomsList} from './RoomsList';
 import {fetchRooms} from '../store/rooms';
 import {Header} from 'semantic-ui-react';
+import Loading from './Loading';
 
 /**
  * COMPONENT
@@ -24,19 +25,23 @@ export class UserHome extends Component {
   }
   render() {
     return (
-      this.props.rooms.length && (
-        <div className="pageContainer">
-          <Header
-            as="h1"
-            textAlign="center"
-            className="title"
-            style={{marginTop: 30, fontSize: 45}}
-          >
-            Active Rooms
-          </Header>
-          <RoomsList rooms={this.props.rooms} user={this.props.user} />
-        </div>
-      )
+      <div>
+        {this.props.rooms.length ? (
+          <div className="pageContainer">
+            <Header
+              as="h1"
+              textAlign="center"
+              className="title"
+              style={{marginTop: 30, fontSize: 45}}
+            >
+              Active Rooms
+            </Header>
+            <RoomsList rooms={this.props.rooms} user={this.props.user} />
+          </div>
+        ) : (
+          <div className="loader" />
+        )}
+      </div>
     );
   }
 }
