@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Icon, Feed, Card, Input} from 'semantic-ui-react';
+import {Icon, Feed, Card, Input, Message} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 import {SearchResultList} from './SearchResultList';
 import {goSearch} from '../store/searchReducer';
@@ -66,8 +66,16 @@ class SearchForm extends Component {
                       value={this.state.searchParams}
                       onChange={this.handleChange}
                       onKeyDown={this.keyPress}
-                      disabled={this.state.disabled}
-                    />
+                      warning={this.state.disabled}
+                    >
+                      <Message
+                        warning
+                        header="Adding to queue is blocked!"
+                        list={[
+                          'Oops! Sorry! The DJ for this room has disabled the add to queue function for listeners.'
+                        ]}
+                      />
+                    </Input>
                     <i
                       className="inverted circular search link icon"
                       onClick={this.handleClick}
@@ -95,11 +103,7 @@ class SearchForm extends Component {
                 </Feed.Event>
               </Card.Content>
             ) : (
-              <p>
-                {this.state.disabled
-                  ? 'Adding to queue is disabled for this room'
-                  : 'Search track/artist'}
-              </p>
+              <p>{this.state.disabled ? '' : 'Search track/artist'}</p>
             )}
           </Feed>
         </Card.Content>

@@ -8,7 +8,7 @@ import socket from '../socket';
 const Extra = props => {
   return (
     <div>
-      <Icon name="user" />
+      <Icon color="white" name="user" />
       {props.listeners} Listeners
       <Link to={`/rooms/${props.id}`}>
         <Button content="Join" icon="right arrow" labelPosition="right" />
@@ -38,6 +38,9 @@ const RoomSingleCard = props => {
       <Card.Content>
         <Card.Header>{props.room.name}</Card.Header>
         <Card.Description>{props.room.description}</Card.Description>
+        {!props.room.allowAdd && (
+          <Icon className="block" size="small" name="minus circle" />
+        )}
         <Card.Content extra>
           {props.room.users ? (
             <Extra listeners={props.room.users.length} id={props.room.id} />

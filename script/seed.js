@@ -113,7 +113,6 @@ const newRooms = [
     description: 'Its not a phase, mom!!!!',
     imageUrl: 'https://media3.giphy.com/media/QTqpJTLjQLFjq/200.gif',
     createdBy: 8,
-    allowAdd: 'FALSE',
     isDemocratic: 'FALSE',
     createdAt: '2018-08-21 15:06:21.723-04',
     updatedAt: '2018-08-21 15:06:21.723-04'
@@ -124,7 +123,7 @@ const newRooms = [
     description: 'Sunday with the boys',
     imageUrl: 'https://media0.giphy.com/media/mOOuUUIEEgq6A/200.gif',
     createdBy: 8,
-    allowAdd: 'FALSE',
+    allowAdd: 'TRUE',
     isDemocratic: 'FALSE',
     createdAt: '2018-08-21 15:07:26.674-04',
     updatedAt: '2018-08-21 15:07:26.674-04'
@@ -135,7 +134,7 @@ const newRooms = [
     description: 'Songs to keep you going',
     imageUrl: 'https://media3.giphy.com/media/11BbGyhVmk4iLS/200.gif',
     createdBy: 8,
-    allowAdd: 'FALSE',
+    allowAdd: 'TRUE',
     isDemocratic: 'FALSE',
     createdAt: '2018-08-21 15:08:39.484-04',
     updatedAt: '2018-08-21 15:08:39.484-04'
@@ -146,7 +145,7 @@ const newRooms = [
     description: "Xanthe's room",
     imageUrl: 'https://media2.giphy.com/media/l4FB6rJP7S6wxJvKU/200.gif',
     createdBy: 8,
-    allowAdd: 'FALSE',
+    allowAdd: 'TRUE',
     isDemocratic: 'FALSE',
     createdAt: '2018-08-21 15:09:21.706-04',
     updatedAt: '2018-08-21 15:09:21.706-04'
@@ -157,7 +156,7 @@ const newRooms = [
     description: 'Pump it',
     imageUrl: 'https://media3.giphy.com/media/3o7TKR1b2X2JqJ6JDW/200.gif',
     createdBy: 8,
-    allowAdd: 'FALSE',
+    allowAdd: 'TRUE',
     isDemocratic: 'FALSE',
     createdAt: '2018-08-21 15:10:48.145-04',
     updatedAt: '2018-08-21 15:10:48.145-04'
