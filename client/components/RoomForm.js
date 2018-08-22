@@ -160,32 +160,15 @@ export class UnconnectedRoomForm extends Component {
               </Form.Group>
             </Segment>
             <Segment inverted>
-              <Form.Group inline>
                 <Form.Select
                   fluid
-                  required
-                  name="isDemocratic"
-                  label="Sort queue by:"
-                  options={this.isDemocratic()}
-                  placeholder="Select"
-                />
-                <Form.Select
-                  fluid
+                  value={this.state.allowAdd}
                   required
                   name="allowAdd"
                   label="Allow listeners to add to queue"
                   options={this.allowAdd()}
                   placeholder="Select"
                 />
-                <Form.Select
-                  fluid
-                  required
-                  name="isPrivate"
-                  label="Room privacy"
-                  options={this.isPrivate()}
-                  placeholder="Select"
-                />
-              </Form.Group>
             </Segment>
             <Button control={Button} type="submit" onClick = {this.handleSubmit}>
               Submit
