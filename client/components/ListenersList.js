@@ -17,7 +17,7 @@ const ListenersList = props => (
                 <Card.Content>
                   <Feed.Event>
                     <Feed.Content>
-                      <ListenerElement key={listener} listener={listener} />
+                      <ListenerElement key={listener.id} listener={listener} />
                     </Feed.Content>
                   </Feed.Event>
                 </Card.Content>

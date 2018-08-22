@@ -26,9 +26,16 @@ class SpotifyWebPlayer extends Component {
     this.checkInterval = null;
 
     socket.on('next_track', async roomId => {
-      if ((roomId = this.props.roomId)) {
+      if (roomId === this.props.roomId) {
         console.log('next_track requested');
         await this.nextTrack();
+      }
+    });
+
+    socket.on('play_next', async roomId => {
+      if (roomId === this.props.roomId) {
+        console.log('now playing next track');
+        await this.playTrack(this.props.queue[0]);
       }
     });
   }
@@ -186,18 +193,15 @@ class SpotifyWebPlayer extends Component {
   nextTrack = async () => {
     if (this.props.queue[1]) {
       await this.props.nextSong(this.props.queue[0].id);
-      await this.playTrack(this.props.queue[1]);
+      socket.emit('play_next', this.props.roomId);
       this.setState({lastSong: false});
     } else {
-      // await this.playTrack(this.props.queue[0]);
       this.setState({lastSong: true});
       if (!this.state.playing) {
-        // await this.props.nextSong(this.props.queue[0].id);
-        await this.playTrack(this.props.queue[0]);
+        socket.emit('play_current');
       }
     }
     socket.emit('new_queue');
-    // socket.emit('next_track');
   };
 
   transferPlayback = async () => {

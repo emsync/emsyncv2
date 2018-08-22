@@ -30,7 +30,6 @@ export const playSongs = queueItem => async dispatch => {
 };
 export const removeFromQueue = itemId => async dispatch => {
   const res = await axios.delete(`/api/queues/${itemId}`);
-  await res;
   // dispatch(removeQueue(itemId));
 };
 
@@ -39,7 +38,7 @@ export const removeFromQueue = itemId => async dispatch => {
 export const addToQueue = item => async dispatch => {
   const res = await axios.put(`/api/queues`, item);
   await res;
-  dispatch(addQueue(res.data));
+  // dispatch(addQueue(res.data));
 };
 
 export const updateVote = (itemId, votes) => async dispatch => {
@@ -58,27 +57,27 @@ export const fetchQueues = roomId => async dispatch => {
 export default function(state = [], action) {
   switch (action.type) {
     case ADD_QUEUE:
-      return [...state, action.item];
+    // return [...state, action.item];
     case REMOVE_QUEUE:
-      let copyQueue = state.slice();
-      let finalQueue = copyQueue.filter(item => {
-        return item.id !== action.id;
-      });
-      return finalQueue;
+    // let copyQueue = state.slice();
+    // let finalQueue = copyQueue.filter(item => {
+    //   return item.id !== action.id;
+    // });
+    // return finalQueue;
     case UPDATE_VOTES:
-      let copiedQueue = [...state];
-      let finaleQueue = copiedQueue.filter(item => {
-        return item.id !== action.queueItem.id;
-      });
-      finaleQueue.push(action.queueItem);
-      return finaleQueue;
+    // let copiedQueue = [...state];
+    // let finaleQueue = copiedQueue.filter(item => {
+    //   return item.id !== action.queueItem.id;
+    // });
+    // finaleQueue.push(action.queueItem);
+    // return finaleQueue;
     case PLAY_SONG:
-      let cQueue = [...state];
-      let fQueue = cQueue.filter(item => {
-        return item.id !== action.queueItem.id;
-      });
-      fQueue.push(action.queueItem);
-      return fQueue;
+    // let cQueue = [...state];
+    // let fQueue = cQueue.filter(item => {
+    //   return item.id !== action.queueItem.id;
+    // });
+    // fQueue.push(action.queueItem);
+    // return fQueue;
     case FETCH_QUEUE:
       return action.queue;
     default:

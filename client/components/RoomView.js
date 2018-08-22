@@ -8,8 +8,6 @@ import {fetchUser} from '../store/user';
 import {Queue} from './Queue';
 import socket from '../socket';
 import {Card, Image, Header, Grid} from 'semantic-ui-react';
-import {ListenerElement} from './ListenerElement';
-import {Player} from './index';
 import ReactSpeedometer from 'react-d3-speedometer';
 import SpotifyWebPlayer from './SpotifyWebPlayer';
 import SearchForm from './SearchForm';
@@ -79,6 +77,7 @@ class RoomView extends Component {
   nextQueue = () => {};
 
   render() {
+    console.log('listeners list is', this.state.listeners);
     return this.props.room.name ? (
       <div>
         <div>

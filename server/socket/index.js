@@ -42,6 +42,16 @@ module.exports = io => {
       removeUser(user, room);
     });
 
+    // play next song
+    socket.on('play_next', roomId => {
+      io.sockets.emit('play_next', roomId);
+    });
+
+    // play current top of queue (should only be used if no/1 song left)
+    socket.on('play_current', roomId => {
+      io.sockets.emit('play_current');
+    });
+
     // next track - either use initiated or end of previous track
     socket.on('next_track', roomId => {
       console.log('next track request from room', roomId);
@@ -60,7 +70,6 @@ module.exports = io => {
     updateListeners = room => {
       let tempListeners = [];
       for (var key in rooms[room]) {
-        // console.log('the key is', key);
         if (rooms[room].hasOwnProperty(key)) {
           if (rooms[room][key]) {
             tempListeners.push(rooms[room][key]);
@@ -71,7 +80,6 @@ module.exports = io => {
     };
 
     removeUser = (socketId, room) => {
-      console.log('this is the room', room);
       if (room) {
         if (rooms.hasOwnProperty(room))
           if (rooms[room][socketId]) {
