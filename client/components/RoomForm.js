@@ -147,6 +147,7 @@ export class UnconnectedRoomForm extends Component {
             <Form.Select
               fluid
               required
+              value={this.state.allowAdd}
               name="allowAdd"
               label="Allow listeners to add to queue"
               options={this.allowAdd()}
