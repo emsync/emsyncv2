@@ -42,7 +42,7 @@ class RoomView extends Component {
   }
   async componentDidMount() {
     await this.props.fetchRoom();
-    await this.props.fetchQueues(this.props.room.id);
+    // await this.props.fetchQueues(this.props.room.id);
     await this.getDj();
     if (this.props.user.id) {
       await this.props.goRefreshToken(this.props.user.id);
@@ -98,7 +98,7 @@ class RoomView extends Component {
             <Grid.Column key="queue">
               {this.props.room.queueItems ? (
                 <Queue
-                  queue={this.props.room.queueItems}
+                  // queue={this.props.room.queueItems}
                   roomId={this.props.match.params.id}
                 />
               ) : null}
