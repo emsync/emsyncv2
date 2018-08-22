@@ -154,7 +154,7 @@ class RoomView extends Component {
 const mapDispatch = (dispatch, ownProps) => ({
   fetchRoom: () => dispatch(fetchRoom(ownProps.match.params.id)),
   addToQueue: song => dispatch(addToQueue(song, ownProps.match.params.id)),
-  fetchQueues: roomId => dispatch(fetchQueues(roomId)),
+  // fetchQueues: roomId => dispatch(fetchQueues(roomId)),
   getDJ: id => dispatch(fetchUser(id)),
   goRefreshToken: userId => dispatch(goRefreshToken(userId))
 });

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {removeFromQueue, playSongs} from '../store/queue';
+import {removeFromQueue, playSongs, addToQueue} from '../store/queue';
 import socket from '../socket';
 import {List, Card, Feed, Image, Label, Button} from 'semantic-ui-react';
 
@@ -187,15 +187,33 @@ class SpotifyWebPlayer extends Component {
     if (this.props.queue[1]) {
       await this.props.nextSong(this.props.queue[0].id);
       await this.playTrack(this.props.queue[1]);
-      this.setState({lastSong: false});
+      // this.setState({lastSong: false});
     } else {
-      // await this.playTrack(this.props.queue[0]);
-      this.setState({lastSong: true});
+      console.log('should be adding Hallelujah');
+      await this.props.nextSong(this.props.queue[0].id);
+      await this.props.addToQueue({
+        item: {
+          addedBy: 8,
+          artistName: 'Kurt Nilsen',
+          currentPlayingTime: 0,
+          duration: 299680,
+          imagePlayerURL:
+            'https://i.scdn.co/image/129985fcd954a66366236c757eba802bf9ac9a09',
+          imageUrl:
+            'https://i.scdn.co/image/5ea35e3f68bc0b585783573a21f822881190512a',
+          isPlaying: false,
+          roomId: this.props.roomId,
+          spotifyLink: 'spotify:track:0nIOdc64Sa3fZeAdtsCwiA',
+          trackName: 'Hallelujah - (Frederick Approved)'
+        }
+      });
+      console.log('what is state now?', this.state.playing);
       if (!this.state.playing) {
         // await this.props.nextSong(this.props.queue[0].id);
         await this.playTrack(this.props.queue[0]);
       }
     }
+    console.log('emittimg new_queue');
     socket.emit('new_queue');
     // socket.emit('next_track');
   };
@@ -221,6 +239,26 @@ class SpotifyWebPlayer extends Component {
   };
 
   syncOnJoin = async () => {
+    if (!this.props.queue[0]) {
+      console.log('should be adding Hallelujah');
+      await this.props.addToQueue({
+        item: {
+          addedBy: 8,
+          artistName: 'Kurt Nilsen',
+          currentPlayingTime: 0,
+          duration: 299680,
+          imagePlayerURL:
+            'https://i.scdn.co/image/129985fcd954a66366236c757eba802bf9ac9a09',
+          imageUrl:
+            'https://i.scdn.co/image/5ea35e3f68bc0b585783573a21f822881190512a',
+          isPlaying: false,
+          roomId: this.props.roomId,
+          spotifyLink: 'spotify:track:0nIOdc64Sa3fZeAdtsCwiA',
+          trackName: 'Hallelujah - (Frederick Approved)'
+        }
+      });
+      socket.emit('new_queue', this.props.roomId);
+    }
     if (!this.props.queue[0].isPlaying) {
       await this.playTrack(this.props.queue[0]);
     } else {
@@ -350,6 +388,9 @@ const mapDispatch = dispatch => {
     },
     playSong: item => {
       dispatch(playSongs(item));
+    },
+    addToQueue: item => {
+      dispatch(addToQueue(item));
     }
   };
 };

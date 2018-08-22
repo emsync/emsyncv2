@@ -50,6 +50,7 @@ module.exports = io => {
 
     // queue update
     socket.on('new_queue', roomId => {
+      console.log('queue update requested');
       io.sockets.emit('new_queue', roomId);
     });
     // error handling

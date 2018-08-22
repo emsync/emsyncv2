@@ -28,9 +28,9 @@ class UnconnectedQueueElement extends Component {
     };
     this.handleDislike = this.handleDislike.bind(this);
     this.handleLike = this.handleLike.bind(this);
-    // socket.on('new_queue', queueId => {
-    //   this.forceUpdate();
-    // });
+    socket.on('new_queue', queueId => {
+      this.forceUpdate();
+    });
   }
 
   // componentWillUpdate() {
