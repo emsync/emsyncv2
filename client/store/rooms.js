@@ -22,8 +22,8 @@ export const deleteRoom = id => async dispatch => {
 };
 
 export const createRoom = room => async dispatch => {
-  // console.log('ROOM IN REDUCER IS', room);
-  const response = await axios.put(`/api/rooms`, room);
+  console.log('ROOM IN REDUCER IS', room);
+  const response = await axios.post(`/api/rooms`, room);
   const newRoom = response.data;
   dispatch(addRoom(newRoom));
 };
