@@ -9,7 +9,8 @@ import {
   Label,
   Accordion,
   TextArea,
-  Segment
+  Segment,
+  Header
 } from 'semantic-ui-react';
 import {createRoom} from '../store/rooms';
 import GiphySearch from './giphySearch';
@@ -100,9 +101,8 @@ export class UnconnectedRoomForm extends Component {
       }
     }));
   };
-  clicker = (url) => {
+  clicker = url => {
     this.setState({imageUrl: url});
-
   };
 
   handleClick = (event, data) => {
@@ -119,64 +119,68 @@ export class UnconnectedRoomForm extends Component {
   }
 
   render() {
-    console.log(this.state)
+    console.log(this.state);
     return (
-      <Segment.Group>
-        <Segment inverted>Create a room!</Segment>
-        <Segment.Group horizontal={true}>
-          <Form inverted >
-            <Segment inverted>
-              <Form.Group widths="equal">
-                <Form.Field
-                  control={Input}
-                  required
-                  name="name"
-                  label="Name"
-                  placeholder="Name"
-                  onChange={this.handleChange}
-                />
-                <Form.Field
-                  control={TextArea}
-                  required
-                  label="Description"
-                  name="description"
-                  placeholder="Description"
-                  onChange={this.handleChange}
-                />
-              </Form.Group>
-              <Form.Group>
-                <Segment inverted>
-                  <Form.Field
-                    control={Input}
-                    value={this.state.imageUrl}
-                    required
-                    label="Image Url"
-                    name="imageUrl"
-                    placeholder="Image Url"
-                    onChange={this.handleChange}
-                  />
-                  <Accordion panels={this.panels()} defaultActiveIndex={1} />
-                </Segment>
-              </Form.Group>
-            </Segment>
-            <Segment inverted>
-                <Form.Select
-                  fluid
-                  value={this.state.allowAdd}
-                  required
-                  name="allowAdd"
-                  label="Allow listeners to add to queue"
-                  options={this.allowAdd()}
-                  placeholder="Select"
-                />
-            </Segment>
+      <Segment style={{marginTop: 30, marginLeft: '30%'}} inverted>
+        <Header centered style={{fontSize: 45}}>
+          Create a room!
+        </Header>
+        <Form inverted centered>
+          <Form.Group inline widths="equal">
+            <Form.Field
+              control={Input}
+              required
+              name="name"
+              label="Name"
+              placeholder="Name"
+              onChange={this.handleChange}
+            />
+            <br />
+            <Form.Field
+              control={TextArea}
+              required
+              label="Description"
+              name="description"
+              placeholder="Description"
+              onChange={this.handleChange}
+            />
+            <Form.Select
+              fluid
+              value={this.state.allowAdd}
+              required
+              name="allowAdd"
+              label="Allow listeners to add to queue"
+              options={this.allowAdd()}
+              placeholder="Select"
+            />
+          </Form.Group>
+          <br />
 
-            <Button control={Button} type="submit" onClick = {this.handleSubmit}>
-              Submit
-            </Button>
-          </Form>
-        </Segment.Group>
-      </Segment.Group>
+          <Form.Group>
+            <Segment inverted>
+              <Form.Field
+                control={Input}
+                value={this.state.imageUrl}
+                required
+                label="Image Url"
+                name="imageUrl"
+                placeholder="Image Url"
+                onChange={this.handleChange}
+              />
+            </Segment>
+          </Form.Group>
+        </Form>
+        <Accordion panels={this.panels()} defaultActiveIndex={1} />
+        <Button
+          attached="bottom"
+          control={Button}
+          type="submit"
+          onClick={this.handleSubmit}
+          positive
+        >
+          Submit
+        </Button>
+      </Segment>
     );
   }
 }
