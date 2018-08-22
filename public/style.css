@@ -46,17 +46,28 @@
   font-family: 'Knewave', cursive !important;
 }
 
-.background {
+.nobackground {
   background-image: linear-gradient(
     to left top,
     #d10f67,
     #f6464c,
     #ff7e29,
     #ffb500,
-    #e4eb12 /* 'height' = '100%',
-    'width' = '100%' */
+    #e4eb12
   );
   height: 100vh;
+}
+
+.background {
+  background: -webkit-gradient(
+      linear,
+      left top,
+      left bottom,
+      from(#d10f67),
+      to(#e4eb12)
+    )
+    fixed;
+  height: 3000vh;
 }
 
 .ui.yellow.label {
