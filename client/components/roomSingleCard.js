@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Card, Icon, Button, Image} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
-import socket from '../socket';
+import {Loading} from './Loading';
 
 const Extra = props => {
   return (

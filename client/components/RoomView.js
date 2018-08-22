@@ -13,6 +13,7 @@ import ReactSpeedometer from 'react-d3-speedometer';
 import SpotifyWebPlayer from './SpotifyWebPlayer';
 import SearchForm from './SearchForm';
 import RoomSettings from './RoomSettings';
+import Loading from './Loading';
 
 class RoomView extends Component {
   constructor(props) {
@@ -158,7 +159,9 @@ class RoomView extends Component {
         </div>
       ))
     ) : (
-      <p>Loading...</p>
+      <p>
+        <Loading />
+      </p>
     );
   }
 }

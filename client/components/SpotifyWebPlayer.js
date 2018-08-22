@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {removeFromQueue, playSongs} from '../store/queue';
 import socket from '../socket';
 import {List, Card, Feed, Image, Label, Button} from 'semantic-ui-react';
+import {Loading} from './Loading';
 
 class SpotifyWebPlayer extends Component {
   constructor() {
