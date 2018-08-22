@@ -101,6 +101,7 @@ class UnconnectedQueueElement extends Component {
           {this.state.addedBy !== 'search' ? (
             <Card.Content extra>
               <Button
+                className="queueDelete"
                 as="div"
                 onClick={() => {
                   this.props.removeFromQueue(this.props.item.id);

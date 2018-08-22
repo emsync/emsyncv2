@@ -39,7 +39,7 @@ export class UserHome extends Component {
             <RoomsList rooms={this.props.rooms} user={this.props.user} />
           </div>
         ) : (
-          <Loading />
+          <div className="loader" />
         )}
       </div>
     );
