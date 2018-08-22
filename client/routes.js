@@ -26,12 +26,12 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
-        <Route path="/landing" component={Landing} />
+        <Route exact path="/" component={Landing} />
         <Route path="/login" component={Login} />
         <Route path="/rooms/:id" component={RoomView} />
         <Route path="/signup" component={Signup} />
         <Route path="/search" component={SearchForm} />
-        <Route exact path="/" component={UserHome} />
+        <Route exact path="/user" component={UserHome} />
         <Route exact path="/add-room" component={RoomForm} />
         <Route exact path="/user/:id" component={UserProfile} />
         <Route exact path="/gifs" component={GiphySearch} />

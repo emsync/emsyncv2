@@ -13,6 +13,23 @@ Loading {
     #e4eb12
   );
   height: 100vh;
+
+ .landing-text {
+  /* background-color: #1b1c1d; */
+  text-align: center;
+  padding: 52px 52px 52px 52px;
+  color: black    !important;
+  font-size: 30px;
+  font-weight: 100;
+  letter-spacing: 1px;
+  line-height: 46px;
+  padding-bottom: 15 px;
+  /* font-style: italic */
+}
+
+
+/* .leftRoom {
+  display: flex;
 }
 
 .loader,
@@ -39,6 +56,12 @@ Loading {
 
 .ui.icon.button.queueDelete:hover {
   background-color: red;
+}
+
+
+.coverflow__stage__15AAc {
+  width: 100% !important;
+  height: 600px !important
 }
 
 .ui.input {

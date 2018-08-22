@@ -115,11 +115,11 @@ export class UnconnectedRoomForm extends Component {
 
   handleSubmit() {
     this.props.createRoom(this.state);
-    this.props.history.push('/');
+    this.props.history.push('/user');
   }
 
   render() {
-    console.log(this.state);
+
     return (
       <Segment style={{marginTop: 30, marginLeft: '30%'}} inverted>
         <Header centered style={{fontSize: 45}}>
