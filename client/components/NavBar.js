@@ -25,7 +25,7 @@ class NavBar extends Component {
       //if logged in show username
       <div>
         <Menu stackable inverted>
-          <Menu.Item as={Link} to="/">
+          <Menu.Item as={Link} to="/user">
             <img src="/img/emsync-logo.jpeg" alt="emSync Logo" />
           </Menu.Item>
           <Menu.Item className="title" as={Link} to="/">
