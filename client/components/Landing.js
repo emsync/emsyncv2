@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import Coverflow from 'react-coverflow';
+import { Header , Container} from 'semantic-ui-react';
 
 export class Landing extends Component {
   constructor(props) {
@@ -25,11 +26,18 @@ export class Landing extends Component {
   }
 
   render() {
+    
     return (
       <div>
+        <div className='landing-text'>
+        <Header>Emsync</Header>
+        <Container>
+          <p>The app that allows you to listen to music on Spotify 
+            in sync with other users around the world.</p>
+          </Container>
+        </div>
         <Coverflow
-          width={1200}
-          height={800}
+          // style={{ width: "100%", height: "500px" }}
           displayQuantityOfSide={2}
           navigation={false}
           enableHeading={false}
