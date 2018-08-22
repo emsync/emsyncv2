@@ -34,10 +34,6 @@ class UnconnectedQueueElement extends Component {
   }
 
   handleClick = () => {
-    console.log(
-      'In QueueElement this.state.imagePlayerURL: ',
-      this.state.imagePlayerURL
-    );
     this.props.addQueue({
       // votes: this.state.likes - this.state.disklikes,
       addedBy: this.props.user.id,

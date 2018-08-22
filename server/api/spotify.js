@@ -12,11 +12,10 @@ const spotifyApi = new SpotifyWebApi({
 });
 
 //Get spotify user info
-router.get('/:userId' , async(req,res,next) => {
+router.get('/:userId', async (req, res, next) => {
   const user = await spotifyApi.getUser();
-  console.log(user);
-})
-
+  // console.log(user);
+});
 
 router.put('/refreshToken/:userId', async (req, res, next) => {
   try {
