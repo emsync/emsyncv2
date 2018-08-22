@@ -154,9 +154,7 @@ class RoomView extends Component {
         </Grid>
       </div>
     ) : (
-      <p>
-        <Loading />
-      </p>
+      <div className="loader" />
     );
   }
 }

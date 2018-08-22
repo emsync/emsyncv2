@@ -175,11 +175,11 @@ form div {
   width: 100%;
 }
 
-*,
+/* *,
 :after,
 :before {
   color: black;
-}
+} */
 
 .ui.card > .content > .header + .description,
 .ui.card > .content > .meta + .description,
