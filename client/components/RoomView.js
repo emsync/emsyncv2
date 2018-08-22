@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import ListenersList from './ListenersList';
 import {fetchRoom} from '../store/room';
 import {goRefreshToken} from '../store/refreshToken';
-import {addToQueue, fetchQueues} from '../store/queue';
+import {addToQueue, fetchQueues, emptyQueue} from '../store/queue';
 import {fetchUser} from '../store/user';
 import {Queue} from './Queue';
 import socket from '../socket';
@@ -66,6 +66,9 @@ class RoomView extends Component {
       );
     }
   }
+  // componentWillUnmount() {
+  //   this.props.emptyQueue();
+  // }
 
   componentWillUnmount() {
     socket.emit('left', socket.id, this.props.match.params.id);
@@ -164,7 +167,8 @@ const mapDispatch = (dispatch, ownProps) => ({
   addToQueue: song => dispatch(addToQueue(song, ownProps.match.params.id)),
   fetchQueues: roomId => dispatch(fetchQueues(roomId)),
   getDJ: id => dispatch(fetchUser(id)),
-  goRefreshToken: userId => dispatch(goRefreshToken(userId))
+  goRefreshToken: userId => dispatch(goRefreshToken(userId)),
+  emptyQueue: () => dispatch(emptyQueue())
 });
 
 const mapState = (state, ownProps) => {
