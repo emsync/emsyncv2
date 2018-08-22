@@ -242,7 +242,7 @@ class SpotifyWebPlayer extends Component {
   };
 
   syncOnJoin = async () => {
-    if (!this.props.queue[0]) {
+    if (!this.props.queue || !this.props.queue[0]) {
       await this.props.addToQueue({
         item: {
           addedBy: 8,
