@@ -184,9 +184,7 @@ export class UnconnectedRoomForm extends Component {
                 />
               </Form.Group>
             </Segment>
-            <Button control={Button} type="submit">
-              Submit
-            </Button>
+            <Button type="submit">Submit</Button>
           </Form>
         </Segment.Group>
       </Segment.Group>
