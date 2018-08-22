@@ -15,6 +15,10 @@
   background-color: red;
 }
 
+.ui.input {
+  width: -webkit-fill-available;
+}
+
 .ui.labeled.button:not([class*='left labeled']) > .button {
   background-color: #d54363 !important;
 }
