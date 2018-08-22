@@ -46,17 +46,28 @@
   font-family: 'Knewave', cursive !important;
 }
 
-.background {
+.nobackground {
   background-image: linear-gradient(
     to left top,
     #d10f67,
     #f6464c,
     #ff7e29,
     #ffb500,
-    #e4eb12 /* 'height' = '100%',
-    'width' = '100%' */
+    #e4eb12
   );
   height: 100vh;
+}
+
+.background {
+  background: -webkit-gradient(
+      linear,
+      left top,
+      left bottom,
+      from(#d10f67),
+      to(#e4eb12)
+    )
+    fixed;
+  height: 3000vh;
 }
 
 .ui.yellow.label {
@@ -167,4 +178,38 @@ ul.ui.list li {
   margin-left: auto;
   margin-right: auto;
   width: 95%;
+}
+
+/* Style the search field */
+form.example input[type='text'] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 85%;
+  background: #f1f1f1;
+}
+
+/* Style the submit button */
+form.example i {
+  float: left;
+  width: 15%;
+  padding: 10px;
+  background: #2196f3;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none; /* Prevent double borders */
+  cursor: pointer;
+}
+
+form.example button:hover {
+  background: #0b7dda;
+}
+
+/* Clear floats */
+form.example::after {
+  content: '';
+  clear: both;
+  display: table;
 }

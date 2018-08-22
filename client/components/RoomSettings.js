@@ -9,9 +9,9 @@ import socket from '../socket';
 
 const RoomSettings = props => {
   return props.room ? (
-    <Card centered="true" raised={true}>
+    <Card fluid>
       <Card.Content>
-        <Card.Header>Settings</Card.Header>
+        <Card.Header>Room Settings</Card.Header>
       </Card.Content>
       <Card.Content>
         <Card.Content>

@@ -59,7 +59,7 @@ class SearchForm extends Component {
             <Card.Content>
               <Feed.Event>
                 <Feed.Content>
-                  <div className="ui icon input">
+                  {/* <div className="ui icon input">
                     <Input
                       type="text"
                       placeholder="track/artist..."
@@ -72,7 +72,17 @@ class SearchForm extends Component {
                       className="inverted circular search link icon"
                       onClick={this.handleClick}
                     />
-                  </div>
+                  </div> */}
+                  <form className="example">
+                    <input
+                      type="text"
+                      placeholder="track/artist..."
+                      onChange={this.handleChange}
+                      onKeyDown={this.keyPress}
+                      name="search"
+                    />
+                    <i className="fa fa-search" onClick={this.handleClick} />
+                  </form>
                 </Feed.Content>
               </Feed.Event>
             </Card.Content>
