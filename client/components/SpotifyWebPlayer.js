@@ -199,6 +199,7 @@ class SpotifyWebPlayer extends Component {
       socket.emit('new_queue');
     } else {
       console.log('there is no next song');
+      await this.props.nextSong(this.props.queue[0].id);
       await this.props.addToQueue({
         item: {
           addedBy: 8,
@@ -215,7 +216,6 @@ class SpotifyWebPlayer extends Component {
           trackName: 'Hallelujah - (Frederick Approved)'
         }
       });
-      await this.props.nextSong(this.props.queue[0].id);
       socket.emit('new_queue');
       socket.emit('next_track');
     }
