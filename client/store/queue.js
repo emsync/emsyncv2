@@ -15,6 +15,11 @@ const addQueue = item => {
 export const fetchQueue = queue => {
   return {type: FETCH_QUEUE, queue};
 };
+
+export const emptyQueue = queue => {
+  return {type: FETCH_QUEUE, queue: []};
+};
+
 const removeQueue = id => ({type: REMOVE_QUEUE, id});
 const updateVotes = queueItem => ({type: UPDATE_VOTES, queueItem});
 const playSong = queueItem => ({type: PLAY_SONG, queueItem});
