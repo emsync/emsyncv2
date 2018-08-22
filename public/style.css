@@ -13,12 +13,12 @@ Loading {
     #e4eb12
   );
   height: 100vh;
-
- .landing-text {
+}
+.landing-text {
   /* background-color: #1b1c1d; */
   text-align: center;
   padding: 52px 52px 52px 52px;
-  color: black    !important;
+  color: black !important;
   font-size: 30px;
   font-weight: 100;
   letter-spacing: 1px;
@@ -27,8 +27,7 @@ Loading {
   /* font-style: italic */
 }
 
-
-/* .leftRoom {
+.leftRoom {
   display: flex;
 }
 
@@ -58,10 +57,9 @@ Loading {
   background-color: red;
 }
 
-
 .coverflow__stage__15AAc {
   width: 100% !important;
-  height: 600px !important
+  height: 600px !important;
 }
 
 .ui.input {
@@ -301,4 +299,8 @@ div.ui.list.playerInfo {
 .ui.buttons.PlayerButtons {
   margin-left: 5px;
   margin-right: 5px;
+}
+
+.ui.message .list:not(.ui) li:last-child {
+  color: black;
 }

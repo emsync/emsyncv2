@@ -29,6 +29,7 @@ class SearchForm extends Component {
       !this.props.room.allowAdd &&
       this.props.room.createdBy !== this.props.user.id
     ) {
+      console.log('HEEREREHRHEHRE!');
       this.setState({
         disabled: true
       });
@@ -49,6 +50,7 @@ class SearchForm extends Component {
     this.setState({searchParams: e.target.value});
   };
   render() {
+    console.log('STAAATE', this.state);
     return (
       <Card>
         <Card.Content>
@@ -60,22 +62,34 @@ class SearchForm extends Component {
               <Feed.Event>
                 <Feed.Content>
                   <div className="ui icon input">
-                    <Input
-                      type="text"
-                      placeholder="track/artist..."
-                      value={this.state.searchParams}
-                      onChange={this.handleChange}
-                      onKeyDown={this.keyPress}
-                      warning={this.state.disabled}
-                    >
-                      <Message
-                        warning
-                        header="Adding to queue is blocked!"
-                        list={[
-                          'Oops! Sorry! The DJ for this room has disabled the add to queue function for listeners.'
-                        ]}
+                    {!this.state.disabled ? (
+                      <Input
+                        type="text"
+                        placeholder="track/artist..."
+                        value={this.state.searchParams}
+                        onChange={this.handleChange}
+                        onKeyDown={this.keyPress}
                       />
-                    </Input>
+                    ) : (
+                      <Input
+                        type="text"
+                        placeholder="track/artist..."
+                        value={this.state.searchParams}
+                        onChange={this.handleChange}
+                        onKeyDown={this.keyPress}
+                        warning={this.state.disabled}
+                      >
+                        {
+                          <Message
+                            warning
+                            header="Adding to queue is blocked!"
+                            list={[
+                              'Oops! Sorry! The DJ for this room has disabled the add to queue function for listeners.'
+                            ]}
+                          />
+                        }
+                      </Input>
+                    )}
                     <i
                       className="inverted circular search link icon"
                       onClick={this.handleClick}
