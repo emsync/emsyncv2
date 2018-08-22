@@ -115,11 +115,10 @@ export class UnconnectedRoomForm extends Component {
 
   handleSubmit() {
     this.props.createRoom(this.state);
-    this.props.history.push('/');
+    this.props.history.push('/user');
   }
 
   render() {
-    console.log(this.state)
     return (
       <Segment.Group>
         <Segment inverted>Create a room!</Segment>

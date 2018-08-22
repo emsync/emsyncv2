@@ -20,8 +20,8 @@ const Room = db.define('room', {
   imageUrl: {
     type: Sequelize.STRING,
     defaultValue:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR8tcZONgfXI3h4m9BuCi6hg3K84kk7TU_lI6YqgsaoJFhGztOZg'
-  },
+      'https://banner2.kisspng.com/20180423/uje/kisspng-computer-icons-dance-party-crazy-celebration-5adda0d3871471.1179835315244740675533.jpg' 
+     },
   createdBy: {
     type: Sequelize.INTEGER
   },
