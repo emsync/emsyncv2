@@ -259,6 +259,7 @@ class SpotifyWebPlayer extends Component {
         }
       });
       socket.emit('new_queue', this.props.roomId);
+      console.log('new queue is ', this.props.queue);
     }
     if (!this.props.queue[0].isPlaying) {
       await this.playTrack(this.props.queue[0]);
