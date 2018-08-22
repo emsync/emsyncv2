@@ -187,6 +187,7 @@ export class UnconnectedRoomForm extends Component {
                 />
               </Form.Group>
             </Segment>
+
             <Button control={Button} type="submit" onClick = {this.handleSubmit}>
               Submit
             </Button>
