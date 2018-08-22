@@ -285,31 +285,42 @@ class SpotifyWebPlayer extends Component {
                     src={imageUrl}
                     onError={i => (i.target.style.display = 'none')}
                   />
-                  <List>
+                  <List className="playerInfo">
                     <List.Item>
-                      {trackName !== '' ? trackName : 'n/a'}{' '}
+                      <span className="playerNPInfo">Song:&nbsp;&nbsp;</span>
+                      {trackName !== '' ? trackName : 'n/a'}
                     </List.Item>
                     <List.Item>
+                      <span className="playerNPInfo">Artist:&nbsp;&nbsp;</span>
                       {artistName !== '' ? artistName : 'n/a'}
                     </List.Item>
                     <List.Item>
+                      <span className="playerNPInfo">Album:&nbsp;&nbsp;</span>
                       {albumName !== '' ? albumName : 'n/a'}
                     </List.Item>
-                    {playing ? 'Now playing' : 'Paused'}
+                    <List.Item>
+                      {playing ? 'Now playing' : 'Paused'}
+                      {this.state.lastSong ? <div>Error: Last Song</div> : null}
+                    </List.Item>
+                    <List.Item>
+                      <Button.Group className="playerButtons">
+                        <Button size="tiny" floated="left" onClick={this.mute}>
+                          {this.state.volume > 0 ? 'Mute' : 'Unmute'}
+                        </Button>
+                        <Button
+                          size="tiny"
+                          floated="right"
+                          content="Next"
+                          icon="right arrow"
+                          onClick={() =>
+                            socket.emit('next_track', this.props.roomId)
+                          }
+                        >
+                          Next
+                        </Button>
+                      </Button.Group>
+                    </List.Item>
                   </List>
-                  {this.state.lastSong ? <div>Error: Last Song</div> : null}
-                  <Button size="tiny" onClick={this.mute}>
-                    {this.state.volume > 0 ? 'Mute' : 'Unmute'}
-                  </Button>
-                  <Button
-                    size="tiny"
-                    content="Next"
-                    icon="right arrow"
-                    labelPosition="right"
-                    onClick={() => socket.emit('next_track', this.props.roomId)}
-                  >
-                    Next
-                  </Button>
                 </Card.Content>
               </div>
             ) : (

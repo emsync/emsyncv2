@@ -15,6 +15,10 @@
   background-color: red;
 }
 
+.ui.input {
+  width: -webkit-fill-available;
+}
+
 .ui.labeled.button:not([class*='left labeled']) > .button {
   background-color: #d54363 !important;
 }
@@ -212,4 +216,20 @@ form.example::after {
   content: '';
   clear: both;
   display: table;
+}
+
+div.ui.list.playerInfo {
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.playerNPInfo {
+  font-weight: bold;
+}
+
+.ui.buttons.PlayerButtons {
+  margin-left: 5px;
+  margin-right: 5px;
 }
