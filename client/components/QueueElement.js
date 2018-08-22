@@ -28,23 +28,10 @@ class UnconnectedQueueElement extends Component {
     };
     this.handleDislike = this.handleDislike.bind(this);
     this.handleLike = this.handleLike.bind(this);
-    socket.on('new_queue', async queueId => {
-      console.log(
-        'should have updated',
-        this.props.item.upVotes,
-        this.props.item.downVotes
-      );
-      await this.setState({
-        likes: this.props.item.upVotes,
-        dislikes: this.props.item.downVotes
-      });
+    socket.on('new_queue', queueId => {
       this.forceUpdate();
     });
   }
-
-  // componentWillUpdate() {
-  //   this.forceUpdate();
-  // }
 
   handleClick = () => {
     console.log(

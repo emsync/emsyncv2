@@ -57,7 +57,7 @@ Loader {
 }
 
 .ui.header {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.9) !important;
   text-shadow: 2px 2px 5px black;
   font-family: 'Knewave', cursive !important;
 }
@@ -156,11 +156,26 @@ form div {
   height: 70%;
 }
 
+.ui.inverted.segment .inverted.segment {
+  width: 100%;
+}
+
+*,
+:after,
+:before {
+  color: black;
+}
+
 .ui.card > .content > .header + .description,
 .ui.card > .content > .meta + .description,
 .ui.cards > .card > .content > .header + .description,
 .ui.cards > .card > .content > .meta + .description {
   color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.ui.inverted.segment,
+.ui.primary.inverted.segment {
+  width: 50%;
 }
 
 .ui.feed > .event > .content .summary {
