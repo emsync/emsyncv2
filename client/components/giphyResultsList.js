@@ -13,8 +13,8 @@ export const GiphyResultsList = props => {
           <Card
             color="pink"
             key={gif.id}
-            onClick={props.clicker}
-            content={gif.images.fixed_height.url}
+            onClick={() =>
+              { props.clicker(gif.images.fixed_height.url)}}
             raised={true}
           >
             <Image src={gif.images.fixed_height.url} />
