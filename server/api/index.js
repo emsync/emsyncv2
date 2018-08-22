@@ -8,7 +8,7 @@ router.use('/queues', require('./queues'));
 router.use('/giphy', require('./giphy'));
 
 router.use((req, res, next) => {
-  const error = new Error('Hellooooo');
+  const error = new Error('Error!');
   error.status = 404;
   next(error);
 });
