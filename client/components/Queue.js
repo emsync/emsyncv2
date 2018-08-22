@@ -7,8 +7,8 @@ import socket from '../socket';
 
 //props that should be passed here should be the current rooms listeners array
 class UnconnectedQueue extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     socket.on('new_queue', async roomId => {
       if ((roomId = this.props.room.id)) {
         console.log('fetching new queue');
@@ -19,12 +19,10 @@ class UnconnectedQueue extends Component {
 
   async componentDidMount() {
     await this.props.getQueues(this.props.roomId);
+    console.log('props in cdm?', this.props);
   }
 
   render() {
-    if (this.props.queue.length) {
-      // this.sortArray();
-    }
     return (
       <div>
         <Card>
@@ -70,7 +68,7 @@ function mapState(state) {
 
 function mapDispatch(dispatch, ownProps) {
   return {
-    getQueues: roomId => {
+    getQueues: async roomId => {
       dispatch(fetchQueues(roomId));
     }
   };
