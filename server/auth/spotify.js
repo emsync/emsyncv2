@@ -47,13 +47,11 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
         rToken
       };
 
-
       const user = await User.findOne({
         where: {
           name: userName
         }
       });
-
 
       if (user) {
         await user.update({
@@ -68,8 +66,7 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
           spotifyDisplayName: userName,
           accessToken: accessToken,
           refreshToken: refreshToken,
-          imageUrl: photos[0] || null,
-          
+          imageUrl: photos[0] || null
         });
         done(null, user);
       }
@@ -97,6 +94,7 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
     passport.authenticate('spotify', {
       scope: [
         'streaming',
+        'user-read-currently-playing',
         'user-read-birthdate',
         'user-read-email',
         'user-read-private',
