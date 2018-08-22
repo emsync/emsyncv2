@@ -193,10 +193,7 @@ class SpotifyWebPlayer extends Component {
     if (this.props.queue[1]) {
       console.log('there is next song', this.props.queue);
       await this.props.nextSong(this.props.queue[0].id);
-      // socket.emit('new_queue');
       await this.playTrack(this.props.queue[1]);
-      // socket.emit('new_queue');
-      // this.setState({lastSong: false});
       console.log('emittimg new_queue');
       socket.emit('new_queue');
     } else {
@@ -217,7 +214,6 @@ class SpotifyWebPlayer extends Component {
           trackName: 'Hallelujah - (Frederick Approved)'
         }
       });
-      // await this.props.fetchQueues(this.props.roomId);
       await this.props.nextSong(this.props.queue[0].id);
       socket.emit('new_queue');
       socket.emit('next_track');
@@ -246,7 +242,6 @@ class SpotifyWebPlayer extends Component {
 
   syncOnJoin = async () => {
     if (!this.props.queue[0]) {
-      // console.log('should be adding Hallelujah');
       await this.props.addToQueue({
         item: {
           addedBy: 8,

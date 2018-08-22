@@ -13,7 +13,6 @@ class UnconnectedQueue extends Component {
       if ((roomId = this.props.room.id)) {
         console.log('fetching new queue');
         await this.props.getQueues(this.props.roomId);
-        // this.forceUpdate();
       }
     });
   }

@@ -26,12 +26,10 @@ export const playSongs = queueItem => async dispatch => {
     startTimeStamp: queueItem.startTimeStamp,
     isPlaying: true
   });
-  // dispatch(playSong(res.data));
 };
 export const removeFromQueue = itemId => async dispatch => {
   const res = await axios.delete(`/api/queues/${itemId}`);
   await res;
-  // dispatch(removeQueue(itemId));
 };
 
 //i like the idea of a queue item being a class
@@ -39,18 +37,12 @@ export const removeFromQueue = itemId => async dispatch => {
 export const addToQueue = item => async dispatch => {
   console.log('add to queue item should be', item.item.roomId);
   const res = await axios.put(`/api/queues`, item);
-  // const res2 = await axios.get(`/api/queues/${roomId}`);
-  // const queue = res2.data;
-  console.log('new queue should be', queue);
-  // dispatch(fetchQueue(queue));
-  // dispatch(fetchQueues(item.item.roomId));
 };
 
 export const updateVote = (itemId, votes) => async dispatch => {
   const res = await axios.put(`/api/queues/${itemId}`, votes);
   await res;
   console.log('update votes complete');
-  // dispatch(fetchQueue(res.data));
 };
 
 export const fetchQueues = roomId => async dispatch => {

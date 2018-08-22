@@ -33,10 +33,6 @@ class UnconnectedQueueElement extends Component {
     });
   }
 
-  // componentWillUpdate() {
-  //   this.forceUpdate();
-  // }
-
   handleClick = () => {
     console.log(
       'In QueueElement this.state.imagePlayerURL: ',
