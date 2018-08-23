@@ -85,7 +85,8 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
         'user-read-email',
         'user-read-private',
         'user-modify-playback-state'
-      ]
+      ],
+      showDialog: true
     })
   );
 
