@@ -29,7 +29,9 @@ class UnconnectedQueueElement extends Component {
     this.handleDislike = this.handleDislike.bind(this);
     this.handleLike = this.handleLike.bind(this);
     socket.on('new_queue', queueId => {
-      this.forceUpdate();
+      if (queueId === this.props.room.id) {
+        this.forceUpdate();
+      }
     });
   }
 
@@ -49,7 +51,7 @@ class UnconnectedQueueElement extends Component {
     });
     this.setState({active: !this.state.active});
     // this.props.sortFunc();
-    socket.emit('new_queue');
+    socket.emit('new_queue', this.props.room.id);
   };
 
   async handleLike() {
@@ -64,7 +66,7 @@ class UnconnectedQueueElement extends Component {
     });
     console.log('have not sent fetch yet');
     // await this.props.sortFunc();
-    socket.emit('new_queue');
+    socket.emit('new_queue', this.props.room.id);
   }
 
   async handleDislike() {
@@ -78,7 +80,7 @@ class UnconnectedQueueElement extends Component {
       votes: newVotes
     });
     // await this.props.sortFunc();
-    socket.emit('new_queue');
+    socket.emit('new_queue', this.props.room.id);
   }
   render() {
     return (
@@ -101,7 +103,7 @@ class UnconnectedQueueElement extends Component {
                 as="div"
                 onClick={() => {
                   this.props.removeFromQueue(this.props.item.id);
-                  socket.emit('new_queue');
+                  socket.emit('new_queue', this.props.room.id);
                 }}
                 icon
               >

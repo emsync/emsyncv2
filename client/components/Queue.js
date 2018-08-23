@@ -10,7 +10,7 @@ class UnconnectedQueue extends Component {
   constructor(props) {
     super(props);
     socket.on('new_queue', async roomId => {
-      if ((roomId = this.props.room.id)) {
+      if (roomId === this.props.room.id) {
         // console.log('fetching new queue');
         await this.props.getQueues(this.props.roomId);
       }
@@ -30,7 +30,7 @@ class UnconnectedQueue extends Component {
             <Card.Header>Queue</Card.Header>
           </Card.Content>
           <Feed>
-            {this.props.queue.length ? (
+            {this.props.queue ? (
               this.props.queue.map(item => {
                 if (item) {
                   return (
@@ -61,7 +61,7 @@ class UnconnectedQueue extends Component {
 
 function mapState(state) {
   return {
-    queue: state.queue,
+    queue: state.queue[state.room.id],
     room: state.room
   };
 }
