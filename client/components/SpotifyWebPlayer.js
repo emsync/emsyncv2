@@ -32,7 +32,7 @@ class SpotifyWebPlayer extends Component {
     this.checkInterval = null;
 
     socket.on('next_track', async roomId => {
-      if ((roomId = this.props.roomId)) {
+      if (roomId === this.props.roomId) {
         console.log('next_track requested');
         await this.nextTrack();
       }
@@ -196,7 +196,7 @@ class SpotifyWebPlayer extends Component {
       await this.props.nextSong(this.props.queue[0].id);
       await this.playTrack(this.props.queue[1]);
       console.log('emittimg new_queue');
-      socket.emit('new_queue');
+      socket.emit('new_queue', this.props.roomId);
     } else {
       console.log('there is no next song');
       await this.props.nextSong(this.props.queue[0].id);
@@ -380,7 +380,7 @@ const mapState = state => {
   // console.log('state updated');
   return {
     user: state.user,
-    queue: state.queue
+    queue: state.queue[state.room.id]
   };
 };
 

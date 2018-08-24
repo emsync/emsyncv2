@@ -12,8 +12,8 @@ const addQueue = item => {
   return {type: ADD_QUEUE, item};
 };
 
-export const fetchQueue = queue => {
-  return {type: FETCH_QUEUE, queue};
+export const fetchQueue = (queue, roomId) => {
+  return {type: FETCH_QUEUE, queue, roomId};
 };
 
 export const emptyQueue = queue => {
@@ -51,13 +51,13 @@ export const updateVote = (itemId, votes) => async dispatch => {
 };
 
 export const fetchQueues = roomId => async dispatch => {
-  // console.log('fetch queue requested for room', roomId);
+  console.log('fetch queue requested for room', roomId);
   const res = await axios.get(`/api/queues/${roomId}`);
   const queue = res.data;
-  dispatch(fetchQueue(queue));
+  dispatch(fetchQueue(queue, roomId));
 };
 
-export default function(state = [], action) {
+export default function(state = {}, action) {
   switch (action.type) {
     case ADD_QUEUE:
     // return [...state, action.item];
@@ -77,7 +77,9 @@ export default function(state = [], action) {
     case PLAY_SONG:
     // return [...state];
     case FETCH_QUEUE:
-      return action.queue;
+      let newQueue = {...state};
+      newQueue[action.roomId] = action.queue;
+      return newQueue;
     default:
       return state;
   }
