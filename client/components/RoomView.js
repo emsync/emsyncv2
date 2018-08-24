@@ -8,12 +8,10 @@ import {fetchUser} from '../store/user';
 import {Queue} from './Queue';
 import socket from '../socket';
 import {Card, Image, Header, Grid} from 'semantic-ui-react';
-import {ListenerElement} from './ListenerElement';
 import ReactSpeedometer from 'react-d3-speedometer';
 import SpotifyWebPlayer from './SpotifyWebPlayer';
 import SearchForm from './SearchForm';
 import RoomSettings from './RoomSettings';
-import Loading from './Loading';
 
 class RoomView extends Component {
   constructor(props) {
@@ -42,15 +40,10 @@ class RoomView extends Component {
     });
   }
   async componentWillMount() {
-    // console.log('props + route = ', this.props);
-    this.props.fetchRoom().then(() => {
-      // console.log('room prop should be', this.props.room);
+    await this.props.fetchRoom().then(async () => {
+      await this.getDj();
     });
-    this.props.fetchQueues(this.props.match.params.id).then(() => {
-      // console.log('all props to this point should be', this.props);
-    });
-    // const prop2 = await this.props.fetchQueues(this.props.room.id);
-    await this.getDj();
+    this.props.fetchQueues(this.props.match.params.id).then(() => {});
     if (this.props.user.id) {
       await this.props.goRefreshToken(this.props.user.id);
     }
@@ -72,9 +65,6 @@ class RoomView extends Component {
       );
     }
   }
-  // componentWillUnmount() {
-  //   this.props.emptyQueue();
-  // }
 
   componentWillUnmount() {
     socket.emit('left', socket.id, this.props.match.params.id);
@@ -115,7 +105,11 @@ class RoomView extends Component {
               ) : null}
             </Grid.Column>
             <Grid.Column key="search">
-              <SearchForm />
+              {this.props.room.id && this.props.user.id ? (
+                <SearchForm room={this.props.room} user={this.props.user} />
+              ) : (
+                <div className="loader" />
+              )}
             </Grid.Column>
             <Grid.Column key="listeners">
               <ListenersList listeners={this.state.listeners} />
@@ -153,8 +147,10 @@ class RoomView extends Component {
                   </Card.Content>
                 </Card>
                 <Card>
-                  {this.state.DJ.name && (
+                  {this.state.DJ.name ? (
                     <RoomSettings user={this.state.DJ} room={this.props.room} />
+                  ) : (
+                    <div className="loader" />
                   )}
                 </Card>
               </Card.Group>
@@ -168,14 +164,17 @@ class RoomView extends Component {
   }
 }
 
-const mapDispatch = (dispatch, ownProps) => ({
-  fetchRoom: () => dispatch(fetchRoom(ownProps.match.params.id)),
-  addToQueue: song => dispatch(addToQueue(song, ownProps.match.params.id)),
-  fetchQueues: roomId => dispatch(fetchQueues(roomId)),
-  getDJ: id => dispatch(fetchUser(id)),
-  goRefreshToken: userId => dispatch(goRefreshToken(userId)),
-  emptyQueue: () => dispatch(emptyQueue())
-});
+const mapDispatch = (dispatch, ownProps) => {
+  console.log('these are ownProps', ownProps);
+  return {
+    fetchRoom: () => dispatch(fetchRoom(ownProps.match.params.id)),
+    addToQueue: song => dispatch(addToQueue(song, ownProps.match.params.id)),
+    fetchQueues: roomId => dispatch(fetchQueues(roomId)),
+    getDJ: id => dispatch(fetchUser(id)),
+    goRefreshToken: userId => dispatch(goRefreshToken(userId)),
+    emptyQueue: () => dispatch(emptyQueue())
+  };
+};
 
 const mapState = (state, ownProps) => {
   let nP = '';

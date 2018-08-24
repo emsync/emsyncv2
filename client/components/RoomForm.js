@@ -119,67 +119,66 @@ export class UnconnectedRoomForm extends Component {
   }
 
   render() {
-
     return (
-      <Segment style={{marginTop: 30, marginLeft: '30%'}} inverted>
+      <Segment
+        style={{marginTop: 30, marginLeft: '30%', border: '1px solid grey'}}
+        inverted
+      >
         <Header centered style={{fontSize: 45}}>
           Create a room!
         </Header>
         <Form inverted centered>
-          <Form.Group inline widths="equal">
-            <Form.Field
-              control={Input}
-              required
-              name="name"
-              label="Name"
-              placeholder="Name"
-              onChange={this.handleChange}
-            />
-            <br />
-            <Form.Field
-              control={TextArea}
-              required
-              label="Description"
-              name="description"
-              placeholder="Description"
-              onChange={this.handleChange}
-            />
-            <Form.Select
-              fluid
-              value={this.state.allowAdd}
-              required
-              name="allowAdd"
-              label="Allow listeners to add to queue"
-              options={this.allowAdd()}
-              placeholder="Select"
-            />
-          </Form.Group>
-          <br />
+          <Form.Field
+            inline
+            control={Input}
+            required
+            name="name"
+            label="Name"
+            placeholder="Name"
+            onChange={this.handleChange}
+          />
+          <Form.Field
+            inline
+            control={Input}
+            required
+            label="Description"
+            name="description"
+            placeholder="Description"
+            onChange={this.handleChange}
+          />
+          <Form.Select
+            fluid
+            value={this.state.allowAdd}
+            required
+            name="allowAdd"
+            label="Allow listeners to add to queue"
+            options={this.allowAdd()}
+            placeholder="Select"
+          />
 
-          <Form.Group>
-            <Segment inverted>
-              <Form.Field
-                control={Input}
-                value={this.state.imageUrl}
-                required
-                label="Image Url"
-                name="imageUrl"
-                placeholder="Image Url"
-                onChange={this.handleChange}
-              />
-            </Segment>
-          </Form.Group>
+          <Form.Field
+            inline
+            control={Input}
+            value={this.state.imageUrl}
+            required
+            label="Image Url"
+            name="imageUrl"
+            placeholder="Image Url"
+            onChange={this.handleChange}
+          />
         </Form>
         <Accordion panels={this.panels()} defaultActiveIndex={1} />
-        <Button
-          attached="bottom"
-          control={Button}
-          type="submit"
-          onClick={this.handleSubmit}
-          positive
-        >
-          Submit
-        </Button>
+        <div className="submitButton">
+          <Button
+            // attached="bottom"
+            control={Button}
+            type="submit"
+            onClick={this.handleSubmit}
+            positive
+          >
+            Submit
+          </Button>
+        </div>
       </Segment>
     );
   }
