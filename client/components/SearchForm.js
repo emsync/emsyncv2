@@ -24,7 +24,8 @@ class SearchForm extends Component {
     this.setState({searchParams: '', showResults: true, music: music});
   };
 
-  componentDidMount() {
+  componentWillMount() {
+    console.log('search form props at mount are', this.props);
     if (
       !this.props.room.allowAdd &&
       this.props.room.createdBy !== this.props.user.id
@@ -127,9 +128,9 @@ class SearchForm extends Component {
 }
 
 const mapStateToProps = state => ({
-  accessToken: state.user.accessToken,
-  room: state.room,
-  user: state.user
+  accessToken: state.user.accessToken
+  // room: state.room,
+  // user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({

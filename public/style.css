@@ -3,6 +3,21 @@
   justify-content: space-evenly;
 }
 
+.submitButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui.form .field > .selection.dropdown {
+  width: auto !important;
+}
+
+/* .ui.form .field .ui.input input,
+.ui.form .fields .field .ui.input input {
+  width: auto !important;
+} */
+
 Loading {
   background-image: linear-gradient(
     to left top,
@@ -18,7 +33,7 @@ Loading {
   /* background-color: #1b1c1d; */
   text-align: center;
   padding: 52px 52px 52px 52px;
-  color: black !important;
+  color: #b2aeae !important;
   font-size: 30px;
   font-weight: 100;
   letter-spacing: 1px;
@@ -115,13 +130,12 @@ Loading {
       linear,
       left top,
       left bottom,
-      from(#d10f67),
-      to(#e4eb12)
+      from(#2b1c66),
+      to(#000000)
     )
     fixed;
   height: 3000vh;
 }
-
 .ui.yellow.label {
   background-color: #df4459 !important ;
 }
@@ -178,7 +192,8 @@ nav a {
 
 form div {
   margin: 1em;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
 }
 
 .ui.feed > .event > .content .date {
@@ -197,6 +212,7 @@ i.icon.minus.circle:before {
 }
 
 .ui.inverted.segment .inverted.segment {
+  /* border: 1px solid grey; */
   width: 100%;
 }
 
@@ -215,6 +231,7 @@ i.icon.minus.circle:before {
 
 .ui.inverted.segment,
 .ui.primary.inverted.segment {
+  border: 1px solid grey;
   width: 50%;
 }
 
@@ -263,7 +280,7 @@ form.example input[type='text'] {
 
 /* Style the submit button */
 form.example i {
-  float: left;
+  float: center !important;
   width: 15%;
   padding: 10px;
   background: #2196f3;
