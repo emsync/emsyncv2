@@ -41,9 +41,15 @@ class RoomView extends Component {
       DJ
     });
   }
-  async componentDidMount() {
-    await this.props.fetchRoom();
-    await this.props.fetchQueues(this.props.room.id);
+  async componentWillMount() {
+    // console.log('props + route = ', this.props);
+    this.props.fetchRoom().then(() => {
+      // console.log('room prop should be', this.props.room);
+    });
+    this.props.fetchQueues(this.props.match.params.id).then(() => {
+      // console.log('all props to this point should be', this.props);
+    });
+    // const prop2 = await this.props.fetchQueues(this.props.room.id);
     await this.getDj();
     if (this.props.user.id) {
       await this.props.goRefreshToken(this.props.user.id);
@@ -172,10 +178,16 @@ const mapDispatch = (dispatch, ownProps) => ({
 });
 
 const mapState = (state, ownProps) => {
+  let nP = '';
+  if (state.queue[state.room.id]) {
+    const queue = state.queue[state.room.id];
+    const song = queue[0];
+    nP = song;
+  }
   return {
     room: state.room,
     user: state.user,
-    nowPlaying: state.queue[0]
+    nowPlaying: nP
   };
 };
 

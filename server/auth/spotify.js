@@ -101,7 +101,8 @@ if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET) {
         'user-modify-playback-state'
       ],
       successRedirect: '/user',
-      failureRedirect: '/'
+      failureRedirect: '/',
+      showDialog: true
     })
   );
 

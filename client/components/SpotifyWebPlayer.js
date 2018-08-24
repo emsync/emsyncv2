@@ -32,7 +32,7 @@ class SpotifyWebPlayer extends Component {
     this.checkInterval = null;
 
     socket.on('next_track', async roomId => {
-      if ((roomId = this.props.roomId)) {
+      if (roomId === this.props.roomId) {
         console.log('next_track requested');
         await this.nextTrack();
       }

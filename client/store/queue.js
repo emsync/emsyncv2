@@ -51,7 +51,7 @@ export const updateVote = (itemId, votes) => async dispatch => {
 };
 
 export const fetchQueues = roomId => async dispatch => {
-  // console.log('fetch queue requested for room', roomId);
+  console.log('fetch queue requested for room', roomId);
   const res = await axios.get(`/api/queues/${roomId}`);
   const queue = res.data;
   dispatch(fetchQueue(queue, roomId));
